@@ -60,4 +60,7 @@ class Login extends BASE_Controller{
     public function verifycode() {
         $this->lib_verifycode->get_code();
     }
+    public function check_verifycode() {
+        var_dump($this->lib_verifycode->check_code('4uxe6'));
+    }
 }

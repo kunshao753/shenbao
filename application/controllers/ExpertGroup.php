@@ -2,22 +2,33 @@
 class ExpertGroup extends BASE_Controller{
 
     public function __construct(){
-        $this->load->model('Expertgroup_model','expertgroup_model');
         parent::__construct();
+        $this->load->model('Expertgroup_model','expertgroup_model');
     }
 
-    public function getGroupList(){
+    public function getList(){
+
         $where = '';
         $group_name = !empty($this->input->post('group_name'));
+
+        $page = $this->input->post('page');
+        $page_size = $this->input->post('page_size');
+
+        $page = !empty($page) ? $page : 1;
+        $page_size = !empty($page_size) ? $page_size : 20;
         if(!empty($group_name)){
             $where .= "group_name like %{$group_name}%";
         }
-        $res = $this->expertgroup_model->get_list($where);
-        if($res){
-            $this->ajax_return($res,'查询成功',200);
-        }else{
-            $this->ajax_return($res,'查询数据为空',200007);
-        }
+        $offset = ($page - 1) * $page_size;
+        $res = $this->expertgroup_model->get_list($where,'','',$offset,$page_size);
+        $count = $this->expertgroup_model->fetch_count($where);
+
+        $this->assign('group_name',$group_name);
+        $this->assign('page',$page);
+        $this->assign('count',$count);
+        $this->assign('data',$res);
+
+        $this->display('group/list.html');
     }
 
     public function getExpertGroupInfo(){

@@ -8,15 +8,24 @@ class Expert extends BASE_Controller{
     public function getList(){
         $where = '';
         $name = !empty($this->input->post('name'));
+        $page = $this->input->post('page');
+        $page_size = $this->input->post('page_size');
+
+        $page = !empty($page) ? $page : 1;
+        $page_size = !empty($page_size) ? $page_size : 20;
         if(!empty($name)){
             $where .= "name like %{$name}%";
         }
-        $res = $this->expert_model->get_list($where);
-        if($res){
-            $this->ajax_return($res,'查询成功',200);
-        }else{
-            $this->ajax_return($res,'查询数据为空',200007);
-        }
+        $offset = ($page - 1) * $page_size;
+        $res = $this->expert_model->get_list($where,'','',$offset,$page_size);
+        $count = $this->expert_model->fetch_count($where);
+
+        $this->assign('name',$name);
+        $this->assign('page',$page);
+        $this->assign('count',$count);
+        $this->assign('data',$res);
+
+        $this->display('expert/list.html');
     }
 
     public function getExpertInfo(){

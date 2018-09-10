@@ -1,8 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 class BASE_Controller extends CI_Controller {
-    public $user_info;
-
+    public $expert_info;
+    public $is_admin = 0;
     public function __construct() {
         parent::__construct();
         $this->load->model('Expert_model','expert_model');
@@ -16,22 +16,27 @@ class BASE_Controller extends CI_Controller {
     {
         $path_set = array(
             'login/index',
-            'login/verifycode'
+            'login/verifycode',
+            'login/check_verifycode'
         );
         $admin_uid = $this->login_model->get_admin_id();
-        $path = $this->router->directory . $this->router->class . "/" . $this->router->method;
+        $path = $this->router->class . "/" . $this->router->method;
         if(in_array($path,$path_set) && !$admin_uid) {
             return;
         }
         if (!$admin_uid) {
-            header('Location:login/index');
-            exit;
+            //header('Location:login/index');
+            //exit;
         }
 
         //用户信息
-        $this->user_info = $this->expert_model->fetch_by_id($admin_uid);
+        $this->expert_info = $this->expert_model->fetch_row($admin_uid);
 
-        $this->assign('user_info', $this->user_info);
+        $this->assign('expert_info', $this->expert_info);
+        if($this->expert_info['permission'] == 1){
+            $this->is_admin = 1;
+        }
+        $this->assign('photo_pre_url', 'http://shenbaoreg.kepuchina.cn/public');
     }
 
     public function assign($key,$val) {
@@ -40,6 +45,101 @@ class BASE_Controller extends CI_Controller {
 
     public function display($html) {
         $this->ci_smarty->display($html);
+    }
+
+    public function getCorpInfoConfig()
+    {
+        return [
+            'productForm'=>array(
+                "1"=>array(
+                    'name'=>'App Ios',
+                    'tips'=>'请填写APP名称',
+                    'show' => 0,
+                    'text' => '',
+                    'key' => 'product_form_k[1]',
+                    'val' => 'product_form_v[1]'
+                ),
+                "2"=>array(
+                    'name'=>'App Android',
+                    'tips'=>'请填写APP名称',
+                    'show' => 0,
+                    'text' => '',
+                    'key' => 'product_form_k[2]',
+                    'val' => 'product_form_v[2]'
+                ),
+                "3"=>array(
+                    'name'=>'小程序',
+                    'tips'=>'请填写小程序名称',
+                    'show' => 0,
+                    'text' => '',
+                    'key' => 'product_form_k[3]',
+                    'val' => 'product_form_v[3]'
+                ),
+                "4"=>array(
+                    'name'=>'网址',
+                    'tips'=>'请填写网址',
+                    'show' => 0,
+                    'text' => '',
+                    'key' => 'product_form_k[4]',
+                    'val' => 'product_form_v[4]'
+                ),
+                "5"=>array(
+                    'name'=>'H5',
+                    'tips'=>'请填写网址',
+                    'show' => 0,
+                    'text' => '',
+                    'key' => 'product_form_k[5]',
+                    'val' => 'product_form_v[5]'
+                ),
+                "6"=>array(
+                    'name'=>'微信公众号',
+                    'tips'=>'请填写微信公众号名称',
+                    'show' => 0,
+                    'text' => '',
+                    'key' => 'product_form_k[6]',
+                    'val' => 'product_form_v[6]'
+                ),
+            ),
+            'productType' => array(
+                "1"=>array( 'name' => 'product_type', 'text' => '科普内容聚合平台（知识、游戏、教育、工具书类）', 'show' => 0),
+                "2"=>array( 'name' => 'product_type', 'text' => '科普技术', 'show' => 0),
+                "3"=>array( 'name' => 'product_type', 'text' => '科普交互服务', 'show' => 0),
+                "4"=>array( 'name' => 'product_type', 'text' => '科普体验', 'show' => 0),
+            ),
+            'help'=>array(
+                "1"=>array( 'name' => 'accept_help[1]', 'text' => '投资', 'show' => 0),
+                "2"=>array( 'name' => 'accept_help[2]', 'text' => '资源对接（产品、技术合作）', 'show' => 0 ),
+                "3"=>array( 'name' => 'accept_help[3]', 'text' => '创业指导（知名投资人、企业家指导）', 'show' => 0 ),
+                "4"=>array( 'name' => 'accept_help[4]', 'text' => '项目推广（品牌宣传）', 'show' => 0 ),
+                "5"=>array( 'name' => 'accept_help[5]', 'text' => '创业训练营', 'show' => 0 ),
+                "6"=>array( 'name' => 'accept_help[6]', 'text' => '其他', 'show' => 0 )
+            ),
+            'signupResouce' =>array(
+                "1"=>array(
+                    'name'=>'地方推荐',
+                    'tips'=>'请填写推荐的组织或学会',
+                    'show' => 0,
+                    'text' => ''
+                ),
+                "2"=>array(
+                    'name'=>'投资人推荐',
+                    'tips'=>'填写投资人',
+                    'show' => 0,
+                    'text' => ''
+                ),
+                "3"=>array(
+                    'name'=>'高校推荐',
+                    'tips'=>'请填写学校',
+                    'show' => 0,
+                    'text' => ''
+                ),
+                "4"=>array(
+                    'name'=>'自主报名',
+                    'tips'=>'',
+                    'show' => 0,
+                    'text' => ''
+                )
+            )];
     }
 
 

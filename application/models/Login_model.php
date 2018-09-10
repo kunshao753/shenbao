@@ -1,7 +1,5 @@
 <?php
 
-define('PUBLIC_LOGIN_KEY', 'leju_edata_0o9i8u7y');
-
 class Login_model extends BASE_Model {
 
     const SALES_KEY = 'kepu-china';
@@ -85,12 +83,12 @@ class Login_model extends BASE_Model {
         if (!empty($_COOKIE['sigcode'])) $admin_sigcode = $_COOKIE['sigcode'];
 
         if ($admin_sigcode) {
-            $admin_uid = $this->get_admin_id();
+            $id = $this->get_admin_id();
             $admin_uname = $_COOKIE['ex_name'];
             $account = $_COOKIE['ex_account'];
-            $sigcode = $this->_get_sigcode($admin_uid, $admin_uname, $account);
+            $sigcode = $this->_get_sigcode($id, $admin_uname, $account);
             if ($admin_sigcode == $sigcode) {
-                $user_info_res = $this->expert_model->fetch_by_id($admin_uid);
+                $user_info_res = $this->expert_model->fetch_by_id($id);
                 if (isset($user_info_res['id'])) {
                     return $this->_formatreturndata(true, $user_info_res);
                 }
@@ -109,14 +107,14 @@ class Login_model extends BASE_Model {
         }
 
         $sign_code = $this->input->cookie('sigcode');
-        $admin_uid =  $this->input->cookie('ex_id');
-        $user_name = $this->input->cookie('ex_name');
+        $uid =  $this->input->cookie('ex_id');
+        $name = $this->input->cookie('ex_name');
         $account = $this->input->cookie('ex_account');
-        $true_sig_code = $this->_get_sigcode($admin_uid, $user_name ,$account);
+        $true_sig_code = $this->_get_sigcode($uid, $name ,$account);
 
         if ($sign_code == $true_sig_code) {
-            $this->_admin_id = $admin_uid;
-            return $admin_uid;
+            $this->_admin_id = $uid;
+            return $uid;
         } else {
             return false;
         }
