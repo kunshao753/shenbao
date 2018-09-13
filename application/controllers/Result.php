@@ -25,7 +25,7 @@ class Result extends BASE_Controller{
             $condition[] = "project_name like '%{$project_name}%'";
         }
         $order = "project_id asc";
-        $where = implode('and',$condition);
+        $where = implode(' and ',$condition);
         $res = $this->result_model->fetch_all($where,'',$order,$offset,$page_size);
 
     }

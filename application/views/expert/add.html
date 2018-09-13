@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>专家评审系统</title>
+	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="/resources/js/validate.js"></script>
+</head>
+<body>
+	<!-- header start -->
+	<div class="header-bg">
+		<h1>专家评审系统</h1>
+	</div>
+	<!-- header end -->
+	<!-- content start -->
+	<div class="clearfix">
+		<div class="con-left fl">
+			<ul class="nav">
+				<li>
+					<a href="">专家首页<i class="arrow"></i></a>					
+				</li>
+				<li>
+					<a href="">管理员首页<i class="arrow"></i></a>					
+				</li>
+				<li><a href="">专家组<i class="arrow"></i></a></li>
+				<li class="cur"><a href="">专家库<i class="arrow"></i></a></li>
+				<li><a href="">设置评分<i class="arrow"></i></a></li>
+			</ul>
+		</div>
+		<div class="con-right">
+			<form method="post" id="myform" enctype="multipart/form-data" action="">
+				<div class="input-box add-expert">
+					<p>
+						<label>专家姓名</label>
+						<input type="text" name="" placeholder="请输入专家姓名" class="ex-name">
+						<span class="span-error tip-exname"></span>
+					</p>
+					<p>
+						<label>登录账号</label>
+						<input type="text" name="" placeholder="请输入专家登录账号" class="ex-login">
+						<span class="span-error tip-exlogin"></span>
+					</p>
+					<p>
+						<label>密码</label>
+						<input type="text" name="" placeholder="请输入登录密码" class="ex-pwd">
+						<span class="span-error tip-expwd"></span>
+					</p>
+					<p>
+						<label>选择专家组</label>
+						<select class="ex-group">
+							<option value="0">请选择</option>
+							<!--{foreach from=$expert_group_data item=item key=key}-->
+							<option value="<!--{$key}-->"><!--{$item}--></option>
+							<!--{/foreach}-->
+						</select>
+						<span class="span-error tip-exgroup"></span>
+					</p>
+					<p class="clearfix">
+						<label>上传数字签名</label>
+						<span class="autograph"></span>
+						<input type="file" name="myfile" id="myfile" class="autograph-input" accept="image/*,application/pdf">
+						<input type="hidden" name="sign_pic" id="sign_pic" value="">
+						<span class="span-error tip-autograph"></span>
+					</p>
+					<div class="score-btn">
+						<p>
+							<input type="button" value="保存" name="" class="ex-save">
+							<input type="button" value="取消" name="">
+						</p>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<!-- content end -->
+	<script type="text/javascript">	
+		var flag1=false;
+		var flag2=false;
+		var flag3=false;
+		var flag4=false;
+		var flag5=false;
+		function resExname(){
+			var ex_name=$(".ex-name").val();
+			var validate=window.validateSetting.regExportName(ex_name);
+			if(validate.errorNo>0){
+				$(".tip-exname").text(validate.message);					
+			}else{
+				$(".tip-exname").text('');
+				flag1=true;
+			}
+		};
+		function resExlogin(){
+			var ex_login=$(".ex-login").val();
+			var validate=window.validateSetting.regLoginName(ex_login);
+			if(validate.errorNo>0){
+				$(".tip-exlogin").text(validate.message);					
+			}else{
+				$(".tip-exlogin").text('');
+				flag2=true;
+			}
+		};	
+		function resExpwd(){
+			var ex_pwd=$(".ex-pwd").val();
+			var validate=window.validateSetting.regLoginPwd(ex_pwd);
+			if(validate.errorNo>0){
+				$(".tip-expwd").text(validate.message);					
+			}else{
+				$(".tip-expwd").text('');
+				flag3=true;
+			}
+		};
+		function resExgroup(){
+			if($(".ex-group").val() == 0){
+				$(".tip-exgroup").text('请选择专家组');
+				flag4=false
+			}else{
+				$(".tip-exgroup").text('');
+				flag4=true;
+			}
+		};
+		function regAutograph(){
+			if($(".autograph img").length<=0){
+				$(".tip-autograph").text('请上传数字签名');
+			}else{
+				$(".tip-autograph").text('');
+				flag5=true;
+			}
+		}
+		$(function(){			
+			$(".ex-name").on("blur",function(){
+				resExname();
+			});
+			$(".ex-login").on("blur",function(){
+				resExlogin();
+			});
+			$(".ex-pwd").on("blur",function(){
+				resExpwd();
+			});
+			$(".ex-group").on("change",function(){
+				resExgroup();
+			});
+			$(".autograph-input").on("change",function(){
+
+				var fileObj = this.files[0]
+				var formData = new FormData();
+				formData.append('file',fileObj);
+
+				$.ajax({
+					url: "/expert/do_upload",
+					type: 'post',
+					cache: false,
+					data: formData,
+					processData: false,
+					contentType: false
+				}).done(function(res) {
+					if(res.code == 0){
+						var pic_url = '/resources/uploads/' + res.data
+						var img =$("<img src='"+pic_url+"' alt='' />");
+						$(".autograph").html(img);
+
+						$("#sign_pic").val(pic_url);
+						$('.tip-autograph').html('上传成功');
+				}});
+			});
+			$(".ex-save").on("click",function(){
+				resExname();
+				resExlogin();
+				resExpwd();
+				resExgroup();
+				regAutograph();
+				var ex_name=$(".ex-name").val();
+				var ex_login=$(".ex-login").val();
+				var ex_pwd=$(".ex-pwd").val();
+				var ex_group=$(".ex-group").val()
+				var ex_pic=$("#sign_pic").val()
+				if(flag1 && flag2 && flag3 && flag4 && flag5){
+					var url='/Expert/addExpert'
+					$.post(url,{'name':ex_name,'account':ex_login,'password':ex_pwd,'group_id':ex_group,'sign_pic':ex_pic},function(data){
+						if(data.code == 0){
+							alert('添加成功');
+						}else{
+							alert(data.msg);
+						}
+					})
+
+				}
+			})
+
+		})
+	</script>
+</body>
+</html>

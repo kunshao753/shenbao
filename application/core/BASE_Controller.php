@@ -6,6 +6,7 @@ class BASE_Controller extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('Expert_model','expert_model');
+        $this->load->model('Expertgroup_model','expertgroup_model');
         $this->load->model('Login_model','login_model');
 
         self::_init();

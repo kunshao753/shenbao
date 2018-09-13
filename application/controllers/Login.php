@@ -10,6 +10,11 @@ class Login extends BASE_Controller{
         $this->display('login.html');
     }
 
+    //验证码
+    public function verifycode() {
+        $this->lib_verifycode->get_code();
+    }
+
     //登陆方法
     public function doLogin(){
         if ($this->user_info) {
@@ -54,12 +59,7 @@ class Login extends BASE_Controller{
         }
     }
 
-    /**
-     * 验证码
-     */
-    public function verifycode() {
-        $this->lib_verifycode->get_code();
-    }
+    //验证验证码
     public function check_verifycode() {
         var_dump($this->lib_verifycode->check_code('4uxe6'));
     }

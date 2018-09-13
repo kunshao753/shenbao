@@ -11,4 +11,8 @@ class Expert_model extends BASE_Model{
         $join = array('expert_group as eg' => self::TABLE_EXPERT.'.group_id = eg.id');
         return $this->fetch_all($where,$fields,$orderBy,'',$offset,$limit,$join);
     }
+    public function get_data($where='',$fields='',$orderBy='',$offset=0,$limit=20){
+        return $this->fetch_all($where,$fields,$orderBy,'',$offset,$limit);
+    }
+
 }

@@ -31,7 +31,7 @@ class DeclareInfo extends BASE_Controller{
             $condition[] = "project_name like '%{$project_name}%'";
         }
         $condition[] = "audit_status in (1,3,4)";
-        $where = implode('and',$condition);
+        $where = implode(' and ',$condition);
 
         $data = $this->corp_model->get_list($where,'','',$offset,$page_size);
         var_dump($data);
@@ -121,7 +121,7 @@ class DeclareInfo extends BASE_Controller{
             if($up_res){
                 $this->ajax_return(array(),'保存成功');
             }
-            $this->ajax_return(array(),'保存失败');
+            $this->ajax_return(array(),'保存失败',400001);
         }
         $insert_data = array(
             'user_id' => $user_id,
@@ -150,6 +150,29 @@ class DeclareInfo extends BASE_Controller{
                 $this->ajax_return(array(),'保存成功');
             }
         }
-        $this->ajax_return(array(),'保存失败');
+        $this->ajax_return(array(),'保存失败',400002);
+    }
+
+    //分配专家组
+    public function distribute(){
+        $user_id = $this->input->post('user_id');
+        $group_id = $this->input->post('group_id');
+
+        if(empty($user_id) || empty($group_id)){
+            $this->ajax_return(array(),'参数错误',300001);
+        }
+
+        $insert_data = array(
+            'user_id' => $user_id,
+            'group_id' => $group_id,
+            'review_status' => 1,
+            'create_at' => date('Y-m-d H:i:s')
+        );
+        $res = $this->distribute_model->insert($insert_data);
+        if($res){
+            $this->ajax_return($res,'分配成功!');
+        }else{
+            $this->ajax_return($res,'分配失败!',300002);
+        }
     }
 }
