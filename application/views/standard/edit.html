@@ -25,21 +25,22 @@
 		</div>
 		<div class="con-right">
 			<form name="myform" id="myform" enctype="multipart/form-data">
+				<input type="hidden" name="" value="<!--{$score_standard_info.id}-->" class="score-id" >
 				<div class="score input-box">
 					<p>
-						<label>评分名称</label><input type="text" name="" value="$score_standard_info.name" placeholder="请输入名称" class="score-name">
+						<label>评分名称</label><input type="text" name="" value="<!--{$score_standard_info.name}-->" placeholder="请输入名称" class="score-name">
 						<span class="span-error tip-name"></span>
 					</p>
 					<!--{foreach from=$score_standard_info.type item=item key=key }-->
 					<div class="score-copy">
 						<p>
 							<label>评分项</label>
-							<input type="text" name="standard[1]" placeholder="请输入评分项" class="score-standard">
+							<input type="text" name="standard[1]" placeholder="请输入评分项" value="<!--{$key}-->" class="score-standard">
 							<span class="span-error tip-standard"></span>
 						</p>
 						<p>
 							<label>评分依据</label>
-							<textarea maxlength="2000" name="reason[1]" minlength="1" placeholder="请输入评分依据，专家以此作为评分参考" class="score-reason"></textarea>
+							<textarea maxlength="2000" name="reason[1]" minlength="1" placeholder="请输入评分依据，专家以此作为评分参考" class="score-reason"><!--{$item}--></textarea>
 							<span class="span-error tip-reason"></span>
 						</p>
 					</div>
@@ -111,6 +112,7 @@
 				var flag1 = false;
 				var flag2 = false;
 				var flag3 = false;
+				var s_id=$(".score-id").val();
 				var s_name=$(".score-name").val();
 				var score_standard = [];
 				var score_score = [];
@@ -150,12 +152,12 @@
 				})
 
 				if(flag1 && flag2 && flag3){
-					var url = '/ScoreStandard/addScoreStandard';
-					$.post(url,{'name':s_name,'standard':score_standard,'reason':score_score},function(data){
+					var url = '/ScoreStandard/editScoreStandard';
+					$.post(url,{'id':s_id,'name':s_name,'standard':score_standard,'reason':score_score},function(data){
 						if(data.code == 0){
-							alert("添加成功")
+							alert("保存成功")
 						}else{
-							alert("添加失败:" + data.msg + "错误码:" + data.code)
+							alert(data.msg + "错误码:" + data.code)
 						}
 					})
 				}

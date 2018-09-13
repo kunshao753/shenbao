@@ -6,8 +6,38 @@ class ScoreStandard extends BASE_Controller{
     }
 
     public function getList(){
-        $list = $this->scorestandard_model->get_data();
-        var_dump($list);
+        $page = !empty($this->input->get('page')) ? $this->input->get('page') : 1;
+        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 20;;
+        $where = 'is_delete=0';
+        $offset = ($page - 1) * $page_size;
+        $standard_info = $this->scorestandard_model->fetch_all($where,'','','',$offset,$page_size);
+        $count = $this->scorestandard_model->fetch_count($where);
+
+        if(!empty($standard_info)){
+            foreach($standard_info as $key => $value){
+                $standard_id = $value['id'];
+                $eg_where = array(
+                    'score_standard_id' => $standard_id,
+                    'is_delete' => 0
+                );
+                $standard_info[$key]['group_name'] = '';
+                $eg_info = $this->expertgroup_model->fetch_all($eg_where);
+                if(!empty($eg_info)){
+                    foreach($eg_info as $value1){
+                        $group_names[] = $value1['group_name'];
+                    }
+                    $standard_info[$key]['group_name'] = implode('<br>',$group_names);
+                }
+            }
+        }
+        var_dump($standard_info);
+        var_dump($count);
+
+        $this->assign('page',$page);
+        $this->assign('count',$count);
+        $this->assign('data',$standard_info);
+
+        $this->display('standard/list.html');
     }
 
     public function add(){
@@ -89,8 +119,9 @@ class ScoreStandard extends BASE_Controller{
             'type' => json_encode($standard_reason),
         );
 
-        $res = $this->scorestandard_model->update(array('id'=>$id),$update_data);
-        if($res){
+        $res = $this->scorestandard_model->update($update_data,array('id'=>$id));
+
+        if($res !== false){
             $this->ajax_return($res,'修改成功');
         }else{
             $this->ajax_return(array(),'修改失败',5000007);

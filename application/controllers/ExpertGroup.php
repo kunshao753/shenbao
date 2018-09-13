@@ -38,26 +38,57 @@ class ExpertGroup extends BASE_Controller{
     //获取专家组列表
     public function getList(){
 
-        $group_name = !empty($this->input->post('group_name'));
+        $condition = array();
+        $group_name = $this->input->get('group_name');
+        $page = !empty($this->input->get('page')) ? $this->input->get('page') : 1;
+        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 20;;
 
-        $page = $this->input->post('page');
-        $page_size = $this->input->post('page_size');
-
-        $page = !empty($page) ? $page : 1;
-        $page_size = !empty($page_size) ? $page_size : 20;
         if(!empty($group_name)){
-            $condition[] = "group_name like %{$group_name}%";
+            $condition[] = "group_name like '%{$group_name}%'";
         }
         $condition[] = "is_delete=0";
+
         $where = implode(" and ",$condition);
         $offset = ($page - 1) * $page_size;
-        $res = $this->expertgroup_model->get_list($where,'','',$offset,$page_size);
+        $expert_group_info = $this->expertgroup_model->fetch_all($where,'','','',$offset,$page_size);
+        if(!empty($expert_group_info)){
+            foreach($expert_group_info as $key => $value){
+                //获取评分信息
+                $score_standard_id = $value['score_standard_id'];
+                $ss_where = array(
+                    'id' => $score_standard_id,
+                    'is_delete' => 0
+                );
+                $expert_group_info[$key]['standard_info'] = '';
+                if($score_standard_id != 0){
+                    $standard_info = $this->scorestandard_model->fetch_row($ss_where);
+                    $expert_group_info[$key]['standard_info'] = $standard_info['name'];
+                }
+                //获取专家信息
+                $group_id = $value['id'];
+                $ex_where = array(
+                    'group_id' => $group_id,
+                    'is_delete' => 0
+                );
+                $expert_group_info[$key]['expert_info']  = '';
+                $ex_info = $this->expert_model->fetch_all($ex_where);
+                if(!empty($ex_info)){
+                    foreach($ex_info as $value1){
+                        $expert_name[] = $value1['name'];
+                    }
+                    $expert_group_info[$key]['expert_info'] = implode('、',$expert_name);
+                }
+
+            }
+        }
+        var_dump($expert_group_info);
         $count = $this->expertgroup_model->fetch_count($where);
 
+        var_dump($count);
         $this->assign('group_name',$group_name);
         $this->assign('page',$page);
         $this->assign('count',$count);
-        $this->assign('data',$res);
+        $this->assign('data',$expert_group_info);
 
         $this->display('group/list.html');
     }
@@ -129,7 +160,7 @@ class ExpertGroup extends BASE_Controller{
             'score_standard_id' => !empty($score_standard_id) ? $score_standard_id : 0,
         );
         $res = $this->expertgroup_model->update($update_data,$where);
-        if ($res) {
+        if ($res !== false) {
             $this->ajax_return($res, '修改成功');
         }else{
             $this->ajax_return(array(), '修改失败',2000012);

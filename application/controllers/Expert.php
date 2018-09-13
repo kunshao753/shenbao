@@ -8,24 +8,41 @@ class Expert extends BASE_Controller{
 
     //专家列表
     public function getList(){
-        $where = '';
-        $name = !empty($this->input->post('name'));
-        $page = $this->input->post('page');
-        $page_size = $this->input->post('page_size');
+        $condition = array();
+        $name = $this->input->get('name');
+        $page = !empty($this->input->get('page')) ? $this->input->get('page') : 1;
+        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 20;;
 
-        $page = !empty($page) ? $page : 1;
-        $page_size = !empty($page_size) ? $page_size : 20;
         if(!empty($name)){
-            $where .= "name like %{$name}%";
+            $condition[] = "name like '%{$name}%'";
         }
+        $condition[] = "expert.is_delete=0";
+
+        $where = implode(" and ",$condition);
         $offset = ($page - 1) * $page_size;
-        $res = $this->expert_model->get_list($where,'','',$offset,$page_size);
+        $expert_info = $this->expert_model->fetch_all($where,'','','',$offset,$page_size);
         $count = $this->expert_model->fetch_count($where);
 
+        if(!empty($expert_info)){
+            foreach($expert_info as $key => $value){
+                $group_id = $value['group_id'];
+                $g_where = array(
+                    'id' => $group_id,
+                    'is_delete' => 0
+                );
+                $expert_info[$key]['expert_group_name'] = '';
+                $group_info = $this->expertgroup_model->fetch_row($g_where);
+                if(!empty($group_info)){
+                    $expert_info[$key]['expert_group_name'] = $group_info['group_name'];
+                }
+            }
+        }
+        var_dump($expert_info);
+        var_dump($count);
         $this->assign('name',$name);
         $this->assign('page',$page);
         $this->assign('count',$count);
-        $this->assign('data',$res);
+        $this->assign('data',$expert_info);
 
         $this->display('expert/list.html');
     }
@@ -144,7 +161,7 @@ class Expert extends BASE_Controller{
             'sign_pic' => !empty($sign_pic) ? $sign_pic : '',
         );
         $res = $this->expert_model->update($update_data,$where);
-        if($res){
+        if($res !== false){
             $this->ajax_return($res,'修改成功');
         }
     }
