@@ -2,56 +2,53 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>专家评审系统</title>
+	<title>新增评分页</title>
 	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="/resources/js/validate.js"></script>
 </head>
 <body>
 	<!-- header start -->
-	<div class="header-bg">
-		<h1>专家评审系统</h1>
-	</div>
+	<!--{include file='header.html'}-->
 	<!-- header end -->
 	<!-- content start -->
-	<div class="clearfix">
-		<div class="con-left fl">
-			<ul class="nav">
-				<li class="cur"><a href="">专家首页<i class="arrow"></i></a></li>
-				<li><a href="">管理员首页<i class="arrow"></i></a></li>
-				<li><a href="">专家组<i class="arrow"></i></a></li>
-				<li><a href="">专家库<i class="arrow"></i></a></li>
-			</ul>
-		</div>
+	<div class="clearfix wrapper">
+        <!--{include file='left.html'}-->
 		<div class="con-right">
+			<h1 class="right-tit">新增评分</h1>
 			<form name="myform" id="myform" enctype="multipart/form-data">
-				<div class="score input-box">
+				<div class="input-box score">
+					<span class="input-top"></span>
 					<p>
-						<label>评分名称</label><input type="text" name="" placeholder="请输入名称" class="score-name">
+						<label>评分名称:</label><input type="text" name="" placeholder="请输入名称" class="score-name" maxlength="20">
 						<span class="span-error tip-name"></span>
 					</p>
 					<div class="score-copy">
 						<p>
-							<label>评分项</label>
-							<input type="text" name="standard[1]" placeholder="请输入评分项" class="score-standard">
+							<label>评&nbsp;&nbsp;分&nbsp;&nbsp;项:</label>
+							<input type="text" name="standard[1]" placeholder="请输入评分项" class="score-standard" maxlength="10">
 							<span class="span-error tip-standard"></span>
 						</p>
 						<p>
-							<label>评分依据</label>
-							<textarea maxlength="2000" name="reason[1]" minlength="1" placeholder="请输入评分依据，专家以此作为评分参考" class="score-reason"></textarea>
+							<label>评分依据:</label>
+							<textarea maxlength="100" name="reason[1]" minlength="1" placeholder="请输入评分依据，专家以此作为评分参考" class="score-reason"></textarea>
 							<span class="span-error tip-reason"></span>
 						</p>
+						<p>
+							<label>最高分值:</label>
+							<input type="text" name="highest[1]" placeholder="请输入最高分值" class="score-highest">
+							<span class="span-error tip-highest"></span>
+						</p>
 					</div>			
-					
-				</div>
-				<div class="score-btn">
-					<p>
-						<input type="button" value="添加" name="" class="add-score">
-						<input type="button" value="移除" name="" class="remove-score">
+					<p class="add-remove">
+						<input type="button" value="添加一组评分项" name="" class="add-score">
+						<input type="button" value="移除一组评分项" name="" class="remove-score">
 					</p>
+				</div>
+				<div class="score-btn">					
 					<p>
-						<input type="button" value="保存" name="" class="score-save">
-						<input type="button" value="取消" name="">
+						<input type="button" value="添    加" name="" class="btn-save score-save">
+						<input type="button" value="取    消" name="" class="btn-cancel">
 					</p>
 				</div>
 			</form>
@@ -87,17 +84,28 @@
 					$(this).siblings(".tip-reason").text('');
 				}
 			});
+			$(".score").on("blur",".score-highest",function(){
+				var value=$(this).val();
+				var validate=window.validateSetting.regScoreHighest(value);
+				if(validate.errorNo>0){
+					$(this).siblings(".tip-highest").text(validate.message);
+				}else{
+					$(this).siblings(".tip-highest").text('');
+				}
+			});
 			$(".add-score").on("click",function(){
 				var $newDom=$(".score-copy").eq(0).clone();
 				var length=$(".score-copy").length;
 				var standard='standard['+(length+1)+']';
-				var reason='reason['+(length+1)+']';				
+				var reason='reason['+(length+1)+']';
+				var highest='highest['+(length+1)+']';				
 				console.log($newDom);
-				$newDom.find(".score-standard,.score-reason").val('');
+				$newDom.find(".score-standard,.score-reason,.score-highest").val('');
 				$newDom.find(".score-standard").attr("name",standard);
 				$newDom.find(".score-reason").attr("name",reason);
+				$newDom.find(".score-highest").attr("name",highest);
 				$newDom.find(".span-error").text('');
-				$(".score").append($newDom);
+				$(".add-remove").before($newDom);
 			});
 			$(".remove-score").on("click",function(){
 				if($(".score-copy").length>1){
@@ -109,9 +117,11 @@
 				var flag1 = false;
 				var flag2 = false;
 				var flag3 = false;
+				var flag4 = false;
 				var s_name=$(".score-name").val();
 				var score_standard = [];
 				var score_score = [];
+				var score_highest = [];
 
 				var validate1=window.validateSetting.regScoreName(s_name);
 				if(validate1.errorNo>0){
@@ -145,19 +155,35 @@
 						$(this).siblings(".tip-reason").text('');
 						score_score.push(s_reason)
 					}
+				});
+				$(".score-highest").each(function(){
+					var s_highest=$(this).val();
+					var validate4=window.validateSetting.regScoreHighest(s_highest);
+					if(validate4.errorNo>0){
+						flag4 = false;
+						$(this).siblings(".tip-highest").text(validate4.message);
+					}else{
+						flag4 = true;
+						$(this).siblings(".tip-highest").text('');
+						score_highest.push(s_highest)
+					}
 				})
 
-				if(flag1 && flag2 && flag3){
-					var url = '/ScoreStandard/addScoreStandard';
-					$.post(url,{'name':s_name,'standard':score_standard,'reason':score_score},function(data){
+				if(flag1 && flag2 && flag3 && flag4){
+					var url = '/scorestandard/addscorestandard';
+					$.post(url,{'name':s_name,'standard':score_standard,'reason':score_score,'max_score':score_highest},function(data){
 						if(data.code == 0){
-							alert("添加成功")
-						}else{
-							alert("添加失败:" + data.msg + "错误码:" + data.code)
+							alert("添加成功");
+                            window.location.href="/scorestandard/getlist"
+                        }else{
+							alert(data.msg + ",错误码:" + data.code);
 						}
 					})
 				}
 				return false;
+			});
+			$(".btn-cancel").on("click",function(){
+				window.location.href="/scorestandard/getlist"
 			})
 
 		})

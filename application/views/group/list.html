@@ -1,1 +1,82 @@
-list
+<!DOCTYPE html>
+<html class="add-bg">
+<head>
+	<meta charset="utf-8">
+	<title>专家组</title>
+	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+	<!-- header start -->
+	<!--{include file='header.html'}-->
+	<!-- header end -->
+	<!-- content start -->
+	<div class="clearfix wrapper">
+		<!--{include file='left.html'}-->
+		<div class="con-right">
+			<h1 class="right-tit">专家组列表页</h1>
+			<div class="table-bigbtn clearfix">
+				<div class="search fl">
+					<span>专家组名称 :</span>
+					<div class="search-box">
+						<input type="text" placeholder="请输入要查找的专家组" value="<!--{$group_name}-->" class="search-input group_name"/>
+						<i class="search-icon"></i>
+					</div>
+					<a class="table-search" href="javascript:void(0)" onclick="search_group()">搜&nbsp;&nbsp;&nbsp;&nbsp;索</a>
+				</div>
+				<a class="table-add fr" href="/expertgroup/add">新&nbsp;&nbsp;&nbsp;&nbsp;增</a>
+			</div>
+			<div class="table-box">
+				<div class="table-con">
+					<table cellpadding="0" cellspacing="0" border="0" class="ex-table">
+						<tr>
+							<th width="10%">序号</th>
+							<th width="20%">专家组名称</th>
+							<th width="30%">专家组人员姓名</th>
+							<th width="20%">评分名称</th>
+							<th>操作</th>
+						</tr>
+						<!--{foreach from=$data item=item key=key}-->
+						<tr>
+							<td><!--{math equation="x + y + 1" x=$key y=$offset}--></td>
+							<td><!--{$item.group_name}--></td>
+							<td><!--{$item.expert_info}--></td>
+							<td><!--{$item.standard_info}--></td>
+							<td class="table-btn">
+								<a href="/expertgroup/edit?id=<!--{$item.id}-->" class="table-modify">修改名称</a>
+								<a href="javascript:void(0)" data-id="<!--{$item.id}-->" class="table-cancel">删除</a>
+							</td>
+						</tr>
+						<!--{/foreach}-->
+					</table>
+				</div>
+				<!--{$pages_list}-->
+			</div>
+
+		</div>
+	</div>
+	<!-- content end -->
+	<script>
+		function search_group(){
+			var group_name = $('.group_name').val()
+			window.location.href="/expertgroup/getlist?group_name="+group_name
+		}
+		$(function(){
+			$(".table-cancel").on("click",function(){
+				if(confirm("确定要删除当前数据吗?")){
+					var id = $(this).attr('data-id')
+					$.post('delExpertGroup',{id:id},function(data){
+						if(data.code == 0){
+							alert('删除成功');
+							window.location.href='/expertgroup/getlist'
+						}else{
+							alert(data.msg);
+						}
+					})
+				}
+
+			})
+		})
+	</script>
+</body>
+</html>

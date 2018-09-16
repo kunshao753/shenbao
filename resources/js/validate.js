@@ -6,6 +6,9 @@ function validateRules(){
      _this.isPwd = function (str) {
         return /[a-zA-Z0-9]+/.test(str);
     };
+    _this.isNumber = function (str) {
+    	return /[0-9]+/.test(str);
+    }
 }
 window["validateRules"] = new validateRules();
 function validateSetting(){
@@ -35,6 +38,30 @@ function validateSetting(){
 			message="请输入评分依据";
 			return{
 				errorNo:1,
+				message:message,
+			}
+		}
+		return{errorNo:0}
+	};
+	_this.regScoreHighest=function(value){
+		if(window.validateRules.isNull(value)){
+			message="请输入最高分值";
+			return{
+				errorNo:1,
+				message:message,
+			}
+		}
+		if(!window.validateRules.isNumber(value)){
+			message="请输入数字";
+			return{
+				errorNo:2,
+				message:message,
+			}
+		}
+		if(value > 100){
+			message="最高分值不能超过100";
+			return{
+				errorNo:3,
 				message:message,
 			}
 		}
@@ -89,6 +116,16 @@ function validateSetting(){
 			message="请输入正确的密码，只可输入英文和数字";
 			return{
 				errorNo:2,
+				message:message,
+			}
+		}
+		return{errorNo:0}
+	};
+	_this.regLoginCode=function(value){
+		if(window.validateRules.isNull(value)){
+			message="请输入验证码";
+			return{
+				errorNo:1,
 				message:message,
 			}
 		}

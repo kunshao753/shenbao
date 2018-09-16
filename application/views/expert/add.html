@@ -1,53 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html class="add-bg">
 <head>
 	<meta charset="utf-8">
-	<title>专家评审系统</title>
+	<title>专家评审系统--新增专家</title>
 	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="/resources/js/validate.js"></script>
 </head>
 <body>
 	<!-- header start -->
-	<div class="header-bg">
-		<h1>专家评审系统</h1>
-	</div>
+	<!--{include file='header.html'}-->
 	<!-- header end -->
 	<!-- content start -->
-	<div class="clearfix">
-		<div class="con-left fl">
-			<ul class="nav">
-				<li>
-					<a href="">专家首页<i class="arrow"></i></a>					
-				</li>
-				<li>
-					<a href="">管理员首页<i class="arrow"></i></a>					
-				</li>
-				<li><a href="">专家组<i class="arrow"></i></a></li>
-				<li class="cur"><a href="">专家库<i class="arrow"></i></a></li>
-				<li><a href="">设置评分<i class="arrow"></i></a></li>
-			</ul>
-		</div>
+	<div class="clearfix wrapper">
+		<!--{include file='left.html'}-->
 		<div class="con-right">
-			<form method="post" id="myform" enctype="multipart/form-data" action="">
+			<h1 class="right-tit">新增专家信息</h1>
+			<form name="myform" id="myform" enctype="multipart/form-data">
 				<div class="input-box add-expert">
+					<span class="input-top"></span>
 					<p>
-						<label>专家姓名</label>
-						<input type="text" name="" placeholder="请输入专家姓名" class="ex-name">
+						<label>专家姓名:</label>
+						<input type="text" name="" placeholder="请输入专家姓名" class="ex-name" maxlength="10">
 						<span class="span-error tip-exname"></span>
 					</p>
 					<p>
-						<label>登录账号</label>
-						<input type="text" name="" placeholder="请输入专家登录账号" class="ex-login">
+						<label>登录账号:</label>
+						<input type="text" name="" placeholder="请输入专家登录账号" class="ex-login" maxlength="25">
 						<span class="span-error tip-exlogin"></span>
 					</p>
 					<p>
-						<label>密码</label>
-						<input type="text" name="" placeholder="请输入登录密码" class="ex-pwd">
+						<label>密&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;码:</label>
+						<input type="text" name="" placeholder="请输入登录密码" class="ex-pwd" maxlength="25">
 						<span class="span-error tip-expwd"></span>
 					</p>
 					<p>
-						<label>选择专家组</label>
+						<label>选择专家组:</label>
 						<select class="ex-group">
 							<option value="0">请选择</option>
 							<!--{foreach from=$expert_group_data item=item key=key}-->
@@ -57,18 +45,23 @@
 						<span class="span-error tip-exgroup"></span>
 					</p>
 					<p class="clearfix">
-						<label>上传数字签名</label>
-						<span class="autograph"></span>
-						<input type="file" name="myfile" id="myfile" class="autograph-input" accept="image/*,application/pdf">
+						<label>上传数字签名:</label>
+						<span class="autograph">
+							<img src="/resources/images/photo.png">
+						</span>
+						<em class="upload-btn">
+							上传图片
+							<input type="file" name="" class="autograph-input" accept="image/*">
+						</em>
 						<input type="hidden" name="sign_pic" id="sign_pic" value="">
 						<span class="span-error tip-autograph"></span>
+					</p>					
+				</div>
+				<div class="score-btn">
+					<p>
+						<input type="button" value="添    加" name="" class="btn-save ex-save">
+						<input type="button" value="取    消" name="" class="btn-cancel">
 					</p>
-					<div class="score-btn">
-						<p>
-							<input type="button" value="保存" name="" class="ex-save">
-							<input type="button" value="取消" name="">
-						</p>
-					</div>
 				</div>
 			</form>
 		</div>
@@ -161,7 +154,7 @@
 
 						$("#sign_pic").val(pic_url);
 						$('.tip-autograph').html('上传成功');
-				}});
+					}});
 			});
 			$(".ex-save").on("click",function(){
 				resExname();
@@ -179,14 +172,16 @@
 					$.post(url,{'name':ex_name,'account':ex_login,'password':ex_pwd,'group_id':ex_group,'sign_pic':ex_pic},function(data){
 						if(data.code == 0){
 							alert('添加成功');
+							window.location.href="/expert/getlist"
 						}else{
-							alert(data.msg);
+							alert(data.msg + ",错误码:" + data.code);
 						}
 					})
-
 				}
+			});
+			$(".btn-cancel").on("click",function(){
+				window.location.href="/expert/getlist"
 			})
-
 		})
 	</script>
 </body>

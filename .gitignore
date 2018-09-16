@@ -3,4 +3,5 @@
 .DS_Store
 *.html.php
 /application/cache/*
+/application/logs/*
 /resources/uploads/*

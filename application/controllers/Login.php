@@ -1,13 +1,18 @@
 <?php
 class Login extends BASE_Controller{
 
+    public $verify_code_params = array('width' => 113, 'height' => 46);
     public function __construct(){
         parent::__construct();
-        $this->load->library('lib_verifycode');
+        $this->load->library('lib_verifycode',$this->verify_code_params);
     }
 
     public function index(){
-        $this->display('login.html');
+        if ($this->expert_info) {
+            header('location:/expert/getlist');
+            exit;
+        }
+        $this->display('login/login.html');
     }
 
     //验证码
@@ -17,7 +22,7 @@ class Login extends BASE_Controller{
 
     //登陆方法
     public function doLogin(){
-        if ($this->user_info) {
+        if ($this->expert_info) {
             redirect('/index/index');
         }
 
@@ -48,10 +53,10 @@ class Login extends BASE_Controller{
             $res = $this->login_model->login($data);
 
             if ($res['result'] == $this->_succ) {
-                header('Location:index/index');
+                $this->ajax_return(array(),'登录成功');
             } else {
-                if ($res['reason']) {
-                    $this->ajax_return(array(),$res['reason'], 100005);
+                if ($res['info']) {
+                    $this->ajax_return(array(),$res['info'], 100005);
                 }
 
                 $this->ajax_return(array(),'登录失败，用户名或密码错误！', 100006);
@@ -59,8 +64,9 @@ class Login extends BASE_Controller{
         }
     }
 
-    //验证验证码
-    public function check_verifycode() {
-        var_dump($this->lib_verifycode->check_code('4uxe6'));
+    public function logout(){
+        $this->login_model->logout();
+        header('location:/login/index');
+        exit;
     }
 }

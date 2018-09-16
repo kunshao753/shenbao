@@ -42,7 +42,7 @@ class Login_model extends BASE_Model {
         }
 
         if (isset($user_info_res['account'])) {
-            if ($user_info_res['password'] == md5($data['password'])) {
+            if ($user_info_res['md5_password'] == md5($data['password'])) {
                 $this->set_login_success_cookie($user_info_res);
                 return $this->_formatreturndata(true, $user_info_res['id']);
             }

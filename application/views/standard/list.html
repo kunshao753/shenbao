@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html class="add-bg">
+<head>
+	<meta charset="utf-8">
+	<title>设置评分</title>
+	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+	<!-- header start -->
+	<!--{include file='header.html'}-->
+	<!-- header end -->
+	<!-- content start -->
+	<div class="clearfix wrapper">
+		<!--{include file='left.html'}-->
+		<div class="con-right">
+			<h1 class="right-tit">评分详情页</h1>
+			<div class="table-bigbtn">
+				<a class="table-add" href="/scorestandard/add">新&nbsp;&nbsp;&nbsp;&nbsp;增</a>
+			</div>
+			<div class="table-box">
+				<div class="table-con">
+					<table cellpadding="0" cellspacing="0" border="0" class="ex-table">
+					<tr>
+						<th width="10%">序号</th>
+						<th width="20%">评分名称</th>
+						<th width="25%">评分项</th>
+						<th width="25%">所属专家组</th>
+						<th width="20%">操作</th>
+					</tr>
+					<!--{foreach from=$data item=item key=key}-->
+					<tr>
+						<td><!--{math equation="x + y + 1" x=$key y=$offset}--></td>
+						<td><!--{$item.name}--></td>
+						<td><!--{$item.standard}--></td>
+						<td><!--{$item.group_name}--></td>
+						<td class="table-btn">
+							<a href="/scorestandard/edit?id=<!--{$item.id}-->" class="table-modify">修&nbsp;&nbsp;改</a>
+							<a href="javascript:void(0)" class="table-cancel">取&nbsp;&nbsp;消</a>
+						</td>
+					</tr>
+						<!--{/foreach}-->
+				</table>
+				</div>
+				<!--{$pages_list}-->
+			</div>
+
+		</div>
+	</div>
+	<!-- content end -->
+</body>
+</html>

@@ -10,7 +10,7 @@ class ExpertGroup extends BASE_Controller{
     public function add(){
         //查询评分名称
         $standard_data = array();
-        $standard_res = $this->scorestandard_model->get_list();
+        $standard_res = $this->scorestandard_model->fetch_all(array('is_delete'=>0));
         foreach($standard_res as $value){
             $standard_data[$value['id']] = $value['name'];
         }
@@ -27,7 +27,7 @@ class ExpertGroup extends BASE_Controller{
         }
         //查询评分名称
         $standard_data = array();
-        $standard_res = $this->scorestandard_model->get_data();
+        $standard_res = $this->scorestandard_model->fetch_all(array('is_delete'=>0));
         foreach($standard_res as $value){
             $standard_data[$value['id']] = $value['name'];
         }
@@ -72,6 +72,7 @@ class ExpertGroup extends BASE_Controller{
                 );
                 $expert_group_info[$key]['expert_info']  = '';
                 $ex_info = $this->expert_model->fetch_all($ex_where);
+                $expert_name = array();
                 if(!empty($ex_info)){
                     foreach($ex_info as $value1){
                         $expert_name[] = $value1['name'];
@@ -81,14 +82,16 @@ class ExpertGroup extends BASE_Controller{
 
             }
         }
-        var_dump($expert_group_info);
         $count = $this->expertgroup_model->fetch_count($where);
 
-        var_dump($count);
-        $this->assign('group_name',$group_name);
-        $this->assign('page',$page);
-        $this->assign('count',$count);
+        //var_dump($count);
+        //var_dump($expert_group_info);
+
+        $pages_list = $this->dividePage('/expertgroup/getlist?group_name='.$group_name,$page_size,$count);
+        $this->assign('offset',$offset);
         $this->assign('data',$expert_group_info);
+        $this->assign('pages_list',$pages_list);
+        $this->assign('group_name',$group_name);
 
         $this->display('group/list.html');
     }
@@ -115,6 +118,9 @@ class ExpertGroup extends BASE_Controller{
 
         if(empty($group_name)){
             $this->ajax_return(array(),'专家组名称不能为空',2000008);
+        }
+        if(mb_strlen($group_name) > 20){
+            $this->ajax_return(array(),'专家组名称不能为空',2000018);
         }
 
         $info = $this->expertgroup_model->fetch_row(array('group_name'=>$group_name));
@@ -146,8 +152,12 @@ class ExpertGroup extends BASE_Controller{
         if (empty($group_name)) {
             $this->ajax_return(array(), '专家组名称不能为空', 2000008);
         }
+        if(mb_strlen($group_name) > 20){
+            $this->ajax_return(array(),'专家组名称不能为空',2000018);
+        }
 
-        $info = $this->expertgroup_model->fetch_row(array('group_name' => $group_name,'is_delete'=>0));
+        $where_check = "id != $id and group_name='$group_name' and is_delete=0";
+        $info = $this->expertgroup_model->fetch_row($where_check);
         if ($info) {
             $this->ajax_return(array(), '专家组名称重复', 2000009);
         }
@@ -176,7 +186,7 @@ class ExpertGroup extends BASE_Controller{
         $where = array(
             'group_id' => $id,
         );
-        $list = $this->expert_model->get_list($where);
+        $list = $this->expert_model->fetch_all($where);
         if($list){
             $this->ajax_return(array(), '专家组下有专家人员,不能删除', 2000010);
         }

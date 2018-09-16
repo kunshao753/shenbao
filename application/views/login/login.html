@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>专家评审系统-登录</title>
+	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="/resources/js/validate.js"></script>
+</head>
+<body class="login-bigbg">
+	<!-- header start -->
+	<div class="header-bg">
+		<h1>专家评审系统</h1>
+	</div>
+	</div>
+	<!-- header end -->
+	<!-- content start -->
+	<div class="login-bg">	
+		<div class="login-box">
+			<dl class="login-logo">
+				<dt><img src="/resources/images/logo.jpg" alt="科普中国"></dt>
+				<dd>用户登录login</dd>
+			</dl>
+			<form name="myform" id="myform" enctype="multipart/form-data">
+				<div class="login">
+					<p>
+						<label class="name-icon"></label>
+						<input type="text" name="" placeholder="请输入用户名" class="ex-login">
+						<span class="span-error tip-exlogin"></span>
+					</p>
+					<p>
+						<label class="pwd-icon"></label>
+						<input type="text" name="" placeholder="请输入密码" class="ex-pwd">
+						<span class="span-error tip-expwd"></span>
+					</p>
+					<p>
+						<label class="code-icon"></label>
+						<input type="text" name="" placeholder="请输入验证码" class="ex-code">
+						<img class="code-img" width="113" height="46" onClick="checkCode()" src="/login/verifycode" title="点击图片,换一张">
+						<span class="span-error tip-excode"></span>
+					</p>
+					<div class="login-btn">
+						<input type="button" value="登   录" name="" class="login-save">
+					</div>				
+				</div>
+				
+			</form>
+		</div>
+	</div>
+	<!-- content end -->
+	<script>
+		var checkCode = function (){
+			$(".code-img").attr('src',$(".code-img").attr('src') + "?rnd=" + Math.random())
+		}
+	</script>
+	<script type="text/javascript">	
+		var flag1=false;
+		var flag2=false;
+		var flag3=false;
+		function resExlogin(){
+			var ex_login=$(".ex-login").val();
+			var validate=window.validateSetting.regLoginName(ex_login);
+			if(validate.errorNo>0){
+				$(".tip-exlogin").text(validate.message);					
+			}else{
+				$(".tip-exlogin").text('');
+				flag1=true;
+			}
+		};	
+		function resExpwd(){
+			var ex_pwd=$(".ex-pwd").val();
+			var validate=window.validateSetting.regLoginPwd(ex_pwd);
+			if(validate.errorNo>0){
+				$(".tip-expwd").text(validate.message);					
+			}else{
+				$(".tip-expwd").text('');
+				flag2=true;
+			}
+		};
+		function resExcode(){
+			var ex_code=$(".ex-code").val();
+			var validate=window.validateSetting.regLoginCode(ex_code);
+			if(validate.errorNo>0){
+				$(".tip-excode").text(validate.message);					
+			}else{
+				$(".tip-excode").text('');
+				flag3=true;
+			}
+		};
+		$(function(){
+			$(".ex-login").on("blur",function(){
+				resExlogin();
+			});
+			$(".ex-pwd").on("blur",function(){
+				resExpwd();
+			});
+			$(".ex-code").on("blur",function(){
+				resExcode();
+			});	
+			$(".login-save").on("click",function(){
+				var ex_login=$(".ex-login").val();
+				var ex_pwd=$(".ex-pwd").val();
+				var ex_code=$(".ex-code").val();
+				resExlogin();
+				resExpwd();
+				resExcode();
+				if(flag1 && flag2 && flag3){
+					var loginUrl="/login/dologin"
+					$.post(loginUrl,{'account':ex_login,'password':ex_pwd,'code':ex_code},function(data){
+						if(data.code == 0) {
+							window.location.href = '/expert/getlist'
+						}else{
+							checkCode()
+							alert(data.msg);
+						}
+					})
+				}
+			})
+
+		})
+	</script>
+</body>
+</html>

@@ -2,57 +2,44 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>专家评审系统</title>
+	<title>专家评审系统--添加专家组</title>
 	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
 	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="/resources/js/validate.js"></script>
 </head>
 <body>
 	<!-- header start -->
-	<div class="header-bg">
-		<h1>专家评审系统</h1>
-	</div>
+	<!--{include file='header.html'}-->
 	<!-- header end -->
 	<!-- content start -->
-	<div class="clearfix">
-		<div class="con-left fl">
-			<ul class="nav">
-				<li>
-					<a href="">专家首页<i class="arrow"></i></a>					
-				</li>
-				<li>
-					<a href="">管理员首页<i class="arrow"></i></a>					
-				</li>
-				<li class="cur"><a href="">专家组<i class="arrow"></i></a></li>
-				<li><a href="">专家库<i class="arrow"></i></a></li>
-				<li><a href="">设置评分<i class="arrow"></i></a></li>
-			</ul>
-		</div>
+	<div class="clearfix wrapper">
+        <!--{include file='left.html'}-->
 		<div class="con-right">
+			<h1 class="right-tit">新增专家组</h1>
 			<form name="myform" id="myform" enctype="multipart/form-data">
 				<div class="input-box add-expert-group">
+					<span class="input-top"></span>
 					<p>
-						<label>专家组名称</label>
-						<input type="text" name="" placeholder="请输入专家组名称" class="eg-name">
+						<label>专家组名称:</label>
+						<input type="text" name="" placeholder="请输入专家组名称" class="eg-name" maxlength="20">
 						<span class="span-error tip-egname"></span>
 					</p>
 					<p>
-						<label>评分名称</label>
+						<label>评分名称:</label>
 						<select class="eg-score">
 							<option value="0">请选择</option>
 							<!--{foreach from=$standard_data item=item key=key}-->
 							<option value="<!--{$key}-->"><!--{$item}--></option>
 							<!--{/foreach}-->
-
 						</select>
 						<span class="span-error tip-egscore"></span>
+					</p>					
+				</div>
+				<div class="score-btn">
+					<p>
+						<input type="button" value="添    加" name="" class="btn-save eg-save">
+						<input type="button" value="取    消" name="" class="btn-cancel">
 					</p>
-					<div class="score-btn">
-						<p>
-							<input type="button" value="保存" name="" class="eg-save">
-							<input type="button" value="取消" name="">
-						</p>
-					</div>
 				</div>
 			</form>
 		</div>
@@ -61,9 +48,8 @@
 	<script type="text/javascript">	
 		var flag1=false;
 		var flag2=false;
-
 		function resEgname(){
-			var eg_name= $.trim($(".eg-name").val());
+			var eg_name=$(".eg-name").val();
 			var validate=window.validateSetting.regExportGroupName(eg_name);
 			if(validate.errorNo>0){
 				$(".tip-egname").text(validate.message);					
@@ -73,8 +59,7 @@
 			}
 		}	
 		function resEgscore(){
-			var eg_score=$(".eg-score").val();
-			if(eg_score == 0){
+			if($(".eg-score").val() == 0){
 				$(".tip-egscore").text('请选择评分名称');
 				flag2=false
 			}else{
@@ -82,29 +67,35 @@
 				flag2=true;
 			}
 		}
-		$(function(){
+		$(function(){			
 			$(".eg-name").on("blur",function(){
 				resEgname();
 			});
 			$(".eg-score").on("change",function(){
 				resEgscore();
-			})
+			});
 			$(".eg-save").on("click",function(){
-				var eg_name= $.trim($(".eg-name").val());
-				var eg_score=$(".eg-score").val();
 				resEgname();
 				resEgscore();
 				if(flag1 && flag2){
-					var url='/ExpertGroup/addExpertGroup';
-					$.post(url,{'group_name':eg_name,'score_standard_id':eg_score},function(data){
-						console.log(data);
-						if(data.code == 0){
-							alert('添加成功');
-						}else{
-							alert(data.msg);
-						}
-					})
+					var eg_name= $.trim($(".eg-name").val());
+					var eg_score=$(".eg-score").val();
+					resEgname();
+					resEgscore();
+					if(flag1 && flag2){
+						var url='/ExpertGroup/addExpertGroup';
+						$.post(url,{'group_name':eg_name,'score_standard_id':eg_score},function(data){
+							if(data.code == 0){
+								alert('添加成功');
+							}else{
+								alert(data.msg + ",错误码:" + data.code);
+							}
+						})
+					}
 				}
+			});
+			$(".btn-cancel").on("click",function(){
+				window.location.href="/expertgroup/getlist"
 			})
 
 		})

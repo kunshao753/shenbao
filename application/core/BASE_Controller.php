@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class BASE_Controller extends CI_Controller {
     public $expert_info;
     public $is_admin = 0;
+    protected $_succ = 'succ';
+    protected $_fail = 'fail';
     public function __construct() {
         parent::__construct();
         $this->load->model('Expert_model','expert_model');
@@ -18,7 +20,7 @@ class BASE_Controller extends CI_Controller {
         $path_set = array(
             'login/index',
             'login/verifycode',
-            'login/check_verifycode'
+            'login/dologin',
         );
         $admin_uid = $this->login_model->get_admin_id();
         $path = $this->router->class . "/" . $this->router->method;
@@ -26,16 +28,17 @@ class BASE_Controller extends CI_Controller {
             return;
         }
         if (!$admin_uid) {
-            //header('Location:login/index');
-            //exit;
+            header('Location:/login/index');
+            exit;
         }
 
         //用户信息
-        $this->expert_info = $this->expert_model->fetch_row($admin_uid);
+        $this->expert_info = $this->expert_model->fetch_row(array('id'=>$admin_uid));
 
         $this->assign('expert_info', $this->expert_info);
         if($this->expert_info['permission'] == 1){
             $this->is_admin = 1;
+            $this->assign('is_admin',1);
         }
         $this->assign('photo_pre_url', 'http://shenbaoreg.kepuchina.cn/public');
     }
@@ -169,4 +172,46 @@ class BASE_Controller extends CI_Controller {
                 exit($result);
             }
     }
+
+    public function dividePage($site_url,$page_size,$rows){
+        //装载类文件
+        $this->load->library('pagination');
+
+        $config['base_url']=$site_url;
+
+        $config['full_tag_open'] = '<ul class="page-box">';
+        $config['full_tag_close'] = '</ul>';
+        $config['first_tag_open'] = '<li class="page-btn p-first">';
+        $config['first_tag_close'] = '</li>';
+        $config['prev_tag_open'] = '<li class="page-btn p-pre">';
+        $config['prev_tag_close'] = '</li>';
+        $config['next_tag_open'] = '<li class="page-btn p-next">';
+        $config['next_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="cur">';
+        $config['cur_tag_close'] = '</li>';
+        $config['last_tag_open'] = '<li class="page-btn p-last">';
+        $config['last_tag_close'] = '</li>';
+        $config['num_tag_open'] = '<li>';
+        $config['num_tag_close'] = '</li>';
+
+        $config['enable_query_strings'] = true;
+        $config['page_query_string'] = true;
+        $config['query_string_segment'] = 'page';
+        $config['use_page_numbers'] = TRUE;
+        $config['num_links'] = 3;
+        $config['per_page']=$page_size;
+
+        $config['first_link']= '首页';
+        $config['next_link']= '下一页';
+        $config['prev_link']= '上一页';
+        $config['last_link']= '末页';
+
+
+        $config['total_rows']=$rows;
+
+        //初始化 ，传入配置
+        $this->pagination->initialize($config);
+        return $this->pagination->create_links();
+    }
+
 }

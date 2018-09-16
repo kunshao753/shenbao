@@ -11,7 +11,7 @@ class Expert extends BASE_Controller{
         $condition = array();
         $name = $this->input->get('name');
         $page = !empty($this->input->get('page')) ? $this->input->get('page') : 1;
-        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 20;;
+        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') :3;
 
         if(!empty($name)){
             $condition[] = "name like '%{$name}%'";
@@ -37,19 +37,21 @@ class Expert extends BASE_Controller{
                 }
             }
         }
-        var_dump($expert_info);
-        var_dump($count);
-        $this->assign('name',$name);
-        $this->assign('page',$page);
-        $this->assign('count',$count);
+        //var_dump($expert_info);
+        //var_dump($count);
+        $pages_list = $this->dividePage('/expert/getlist?name='.$name,$page_size,$count);
+        $this->assign('offset',$offset);
         $this->assign('data',$expert_info);
+        $this->assign('pages_list',$pages_list);
+
+        $this->assign('name',$name);
 
         $this->display('expert/list.html');
     }
 
     public function add(){
         $expert_group_data = array();
-        $expert_group_res = $this->expertgroup_model->get_data();
+        $expert_group_res = $this->expertgroup_model->fetch_all(array('is_delete'=>0));
         if(!empty($expert_group_res)){
             foreach($expert_group_res as $value){
                 $expert_group_data[$value['id']] = $value['group_name'];
@@ -66,7 +68,7 @@ class Expert extends BASE_Controller{
             return false;
         }
         $expert_group_data = array();
-        $expert_group_res = $this->expertgroup_model->get_data();
+        $expert_group_res = $this->expertgroup_model->fetch_all(array('is_delete'=>0));
         if(!empty($expert_group_res)){
             foreach($expert_group_res as $value){
                 $expert_group_data[$value['id']] = $value['group_name'];
@@ -95,7 +97,7 @@ class Expert extends BASE_Controller{
     public function addExpert(){
         $name = trim($this->input->post('name'));
         $account = trim($this->input->post('account'));
-        $password = md5(trim($this->input->post('password')));
+        $password = trim($this->input->post('password'));
         $group_id = $this->input->post('group_id');
         $sign_pic = $this->input->post('sign_pic');
 
@@ -107,6 +109,15 @@ class Expert extends BASE_Controller{
         }
         if(empty($password)){
             $this->ajax_return('密码不能为空',2000013);
+        }
+        if(mb_strlen($name) > 10){
+            $this->ajax_return('姓名长度不能超过10个字符',2000111);
+        }
+        if(strlen($account) > 25){
+            $this->ajax_return('账号长度不能超过25个字符',2000112);
+        }
+        if(strlen($password) > 25){
+            $this->ajax_return('密码长度不能超过25个字符',2000113);
         }
         $insert_data = array(
             'name' => $name,
@@ -143,6 +154,15 @@ class Expert extends BASE_Controller{
         }
         if(empty($password)){
             $this->ajax_return(array(),'密码不能为空',200004);
+        }
+        if(mb_strlen($name) > 10){
+            $this->ajax_return('姓名长度不能超过10个字符',2000111);
+        }
+        if(strlen($account) > 25){
+            $this->ajax_return('账号长度不能超过25个字符',2000112);
+        }
+        if(strlen($password) > 25){
+            $this->ajax_return('密码长度不能超过25个字符',2000113);
         }
 
         //if(empty($group_id)){

@@ -7,13 +7,13 @@ class Lib_verifycode{
     private $fonturl;
     private $session;
     public $CI;
-    function __construct($width = 160,$height = 50,$counts = 5,$distrubcode="1235467890qwertyuipkjhgfdaszxcvbnm",$fonturl=""){
+    function __construct($params){
         $this->CI = & get_instance();
         $this->CI->load->library('session');
-        $this->width=$width;
-        $this->height=$height;
-        $this->counts=$counts;
-        $this->distrubcode=$distrubcode;
+        $this->width = !empty($params['width']) ? $params['width'] : 160;
+        $this->height = !empty($params['height']) ? $params['height'] : 50;
+        $this->counts = !empty($params['counts']) ? $params['counts'] : 4;
+        $this->distrubcode = !empty($params['distrubcode']) ? $params['distrubcode'] : "1235467890qwertyuipkjhgfdaszxcvbnm";;
         $this->fonturl=APPPATH."helpers/TektonPro-BoldCond.otf";
     }
 
@@ -51,7 +51,7 @@ class Lib_verifycode{
         return imagecreate($this->width,$this->height);
     }
     private function setbackgroundcolor($im){
-        $bgcolor = ImageColorAllocate($im, rand(200,255),rand(200,255),rand(200,255));
+        $bgcolor = ImageColorAllocate($im, rand(240,255),rand(240,255),rand(240,255));
         imagefill($im,0,0,$bgcolor);
     }
     private function setdistrubecode($im){
