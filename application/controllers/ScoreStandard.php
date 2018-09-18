@@ -10,7 +10,7 @@ class ScoreStandard extends BASE_Controller{
         $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 5;
         $where = 'is_delete=0';
         $offset = ($page - 1) * $page_size;
-        $standard_info = $this->scorestandard_model->fetch_all($where,'','','',$offset,$page_size);
+        $standard_info = $this->scorestandard_model->fetch_all($where,'','id desc','',$offset,$page_size);
         $count = $this->scorestandard_model->fetch_count($where);
 
         if(!empty($standard_info)){
@@ -102,7 +102,7 @@ class ScoreStandard extends BASE_Controller{
             if(mb_strlen($reason[$key]) > 100){
                 $this->ajax_return('评分依据不能超过100个字',5000131);
             }
-            if($max_score[$key] > 100){
+            if(intval($max_score[$key]) > 100){
                 $this->ajax_return('最高分值不能超过100',5000132);
             }
             $standard_reason_maxscore[$key]['standard'] = $standard[$key];
@@ -163,7 +163,7 @@ class ScoreStandard extends BASE_Controller{
             if(mb_strlen($reason[$key]) > 100){
                 $this->ajax_return('评分依据不能超过100个字',5000131);
             }
-            if($max_score[$key] > 100){
+            if(intval($max_score[$key]) > 100){
                 $this->ajax_return('最高分值不能超过100',5000132);
             }
             $standard_reason_maxscore[$key]['standard'] = $standard[$key];

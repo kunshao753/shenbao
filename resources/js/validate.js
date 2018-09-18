@@ -58,7 +58,7 @@ function validateSetting(){
 				message:message,
 			}
 		}
-		if(value > 100){
+		if(parseInt(value) > 100){
 			message="最高分值不能超过100";
 			return{
 				errorNo:3,

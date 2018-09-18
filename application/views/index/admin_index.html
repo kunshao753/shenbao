@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html class="add-bg">
+<head>
+	<meta charset="utf-8">
+	<title>管理员首页</title>
+	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+	<!-- header start -->
+	<!--{include file='header.html'}-->
+	<!-- header end -->
+	<!-- content start -->
+	<div class="clearfix wrapper">
+		<!--{include file='left.html'}-->
+		<div class="con-right">
+			<h1 class="right-tit">管理员首页</h1>
+			<div class="table-bigbtn clearfix">
+				<div class="search-select fl">
+					<span>评审状态 :</span>
+					<select class="search-list review_status">
+						<option value="0">请选择</option>
+						<option value="1" <!--{if $review_status == 1}-->selected='selected'<!--{/if}-->>未配置专家组</option>
+						<option value="2" <!--{if $review_status == 2}-->selected='selected'<!--{/if}-->>待评审</option>
+						<option value="3" <!--{if $review_status == 3}-->selected='selected'<!--{/if}-->>已评审</option>
+					</select>
+				</div>
+				<div class="search fl">
+					<span>项目名称 :</span>
+					<div class="search-box">
+						<input type="text" placeholder="请输入要查找的项目名称" class="search-input project_name" value="<!--{$project_name}-->"/>
+						<i class="search-icon"></i>
+					</div>
+					<a class="table-search" href="javascript:void(0)" onclick="search_crop()">搜&nbsp;&nbsp;&nbsp;&nbsp;索</a>
+				</div>
+			</div>
+			<div class="table-bigbtn clearfix">
+				<div class="set-view fl">
+					<span>专家查看本组成员评分 :</span>
+					<input type="radio" id="can" name="expert_view"/>
+					<label for="can">可以</label>
+					<input type="radio" id="cannot" name="expert_view"/>
+					<label for="cannot">不可以</label>
+					<a class="table-search" href="#">保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
+				</div>
+				<div class="btn-right fr">
+					<a class="table-export" href="#">导出项目</a>
+					<a class="table-add" href="#">专家评审导出</a>
+				</div>
+			</div>
+			<div class="table-box">
+				<div class="table-con">
+					<table cellpadding="0" cellspacing="0" border="0" class="ex-table">
+						<tr>
+							<th>序号</th>
+							<th>项目名称</th>
+							<th>姓名</th>
+							<th>参赛身份</th>
+							<th>企业名称</th>
+							<th>产品类型</th>
+							<th>产品形态</th>
+							<th>手机号</th>
+							<th>评审状态</th>
+							<th>评审情况</th>
+							<th>操作</th>
+						</tr>
+                        <!--{foreach from=$data item=item key=key}-->
+                        <tr>
+                            <td><!--{math equation="x + y + 1" x=$key y=$offset}--></td>
+							<td><!--{$item.project_name}--></td>
+							<td><!--{$item.name}--></td>
+							<td><!--{$item.contestant_identity}--></td>
+							<td><!--{$item.company_name}--></td>
+							<td><!--{$item.product_type}--></td>
+							<td><!--{$item.product_form_val}--></td>
+							<td><!--{$item.mobile}--></td>
+							<td><!--{$item.review_status}--></td>
+                            <td><!--{$item.result}--></td>
+							<td class="table-btn">
+                                <!--{if $item.review_status eq '未配置专家组'}-->
+								<a href="/index/choose?user_id=<!--{$item.user_id}-->" class="table-modify">选择专家组</a>
+                                <!--{/if}-->
+							</td>
+						</tr>
+                        <!--{/foreach}-->
+					</table>
+				</div>
+				<!--{$pages_list}-->
+			</div>
+
+		</div>
+	</div>
+	<!-- content end -->
+    <script>
+        function search_crop(){
+            var project_name = $('.project_name').val()
+            var review_status = $('.review_status').val()
+            window.location.href="/index/getlist?project_name="+project_name+"&review_status="+review_status
+        }
+    </script>
+</body>
+</html>

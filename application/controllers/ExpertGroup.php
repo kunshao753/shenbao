@@ -50,7 +50,7 @@ class ExpertGroup extends BASE_Controller{
 
         $where = implode(" and ",$condition);
         $offset = ($page - 1) * $page_size;
-        $expert_group_info = $this->expertgroup_model->fetch_all($where,'','','',$offset,$page_size);
+        $expert_group_info = $this->expertgroup_model->fetch_all($where,'','id desc','',$offset,$page_size);
         if(!empty($expert_group_info)){
             foreach($expert_group_info as $key => $value){
                 //获取评分信息

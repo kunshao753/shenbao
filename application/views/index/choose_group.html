@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="add-bg">
+<head>
+	<meta charset="utf-8">
+	<title>选择专家组页</title>
+	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+	<!-- header start -->
+	<!--{include file='header.html'}-->
+	<!-- header end -->
+	<!-- content start -->
+	<div class="clearfix wrapper">
+		<!--{include file='left.html'}-->
+		<div class="con-right">
+			<h1 class="right-tit">申报项目选择专家组页</h1>
+			<div class="table-bigbtn clearfix">
+				<div class="eg-select">
+					<span>专家组名称 :</span>
+					<select id="chooseGroup" class="search-list">
+						<option value="0">请选择</option>
+						<!--{foreach from=$expert_group_data item=item key=key}-->
+						<option value="<!--{$key}-->"><!--{$item}--></option>
+						<!--{/foreach}-->
+					</select>
+					<span class="span-error tip-choose-eg"></span>
+				</div>
+			</div>
+			<div class="input-box">
+				<table cellpadding="0" cellspacing="0" border="0" class="ex-table info-table">
+					<tr>
+						<th colspan="2">基本信息</th>
+					</tr>
+					<tr>
+						<td class="table-tit">报名来源：</td>
+						<td><!--{$data.corp_info.signup_resouce}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">姓&nbsp;&nbsp;&nbsp;&nbsp;名：</td>
+						<td><!--{$data.corp_info.name}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">出生年月：</td>
+						<td><!--{$data.corp_info.birthday}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">参赛身份：</td>
+						<td><!--{$data.corp_info.contestant_identity}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">希望支持：</td>
+						<td><!--{$data.corp_info.accect_help}--></td>
+					</tr>
+				</table>
+			</div>
+			<div class="input-box">
+				<table cellpadding="0" cellspacing="0" border="0" class="ex-table info-table">
+					<tr>
+						<th colspan="2">项目团队</th>
+					</tr>
+					<tr>
+						<td class="table-tit">团队人数：</td>
+						<td><!--{$data.team_info.team_size}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">团队概况：</td>
+						<td><!--{$data.team_info.our_team}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">团队人员：</td>
+						<td><!--{$data.team_info.member_profile}--></td>
+					</tr>
+				</table>
+			</div>
+			<div class="input-box">
+				<table cellpadding="0" cellspacing="0" border="0" class="ex-table info-table">
+					<tr>
+						<th colspan="2">项目信息</th>
+					</tr>
+					<tr>
+						<td class="table-tit">项目名称：</td>
+						<td><!--{$data.project_info.project_name}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品类型：</td>
+						<td><!--{$data.project_info.product_type}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品形态：</td>
+						<td><!--{$data.project_info.product_form_val}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品用户：</td>
+						<td><!--{$data.project_info.product_user}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品亮点：</td>
+						<td><!--{$data.project_info.product_highlight}--></td>
+					</tr>
+					<tr>
+						<td class="table-tit">过往融资：</td>
+						<td><!--{$data.project_info.financing_situation}--></td>
+					</tr>
+				</table>
+			</div>
+			<div class="input-box">
+				<table cellpadding="0" cellspacing="0" border="0" class="ex-table info-table">
+					<tr>
+						<th colspan="2">上传资料</th>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">参赛声明签名扫描版PDF</td>
+						<td class="table-btn">
+                            <!--{if isset($data.project_photo.contestant_statement)}-->
+							<a href="<!--{$photo_pre_url}--><!--{$data.project_photo.contestant_statement}-->" target="_blank" class="table-modify">PDF查看</a>
+                            <!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">身份证复印件正反面PDF</td>
+						<td class="table-btn">
+                            <!--{if isset($data.project_photo.identity_front_back)}-->
+							<a href="<!--{$photo_pre_url}--><!--{$data.project_photo.identity_front_back}-->" target="_blank" class="table-modify">PDF查看</a>
+                            <!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">融资证明材料PDF</td>
+						<td class="table-btn">
+							<!--{if isset($data.project_photo.financing_certificate)}-->
+							<a href="<!--{$photo_pre_url}--><!--{$data.project_photo.financing_certificate}-->" target="_blank" class="table-modify">PDF查看</a>
+							<!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">营业执照扫描PDF</td>
+						<td class="table-btn">
+                            <!--{if isset($data.project_photo.business_license)}-->
+							<a href="<!--{$photo_pre_url}--><!--{$data.project_photo.business_license}-->" target="_blank" class="table-modify">PDF查看</a>
+                            <!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">选手照片</td>
+						<td class="table-img">
+                            <!--{if isset($data.project_photo.contestant_photo)}-->
+                            <a href="<!--{$photo_pre_url}--><!--{$data.project_photo.contestant_photo}-->" target="_blank">
+								<img src="<!--{$photo_pre_url}--><!--{$data.project_photo.contestant_photo}-->">
+							</a>
+                            <!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">项目图片</td>
+						<td class="table-img">
+                            <!--{if isset($data.project_photo.logo_photo)}-->
+                            <a href="../images/photo.png" target="_blank">
+								<img src="<!--{$photo_pre_url}--><!--{$data.project_photo.logo_photo}-->">
+							</a>
+                            <!--{/if}-->
+                        </td>
+					</tr>
+				</table>
+			</div>
+			<div class="score-btn">
+				<p>
+					<a href="javascript:void(0)" class="btn-save ch-save">保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
+					<a href="/index/getlist" class="btn-cancel">返&nbsp;&nbsp;&nbsp;&nbsp;回</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	<script>
+		$(function () {
+		    $("#chooseGroup").on("change",function () {
+                var choose_val=$('#chooseGroup').val();
+                if(choose_val==0){
+                    $('.tip-choose-eg').text('请选择专家组');
+                }else {
+                    $('.tip-choose-eg').text('');
+                }
+            });
+			$('.ch-save').click(function () {
+				var choose_val=$('#chooseGroup').val();
+				if(choose_val==0){
+				    $('.tip-choose-eg').text('请选择专家组');
+				    $(window).scrollTop(0);
+				}else {
+                    $('.tip-choose-eg').text('');
+                    var user_id = <!--{$data.corp_info.user_id}-->;
+                    var user_name = '<!--{$data.corp_info.name}-->';
+                    var project_id = <!--{$data.project_info.id}-->;
+                    var project_name = '<!--{$data.project_info.project_name}-->';
+                    $.post('/index/distribute',{'user_id':user_id,'user_name':user_name,'project_id':project_id,'project_name':project_name,'group_id':choose_val},function(data){
+                        if(data.code == 0){
+                            alert('保存成功');
+                            window.location.href = '/index/getlist';
+                        }else{
+                            alert(data.msg)
+                        }
+                    })
+				}
+            })
+        })
+	</script>
+</body>
+</html>

@@ -20,7 +20,7 @@ class Expert extends BASE_Controller{
 
         $where = implode(" and ",$condition);
         $offset = ($page - 1) * $page_size;
-        $expert_info = $this->expert_model->fetch_all($where,'','','',$offset,$page_size);
+        $expert_info = $this->expert_model->fetch_all($where,'','id desc','',$offset,$page_size);
         $count = $this->expert_model->fetch_count($where);
 
         if(!empty($expert_info)){
