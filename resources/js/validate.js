@@ -4,10 +4,10 @@ function validateRules(){
         return (str == "" || typeof str != "string");
     };
      _this.isPwd = function (str) {
-        return /[a-zA-Z0-9]+/.test(str);
+        return /^[a-zA-Z0-9]+$/.test(str);
     };
     _this.isNumber = function (str) {
-    	return /[0-9]+/.test(str);
+    	return /^[0-9]+$/.test(str);
     }
 }
 window["validateRules"] = new validateRules();
@@ -55,13 +55,6 @@ function validateSetting(){
 			message="请输入数字";
 			return{
 				errorNo:2,
-				message:message,
-			}
-		}
-		if(parseInt(value) > 100){
-			message="最高分值不能超过100";
-			return{
-				errorNo:3,
 				message:message,
 			}
 		}
@@ -131,5 +124,22 @@ function validateSetting(){
 		}
 		return{errorNo:0}
 	};
+    _this.regReviewScore=function(value){
+        if(window.validateRules.isNull(value) || value == '请填写分数'){
+            message="请打分";
+            return{
+                errorNo:1,
+                message:message,
+            }
+        }
+        if(!window.validateRules.isNumber(value)){
+            message="请输入数字";
+            return{
+                errorNo:2,
+                message:message,
+            }
+        }
+        return{errorNo:0}
+    };
 }
 window["validateSetting"]= new validateSetting();

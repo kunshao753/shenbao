@@ -13,7 +13,7 @@ class Corp_model extends BASE_Model{
         $this->CI->load->model('Distributeresult_model','distribute_result_model');
     }
 
-    public function get_list($project_name='',$review_status='',$offset=0,$page_size=0,$is_admin=0,$expert_info=array()){
+    public function get_list($project_name='',$review_status='',$is_admin=0,$expert_info=array(),$offset=0,$page_size=0){
 
         if($page_size == 0){
             $page_size = 9999;
@@ -61,7 +61,7 @@ class Corp_model extends BASE_Model{
             $where = "where expert_id={$expert_info['id']}";
             $table_join = 'distribute_result';
             if(!empty($review_status)){
-                $where = "and d.status={$review_status}";
+                $where .= " and d.status={$review_status}";
             }
             $fields .= ',d.status';
         }

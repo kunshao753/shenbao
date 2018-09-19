@@ -10,6 +10,7 @@ class BASE_Controller extends CI_Controller {
         $this->load->model('Expert_model','expert_model');
         $this->load->model('Expertgroup_model','expertgroup_model');
         $this->load->model('Login_model','login_model');
+        $this->load->model('Settings_model','settings_model');
 
         self::_init();
 
@@ -40,6 +41,11 @@ class BASE_Controller extends CI_Controller {
             $this->is_admin = 1;
             $this->assign('is_admin',1);
         }
+        //获取后台设置 是否可查看同组专家评分
+        $settings_res = $this->settings_model->fetch_row(array('type'=>'permit_show'),'value');
+        $settings = !empty($settings_res['value']) ? 1 : 0 ;
+        $this->assign('settings',$settings);
+
         $this->assign('photo_pre_url', 'http://shenbaoreg.kepuchina.cn/public/');
     }
 

@@ -125,3 +125,7 @@ background: linear-gradient(#d2d2d2,#a7a7a7);}
 .info-table .table-btn{width: auto;}
 .info-table td.table-upload{padding-left: 100px;text-align: left;}
 .table-img img{max-width: 300px;}
+.review-table td{color: #333;}
+.review-table td.table-tit{font-weight: bold;}
+.tip-score{display: block; text-align: center;}
+.input-box input.input-score{border-radius: 10px;color:#c5c5c5; border:1px solid #e3e3e3; width: 106px;height: 36px; text-align: center; background: #fafbfd;}

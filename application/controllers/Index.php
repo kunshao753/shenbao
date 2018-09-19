@@ -13,7 +13,6 @@ class Index extends BASE_Controller{
         $this->load->model('Projectteam_model','projectteam_model');
         $this->load->model('Distributeresult_model','distribute_result_model');
         $this->load->model('Distribute_model','distribute_model');
-        $this->load->model('Settings_model','settings_model');
     }
 
     //首页
@@ -26,14 +25,12 @@ class Index extends BASE_Controller{
         $offset = ($page - 1) * $page_size;
 
         if($this->is_admin){//管理员
-            $data_res = $this->corp_model->get_list($project_name,$review_status,$offset,$page_size,$this->is_admin,$this->expert_info);
+            $data_res = $this->corp_model->get_list($project_name,$review_status,$this->is_admin,$this->expert_info,$offset,$page_size);
             $data = $this->parse_data($data_res['data']);
             $count = $data_res['count'];
         }else{
-            //获取后台设置 是否可查看同组专家评分
-            $settings_res = $this->settings_model->fetch_row(array('type'=>'permit_show'),'value');
-            $settings = !empty($settings_res['value']) ? 1 : 0 ;
-            $data_res = $this->corp_model->get_list($project_name,$review_status,$offset,$page_size,0,$this->expert_info);
+
+            $data_res = $this->corp_model->get_list($project_name,$review_status,0,$this->expert_info,$offset,$page_size);
             $data = $this->parse_data($data_res['data']);
             $count = $data_res['count'];
         }
@@ -46,8 +43,6 @@ class Index extends BASE_Controller{
         $this->assign('offset',$offset);
         $this->assign('data',$data);
         $this->assign('pages_list',$pages_list);
-        $this->assign('settings',!empty($settings) ? 1 : 0 );
-
 
         if($this->is_admin == 1){
             $this->display('index/admin_index.html');
@@ -125,74 +120,6 @@ class Index extends BASE_Controller{
         $this->display('index/choose_group.html');
     }
 
-    //保存评审信息
-    public function doDeclare(){
-        $expert_id = $this->expert_info['id'];
-        $expert_group_id = $this->expert_info['group_id'];
-        $expert_name = $this->expert_info['name'];
-        $user_id = $this->input->post('user_id');
-        $user_name = $this->input->post('user_name');
-        $project_id = $this->input->post('project_id');
-        $project_name = $this->input->post('project_name');
-        $product_type_score = $this->input->post('product_type_score');
-        $product_type_reason = $this->input->post('product_type_reason');
-        $product_form_score = $this->input->post('product_form_score');
-        $product_form_reason = $this->input->post('product_form_reason');
-        $registered_capital_score = $this->input->post('registered_capital_score');
-        $registered_capital_reason = $this->input->post('registered_capital_reason');
-        $product_user_score = $this->input->post('product_user_score');
-        $product_user_reason = $this->input->post('product_user_reason');
-        //查询结果表是否存在信息
-        $where = array('user_id'=>$user_id,'expert_id'=>$expert_id);
-        $res = $this->distribute_result_model->fetch_row($where);
-        if($res){
-            //更新
-            $update_data = array(
-                'product_type_score' => $product_type_score,
-                'product_type_reason' => $product_type_reason,
-                'product_form_score' => $product_form_score,
-                'product_form_reason' => $product_form_reason,
-                'registered_capital_score' => $registered_capital_score,
-                'registered_capital_reason' => $registered_capital_reason,
-                'product_user_score' => $product_user_score,
-                'product_user_reason' => $product_user_reason,
-            );
-            $up_res = $this->distribute_result_model->update($update_data,$where);
-            if($up_res){
-                $this->ajax_return(array(),'保存成功');
-            }
-            $this->ajax_return(array(),'保存失败',400001);
-        }
-        $insert_data = array(
-            'user_id' => $user_id,
-            'user_name' => $user_name,
-            'expert_id' => $expert_id,
-            'expert_name' => $expert_name,
-            'project_id' => $project_id,
-            'project_name' => $project_name,
-            'product_type_score' => $product_type_score,
-            'product_type_reason' => $product_type_reason,
-            'product_form_score' => $product_form_score,
-            'product_form_reason' => $product_form_reason,
-            'registered_capital_score' => $registered_capital_score,
-            'registered_capital_reason' => $registered_capital_reason,
-            'product_user_score' => $product_user_score,
-            'product_user_reason' => $product_user_reason,
-            'create_at' => date('Y-m-d H:i:s')
-        );
-        $insert_res = $this->distribute_result_model->insert($insert_data);
-        if($insert_res){
-            //更新评审状态
-            $up_data = array('review_status' => 2);
-            $up_where = array('user_id' => $user_id, 'group_id' => $expert_group_id);
-            $up_dis_res = $this->distribute_model->update($up_data,$up_where);
-            if($up_dis_res !== false){
-                $this->ajax_return(array(),'保存成功');
-            }
-        }
-        $this->ajax_return(array(),'保存失败',400002);
-    }
-
     //分配专家组
     public function distribute(){
         $user_id = $this->input->post('user_id');
@@ -240,6 +167,111 @@ class Index extends BASE_Controller{
         }
     }
 
+    //保存评审信息
+    public function saveResult(){
+        $expert_id = $this->expert_info['id'];
+        $expert_group_id = $this->expert_info['group_id'];
+        $expert_name = $this->expert_info['name'];
+        $user_id = $this->input->post('user_id');
+        $user_name = $this->input->post('user_name');
+        $project_id = $this->input->post('project_id');
+        $project_name = $this->input->post('project_name');
+        $product_type_score = $this->input->post('product_type_score');
+        $product_type_reason = $this->input->post('product_type_reason');
+        $product_form_score = $this->input->post('product_form_score');
+        $product_form_reason = $this->input->post('product_form_reason');
+        $registered_capital_score = $this->input->post('registered_capital_score');
+        $registered_capital_reason = $this->input->post('registered_capital_reason');
+        $product_user_score = $this->input->post('product_user_score');
+        $product_user_reason = $this->input->post('product_user_reason');
+        //查询结果表是否存在信息
+        $where = array('user_id'=>$user_id,'expert_id'=>$expert_id);
+        $res = $this->distribute_result_model->fetch_row($where);
+        if($res){
+            //更新
+            $update_data = array(
+                'product_type_score' => $product_type_score,
+                'product_type_reason' => $product_type_reason,
+                'product_form_score' => $product_form_score,
+                'product_form_reason' => $product_form_reason,
+                'registered_capital_score' => $registered_capital_score,
+                'registered_capital_reason' => $registered_capital_reason,
+                'product_user_score' => $product_user_score,
+                'product_user_reason' => $product_user_reason,
+            );
+            $up_res = $this->distribute_result_model->update($update_data,$where);
+            if($up_res !== false){
+                $this->ajax_return(array(),'保存成功');
+            }
+            $this->ajax_return(array(),'保存失败',400001);
+        }
+        $insert_data = array(
+            'user_id' => $user_id,
+            'user_name' => $user_name,
+            'expert_id' => $expert_id,
+            'expert_name' => $expert_name,
+            'project_id' => $project_id,
+            'project_name' => $project_name,
+            'product_type_score' => $product_type_score,
+            'product_type_reason' => $product_type_reason,
+            'product_form_score' => $product_form_score,
+            'product_form_reason' => $product_form_reason,
+            'registered_capital_score' => $registered_capital_score,
+            'registered_capital_reason' => $registered_capital_reason,
+            'product_user_score' => $product_user_score,
+            'product_user_reason' => $product_user_reason,
+            'create_at' => date('Y-m-d H:i:s')
+        );
+        $insert_res = $this->distribute_result_model->insert($insert_data);
+        if($insert_res){
+            //更新评审状态
+            $up_data = array('review_status' => 2);
+            $up_where = array('user_id' => $user_id, 'group_id' => $expert_group_id);
+            $up_dis_res = $this->distribute_model->update($up_data,$up_where);
+            if($up_dis_res !== false){
+                $this->ajax_return(array(),'保存成功');
+            }
+        }
+        $this->ajax_return(array(),'保存失败',400002);
+    }
+
+    //导出管理员维度列表
+    public function expert_admin(){
+        $this->load->library('lib_excel');
+        $review_status = $this->input->get('review_status');//评审状态
+        $project_name = $this->input->get('project_name');
+
+        $file_name = 'project_info_'.date('Y-m-d');
+        $titles = array('项目名称','报名人姓名','手机号','报名来源','参赛身份','企业名称','产品类型','产品形态','评审状态','评审情况');
+        $this->lib_excel->createRow($titles);
+        $data_res = $this->corp_model->get_list($project_name,$review_status,$this->is_admin,$this->expert_info);
+        $data = $this->parse_data($data_res['data']);
+        if(!empty($data)){
+            foreach($data as $key => $value){
+                unset($data[$key]['id']);
+                unset($data[$key]['user_id']);
+                unset($data[$key]['audit_status']);
+            }
+        }
+        //var_dump($data);die;
+        foreach($data as $row) {
+            $this->lib_excel->createRow($row);
+        }
+        $this->lib_excel->download($file_name);
+    }
+
+    //设置
+    public function settings(){
+        $settings = $this->input->post('settings');
+        if(in_array($settings,array(0,1))){
+            $res = $this->settings_model->update(array('value'=>$settings),array('type'=>'permit_show'));
+            if($res !== false){
+                $this->ajax_return(array(),'设置成功');
+            }
+        }
+        $this->ajax_return(array(),'设置失败',3000001);
+    }
+
     //解析首页数据
     public function parse_data($data=array()){
         $infoConfig = $this->getCorpInfoConfig();
@@ -267,30 +299,5 @@ class Index extends BASE_Controller{
         }
 
         return $data;
-    }
-
-    //导出管理员维度列表
-    public function expert_admin(){
-        $this->load->library('lib_excel');
-        $review_status = $this->input->get('review_status');//评审状态
-        $project_name = $this->input->get('project_name');
-
-        $file_name = 'project_info_'.date('Y-m-d');
-        $titles = array('项目名称','报名人姓名','手机号','报名来源','参赛身份','企业名称','产品类型','产品形态','评审状态','评审情况');
-        $this->lib_excel->createRow($titles);
-        $data_res = $this->corp_model->get_list($project_name,$review_status);
-        $data = $this->parse_data($data_res['data']);
-        if(!empty($data)){
-            foreach($data as $key => $value){
-                unset($data[$key]['id']);
-                unset($data[$key]['user_id']);
-                unset($data[$key]['audit_status']);
-            }
-        }
-        //var_dump($data);die;
-        foreach($data as $row) {
-            $this->lib_excel->createRow($row);
-        }
-        $this->lib_excel->download($file_name);
     }
 }

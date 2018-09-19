@@ -23,19 +23,19 @@
 					<span>评审状态 :</span>
 					<select class="search-list review_status">
 						<option value="0">请选择</option>
-						<option value="2" <!--{if $status == 1}-->selected='selected'<!--{/if}-->>待评审</option>
-						<option value="3" <!--{if $status == 2}-->selected='selected'<!--{/if}-->>已评审</option>
-						<option value="3" <!--{if $status == 3}-->selected='selected'<!--{/if}-->>已提交</option>
+						<option value="1" <!--{if $review_status == 1}-->selected='selected'<!--{/if}-->>待评审</option>
+						<option value="2" <!--{if $review_status == 2}-->selected='selected'<!--{/if}-->>已评审</option>
+						<option value="3" <!--{if $review_status == 3}-->selected='selected'<!--{/if}-->>已提交</option>
 					</select>
 				</div>
 				<div class="search btn-right fr">
 					<div class="search-box">
-						<input type="text" placeholder="请输入要查找的项目名称" class="search-input"/>
+						<input type="text" placeholder="请输入要查找的项目名称" class="search-input project_name"/>
 						<i class="search-icon"></i>
 					</div>
-					<a class="table-search" href="javascript:void(0)">搜&nbsp;&nbsp;&nbsp;&nbsp;索</a>
+					<a class="table-search" href="javascript:void(0)" onclick="search_crop()">搜&nbsp;&nbsp;&nbsp;&nbsp;索</a>
 					<a class="table-export" href="#">审核结果页</a>
-					<a class="table-sub" href="#">一键提交<br>所有评分</a>
+					<a class="table-sub" href="javascript:void(0)" onclick="submit_declare()">一键提交<br>所有评分</a>
 				</div>
 			</div>
 			<div class="table-box">
@@ -67,7 +67,7 @@
 							<td><!--{$item.status}--></td>
 							<!--{if $settings}--><td><!--{$item.result}--></td><!--{/if}-->
 							<td class="table-btn">
-								<a href="" class="table-modify">评审详情</a>
+								<a href="/declareinfo/getinfo?user_id=<!--{$item.user_id}-->" class="table-modify">评审详情</a>
 							</td>
 						</tr>
 						<!--{/foreach}-->
@@ -84,6 +84,16 @@
 			var project_name = $('.project_name').val()
 			var review_status = $('.review_status').val()
 			window.location.href="/index/getlist?project_name="+project_name+"&review_status="+review_status
+		}
+		function submit_declare(){
+			$.post('/declareinfo/submitdeclare',{},function(data){
+				if(data.code == 0){
+					alert('提交成功');
+					window.location.reload();
+				}else{
+					alert('提交失败');
+				}
+			})
 		}
 	</script>
 </body>

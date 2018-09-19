@@ -47,7 +47,6 @@
 	<!-- content end -->
 	<script type="text/javascript">	
 		var flag1=false;
-		var flag2=false;
 		function resEgname(){
 			var eg_name=$(".eg-name").val();
 			var validate=window.validateSetting.regExportGroupName(eg_name);
@@ -58,36 +57,25 @@
 				flag1=true;
 			}
 		}	
-		function resEgscore(){
-			if($(".eg-score").val() == 0){
-				$(".tip-egscore").text('请选择评分名称');
-				flag2=false
-			}else{
-				$(".tip-egscore").text('');
-				flag2=true;
-			}
-		}
+
 		$(function(){			
 			$(".eg-name").on("blur",function(){
 				resEgname();
 			});
-			$(".eg-score").on("change",function(){
-				resEgscore();
-			});
+
 			$(".eg-save").on("click",function(){
 				resEgname();
-				resEgscore();
-				if(flag1 && flag2){
+				if(flag1){
 					var eg_name= $.trim($(".eg-name").val());
 					var eg_score=$(".eg-score").val();
 					resEgname();
-					resEgscore();
-					if(flag1 && flag2){
+					if(flag1){
 						var url='/ExpertGroup/addExpertGroup';
 						$.post(url,{'group_name':eg_name,'score_standard_id':eg_score},function(data){
 							if(data.code == 0){
 								alert('添加成功');
-							}else{
+                                window.location.href="/expertgroup/getlist"
+                            }else{
 								alert(data.msg + ",错误码:" + data.code);
 							}
 						})

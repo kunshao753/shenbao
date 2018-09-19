@@ -120,7 +120,7 @@ class ExpertGroup extends BASE_Controller{
             $this->ajax_return(array(),'专家组名称不能为空',2000008);
         }
         if(mb_strlen($group_name) > 20){
-            $this->ajax_return(array(),'专家组名称不能为空',2000018);
+            $this->ajax_return(array(),'专家组名称字符超长',2000018);
         }
 
         $info = $this->expertgroup_model->fetch_row(array('group_name'=>$group_name));

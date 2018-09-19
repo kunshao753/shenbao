@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html class="add-bg">
+<head>
+	<meta charset="utf-8">
+	<title>评审详情页</title>
+	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="/resources/js/validate.js"></script>
+
+</head>
+<body>
+	<!-- header start -->
+    <!--{include file='header.html'}-->
+    <!-- header end -->
+	<!-- content start -->
+	<div class="clearfix wrapper">
+        <!--{include file='left.html'}-->
+        <div class="con-right">
+			<h1 class="right-tit">评审详情</h1>
+            <input type="hidden" value="<!--{$user_id}-->" id="user_id">
+			<div class="input-box">
+				<table cellpadding="0" cellspacing="0" border="0" class="ex-table review-table">
+					<tr>
+						<th colspan="3">基本信息</th>
+					</tr>
+					<tr>
+						<td width="33%" class="table-tit">报名来源：</td>
+						<td width="33%"><!--{$data.corp_info.signup_resouce}--></td>
+						<td width="33%"></td>
+					</tr>
+					<tr>
+						<td class="table-tit">姓名：</td>
+						<td><!--{$data.corp_info.name}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">性别：</td>
+						<td><!--{$data.corp_info.sex}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">出生年月：</td>
+						<td><!--{$data.corp_info.birthday}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">年龄：</td>
+						<td><!--{$data.corp_info.age}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">身份证号：</td>
+						<td><!--{$data.corp_info.identity_no}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">微信号：</td>
+						<td><!--{$data.corp_info.wechat}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">邮箱：</td>
+						<td><!--{$data.corp_info.email}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">参赛身份：</td>
+						<td><!--{$data.corp_info.contestant_identity}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">企业名称：</td>
+						<td><!--{$data.corp_info.company_name}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">公司网址：</td>
+						<td><!--{$data.corp_info.website_url}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">统一社会信用代码：</td>
+						<td><!--{$data.corp_info.organization_code}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">法定代表名称：</td>
+						<td><!--{$data.corp_info.company_legal_name}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">注册资本：</td>
+						<td><!--{$data.corp_info.registered_capital}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">注册日期：</td>
+						<td><!--{$data.corp_info.registered_time}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">注册地区：</td>
+						<td><!--{$data.corp_info.registered_address}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">你希望获得什么支持：</td>
+						<td><!--{$data.corp_info.accect_help}--></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<div class="input-box">
+				<table cellpadding="0" cellspacing="0" border="0" class="ex-table review-table">
+					<tr>
+						<th colspan="3">项目团队</th>
+					</tr>
+					<tr>
+						<td width="33%" class="table-tit">团队人数：</td>
+						<td width="33%"><!--{$data.team_info.team_size}--></td>
+						<td width="33%"></td>
+					</tr>
+					<tr>
+						<td class="table-tit">团队概况：</td>
+						<td><!--{$data.team_info.our_team}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">团队成员介绍：</td>
+						<td><!--{$data.team_info.member_profile}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">内部管理制度清单：</td>
+						<td><!--{$data.team_info.management_system_list}--></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<div class="input-box">
+				<table cellpadding="0" cellspacing="0" border="0" class="ex-table review-table">
+					<tr>
+						<th colspan="3">项目信息</th>
+					</tr>
+					<tr>
+						<td width="33%" class="table-tit">项目名称：</td>
+						<td width="33%"><!--{$data.project_info.project_name}--></td>
+						<td width="33%"></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品类型：</td>
+						<td><!--{$data.project_info.product_type}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品形态：</td>
+						<td><!--{$data.project_info.product_form_val}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品用户：</td>
+						<td><!--{$data.project_info.product_user}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品用户数：</td>
+						<td><!--{$data.project_info.product_user_size}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品概况：</td>
+						<td><!--{$data.project_info.project_profile}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品亮点：</td>
+						<td><!--{$data.project_info.product_highlight}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">商业模式：</td>
+						<td><!--{$data.project_info.business_model}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">核心壁垒：</td>
+						<td><!--{$data.project_info.core_barrier}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">过往融资情况：</td>
+						<td><!--{$data.project_info.financing_situation}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">是否拥有专利技术：</td>
+						<td><!--{$data.project_info.is_patent}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品传播效果：</td>
+						<td><!--{$data.project_info.product_communication}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">产品内是否有广告：</td>
+						<td><!--{if $data.project_info.is_ad eq 1}-->是<!--{else}-->否<!--{/if}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">广告类型：</td>
+						<td><!--{$data.project_info.ad_type}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">内容生产机制：</td>
+						<td><!--{$data.project_info.content_production_mechanism}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">内容审核机制：</td>
+						<td><!--{$data.project_info.content_review_mechanism}--></td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit">专家或机构推荐意见：</td>
+						<td><!--{$data.project_info.expert_agency_recommendation}--></td>
+						<td></td>
+					</tr>
+				</table>
+			</div>
+			<div class="input-box">
+				<table cellpadding="0" cellspacing="0" border="0" class="ex-table review-table">
+					<tr>
+						<th colspan="3">上传资料</th>
+					</tr>
+					<tr>
+						<td width="33%" class="table-tit table-upload">参赛声明签名扫描版PDF（*必传）：</td>
+						<td width="33%" class="table-btn">
+                            <!--{if isset($data.project_photo.contestant_statement)}-->
+                            <a href="<!--{$photo_pre_url}--><!--{$data.project_photo.contestant_statement}-->" target="_blank" class="table-modify">PDF查看</a>
+                            <!--{/if}-->
+						</td>
+						<td width="33%"></td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">身份证复印件正反面PDF（*必传）：</td>
+						<td class="table-btn">
+                            <!--{if isset($data.project_photo.identity_front_back)}-->
+                            <a href="<!--{$photo_pre_url}--><!--{$data.project_photo.identity_front_back}-->" target="_blank" class="table-modify">PDF查看</a>
+                            <!--{/if}-->
+						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">融资证明材料PDF（*有融资必传）</td>
+						<td class="table-btn">
+                            <!--{if isset($data.project_photo.financing_certificate)}-->
+                            <a href="<!--{$photo_pre_url}--><!--{$data.project_photo.financing_certificate}-->" target="_blank" class="table-modify">PDF查看</a>
+                            <!--{/if}-->						</td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">营业执照扫描PDF（*企业必传）</td>
+						<td class="table-btn">
+                            <!--{if isset($data.project_photo.business_license)}-->
+                            <a href="<!--{$photo_pre_url}--><!--{$data.project_photo.business_license}-->" target="_blank" class="table-modify">PDF查看</a>
+                            <!--{/if}-->
+                        </td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">产品传播效果报告PDF：</td>
+						<td class="table-btn">
+                            <!--{if isset($data.project_photo.product_communication_report)}-->
+                            <a href="<!--{$photo_pre_url}--><!--{$data.project_photo.product_communication_report}-->" target="_blank" class="table-modify">PDF查看</a>
+                            <!--{/if}-->
+                        </td>
+						<td></td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">选手照片：</td>
+						<td class="table-img">
+                            <!--{if isset($data.project_photo.contestant_photo)}-->
+                            <a href="<!--{$photo_pre_url}--><!--{$data.project_photo.contestant_photo}-->" target="_blank">
+                                <img src="<!--{$photo_pre_url}--><!--{$data.project_photo.contestant_photo}-->">
+                            </a>
+                            <!--{/if}-->
+						</td>
+					</tr>
+					<tr>
+						<td class="table-tit table-upload">项目图片LOGO：</td>
+						<td class="table-img">
+                            <!--{if isset($data.project_photo.logo_photo)}-->
+                            <a href="<!--{$photo_pre_url}--><!--{$data.project_photo.logo_photo}-->" target="_blank">
+                                <img src="<!--{$photo_pre_url}--><!--{$data.project_photo.logo_photo}-->">
+                            </a>
+                            <!--{/if}-->
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="input-box">
+				<table cellpadding="0" cellspacing="0" border="0" class="ex-table review-table">
+					<tr>
+						<th width="25%">评分项</th>
+						<th width="35%">评分依据</th>
+						<th width="15%">最高分值</th>
+						<th width="25%">评分</th>
+					</tr>
+                    <!--{foreach from=$standard_info item=item}-->
+					<tr>
+						<td><!--{$item.standard}--></td>
+						<td><!--{$item.reason}--></td>
+						<td class="max-score"><!--{$item.maxscore}--></td>
+						<td>
+							<input type="hidden" value="<!--{$item.standard}-->" class="input-id">
+							<!--<input type="text" value="&lt;!&ndash;{if $result_info[$item.standard]}&ndash;&gt;$result_info[$item.standard]&lt;!&ndash;{else}&ndash;&gt;请填写分数&lt;!&ndash;{/if}&ndash;&gt;" class="input-score">-->
+							<input type="text" value="<!--{$result_info[$item.standard]}-->" class="input-score">
+							<span class="span-error tip-score"></span>
+						</td>
+					</tr>
+                    <!--{/foreach}-->
+				</table>
+			</div>
+			<div class="score-btn">
+				<p>
+					<a href="javascript:void(0)" class="btn-save review-save">保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
+					<a href="/index/getlist" class="btn-cancel">返&nbsp;&nbsp;&nbsp;&nbsp;回</a>
+				</p>
+			</div>
+		</div>
+	</div>
+	<!-- content end -->
+	<script>
+		$(function () {
+		    $(".input-score").on('focus',function () {
+				if($(this).val()=="请填写分数"){
+				    $(this).val('').css("color","#333");
+				}
+            })
+		    var flag=false;
+			function checkScore(that){
+			    var _this=that;
+				var score_value=$(_this).val();
+				var this_score=parseInt(score_value);
+				var score_text=$(_this).parent().siblings(".max-score").text();
+				var max_score=parseInt(score_text);
+				var validate=window.validateSetting.regReviewScore(score_value);
+				if(validate.errorNo>0){
+					$(_this).siblings("span").text(validate.message)
+				}else {
+					if(this_score>max_score){
+						$(_this).siblings("span").text('您的评分不能大于最高分')
+					}else {
+						$(_this).siblings("span").text('');
+						flag=true;
+					}
+
+				}
+				return this_score;
+			}
+			$(".input-score").on('blur',function () {
+                checkScore(this);
+                if($(this).val()==""){
+                    $(this).val('请填写分数').css("color","#c5c5c5");
+                }
+            });
+			$(".review-save").on('click',function () {
+                var user_id = $('#user_id').val()
+                var standard=[];
+                var score=[];
+                $(".input-score").each(function () {
+                   standard.push($(this).siblings(".input-id").val());
+                   score.push(checkScore(this));
+                })
+                $.post('/declareinfo/dodeclare',{'user_id':user_id,'standard':standard,'score':score},function(data){
+                    if(data.code == 0){
+                        alert('保存成功');
+                        window.location.href='/index/getlist'
+                    }else{
+                        alert('保存失败')
+                    }
+                })
+            })
+        })
+	</script>
+</body>
+</html>

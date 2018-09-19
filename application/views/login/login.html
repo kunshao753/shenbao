@@ -108,7 +108,7 @@
 					var loginUrl="/login/dologin"
 					$.post(loginUrl,{'account':ex_login,'password':ex_pwd,'code':ex_code},function(data){
 						if(data.code == 0) {
-							window.location.href = '/expert/getlist'
+							window.location.href = '/index/getlist'
 						}else{
 							checkCode()
 							alert(data.msg);

@@ -11,32 +11,12 @@ class DeclareInfo extends BASE_Controller{
         $this->load->model('Project_model','project_model');
         $this->load->model('Projectphoto_model','projectphoto_model');
         $this->load->model('Projectteam_model','projectteam_model');
-        $this->load->model('Result_model','result_model');
+        $this->load->model('Distributeresult_model','distributeresult_model');
         $this->load->model('Distribute_model','distribute_model');
+        $this->load->model('Scorestandard_model','scorestandard_model');
     }
 
-    public function getList(){
-
-        $review_status = $this->input->post('review_status');//评审状态
-        $project_name = $this->input->post('project_name');
-        $page = $this->input->post('page');
-        $page_size = $this->input->post('$page_size');
-        $offset = ($page - 1) * $page_size;
-
-        $condition = array();
-        if(!empty($review_status)){
-            $condition[] = "review_status={$review_status}";
-        }
-        if(!empty($project_name)){
-            $condition[] = "project_name like '%{$project_name}%'";
-        }
-        $condition[] = "audit_status in (1,3,4)";
-        $where = implode(' and ',$condition);
-
-        $data = $this->corp_model->get_list($where,'','',$offset,$page_size);
-        var_dump($data);
-    }
-
+    //评审详情页面
     public function getInfo(){
         $user_id = $this->input->get('user_id');
         $where = array('user_id' => $user_id);
@@ -47,132 +27,141 @@ class DeclareInfo extends BASE_Controller{
         if(!in_array($corp_info['audit_status'],array(1,3,4))){
             return false;
         }
+
+        //专家组信息
+        $expert_group_data = array();
+        $expert_group_res = $this->expertgroup_model->fetch_all(array('is_delete'=>0));
+        if(!empty($expert_group_res)){
+            foreach($expert_group_res as $value){
+                $expert_group_data[$value['id']] = $value['group_name'];
+            }
+        }
+
         $config= $this->getCorpInfoConfig();
         $product_form = $config['productForm'];
         $product_type = $config['productType'];
+        $product_user = $config['productUser'];
         $help = $config['help'];
-        if($corp_info){
-            $help_array = explode(',', $corp_info['accept_help']);
-            foreach ($help as $key=>$value){
-                if(array_key_exists($key, array_flip($help_array))){
-                    $help[$key]['show'] = 1;
-                }
+
+        //项目信息
+        $corp_info['signup_resouce'] = $config['signupResouce'][$corp_info['signup_resouce']];
+        $corp_info['contestant_identity'] = $config['contestantIdentity'][$corp_info['contestant_identity']];
+        $accept_help_arr = explode(',',$corp_info['accept_help']);
+        if(!empty($accept_help_arr)){
+            foreach($accept_help_arr as $value){
+                $corp_info_accect_help[] = $help[$value];
             }
+            $corp_info['accect_help'] = implode('、',$corp_info_accect_help);
         }
+
+        //团队信息
         $team_info = $this->projectteam_model->fetch_row($where);
+
+        //项目信息
         $project_info = $this->project_model->fetch_row($where);
-        if ($project_info) {
-            $product_formArray = json_decode($project_info['product_form_val'], true);
-            foreach ($product_form as $key => $value) {
-                if (array_key_exists($key, $product_formArray)) {
-                    $product_form[$key]['text'] = $product_formArray[$key];
-                    $product_form[$key]['show'] = 1;
-                }
+        $product_form_arr = json_decode($project_info['product_form_val'], true);
+
+        if(!empty($product_form_arr)) {
+            foreach ($product_form_arr as $key => $value) {
+                $project_info_product_form_val[]= $product_form[$key];
             }
+            $project_info['product_form_val'] = implode('、',$project_info_product_form_val);
         }
+        $project_info['product_type'] = $product_type[$project_info['product_type']];
+        $project_info['product_user'] = $product_user[$project_info['product_user']];
+
+        //项目照片
         $project_photo = $this->projectphoto_model->fetch_row($where);
-        $assign = array(
-            'corpInfo'=>$corp_info,
-            'help'=>$help,
-            'signupResouce' => $config['signupResouce'],
+        $data = array(
+            'corp_info'=>$corp_info,
             'team_info'=>$team_info,
-            'productType'=>$product_type,
-            'productForm'=>$product_form,
-            'projectInfo'=>!empty($project_info) ? $project_info : '',
-            'projectPhoto'=>!empty($project_photo) ? $project_photo : '',
+            'project_info'=>!empty($project_info) ? $project_info : '',
+            'project_photo'=>!empty($project_photo) ? $project_photo : '',
         );
-        var_dump($assign);
+
+        //评分标准信息
+        $distribute_info = $this->distribute_model->fetch_row($where);
+        $group_id = $distribute_info['group_id'];
+        $group_info = $this->expertgroup_model->fetch_row(array('id'=>$group_id));
+        $score_standard_id = $group_info['score_standard_id'];
+        $score_standard_info = $this->scorestandard_model->fetch_row(array('id'=>$score_standard_id));
+        $standard_info = json_decode($score_standard_info['type'],true);
+
+        //评分结果信息
+        $result_info = $this->distributeresult_model->fetch_row(array('user_id'=>$user_id,'expert_id'=>$this->expert_info['id']));
+        $result_info = json_decode($result_info['result'],true);
+        //var_dump($result_info);die;
+        //var_dump($standard_info);die;
+        //var_dump($data);die;
+        $this->assign('user_id',$user_id);
+        $this->assign('standard_info',$standard_info);
+        $this->assign('result_info',$result_info);
+        $this->assign('data',$data);
+        $this->assign('expert_group_data',$expert_group_data);
+
+        $this->display('declare/index.html');
 
     }
 
     //保存评审信息
     public function doDeclare(){
         $expert_id = $this->expert_info['id'];
-        $expert_group_id = $this->expert_info['group_id'];
-        $expert_name = $this->expert_info['name'];
         $user_id = $this->input->post('user_id');
-        $user_name = $this->input->post('user_name');
-        $project_id = $this->input->post('project_id');
-        $project_name = $this->input->post('project_name');
-        $product_type_score = $this->input->post('product_type_score');
-        $product_type_reason = $this->input->post('product_type_reason');
-        $product_form_score = $this->input->post('product_form_score');
-        $product_form_reason = $this->input->post('product_form_reason');
-        $registered_capital_score = $this->input->post('registered_capital_score');
-        $registered_capital_reason = $this->input->post('registered_capital_reason');
-        $product_user_score = $this->input->post('product_user_score');
-        $product_user_reason = $this->input->post('product_user_reason');
+        $standard = $this->input->post('standard');
+        $score = $this->input->post('score');
+        if(count($standard) != count($score)){
+            $this->ajax_return(array(),'参数错误',1000009);
+        }
         //查询结果表是否存在信息
         $where = array('user_id'=>$user_id,'expert_id'=>$expert_id);
-        $res = $this->result_model->fetch_row($where);
-        if($res){
-            //更新
-            $update_data = array(
-                'product_type_score' => $product_type_score,
-                'product_type_reason' => $product_type_reason,
-                'product_form_score' => $product_form_score,
-                'product_form_reason' => $product_form_reason,
-                'registered_capital_score' => $registered_capital_score,
-                'registered_capital_reason' => $registered_capital_reason,
-                'product_user_score' => $product_user_score,
-                'product_user_reason' => $product_user_reason,
-            );
-            $up_res = $this->result_model->update($update_data,$where);
-            if($up_res){
-                $this->ajax_return(array(),'保存成功');
-            }
-            $this->ajax_return(array(),'保存失败',400001);
-        }
-        $insert_data = array(
-            'user_id' => $user_id,
-            'user_name' => $user_name,
-            'expert_id' => $expert_id,
-            'expert_name' => $expert_name,
-            'project_id' => $project_id,
-            'project_name' => $project_name,
-            'product_type_score' => $product_type_score,
-            'product_type_reason' => $product_type_reason,
-            'product_form_score' => $product_form_score,
-            'product_form_reason' => $product_form_reason,
-            'registered_capital_score' => $registered_capital_score,
-            'registered_capital_reason' => $registered_capital_reason,
-            'product_user_score' => $product_user_score,
-            'product_user_reason' => $product_user_reason,
-            'create_at' => date('Y-m-d H:i:s')
+        //更新
+        $update_data = array(
+            'result' => json_encode(array_combine($standard,$score)),
+            'status' => 2
         );
-        $insert_res = $this->result_model->insert($insert_data);
-        if($insert_res){
-            //更新评审状态
-            $up_data = array('review_status' => 2);
-            $up_where = array('user_id' => $user_id, 'group_id' => $expert_group_id);
-            $up_dis_res = $this->distribute_model->update($up_data,$up_where);
-            if($up_dis_res !== false){
-                $this->ajax_return(array(),'保存成功');
-            }
+        $up_res = $this->distributeresult_model->update($update_data,$where);
+        if($up_res !== false){
+            $this->ajax_return(array(),'保存成功');
         }
-        $this->ajax_return(array(),'保存失败',400002);
+        $this->ajax_return(array(),'保存失败',400001);
     }
 
-    //分配专家组
-    public function distribute(){
-        $user_id = $this->input->post('user_id');
-        $group_id = $this->input->post('group_id');
-
-        if(empty($user_id) || empty($group_id)){
-            $this->ajax_return(array(),'参数错误',300001);
-        }
-
-        $insert_data = array(
-            'user_id' => $user_id,
-            'group_id' => $group_id,
-            'review_status' => 1,
-            'create_at' => date('Y-m-d H:i:s')
+    //一键提交所有评分
+    public function submitDeclare(){
+        $expert_id = $this->expert_info['id'];
+        $group_id = $this->expert_info['group_id'];
+        $where = array(
+            'expert_id' => $expert_id,
+            'status' => 2
         );
-        $res = $this->distribute_model->insert($insert_data);
-        if($res){
-            $this->ajax_return($res,'分配成功!');
-        }else{
-            $this->ajax_return($res,'分配失败!',300002);
+        $update_data = array(
+            'status' => 3
+        );
+        $res = $this->distributeresult_model->update($update_data,$where);
+        if($res !== false){
+            //查询当前专家已提交的项目
+            $cur_sub_res = $this->distributeresult_model->fetch_all(array('expert_id'=>$expert_id,'status'=>3));
+            if(!empty($cur_sub_res)){
+                $flag = true;
+                foreach($cur_sub_res as $value){
+                    $user_id = $value['user_id'];
+                    $all_res = $this->distributeresult_model->fetch_all(array('user_id'=>$user_id));
+                    //查询当前项目对应的所有专家是否都是已提交状态
+                    foreach($all_res as $v1){
+                        if($v1['status'] != 3){
+                            $flag = false;
+                            break;
+                        }
+                    }
+                    if($flag){
+                        $this->distribute_model->update(array('review_status'=>3),array('user_id'=>$user_id));
+                    }
+                }
+            }
+            $this->ajax_return(array(),'提交成功');
         }
+
+        $this->ajax_return(array(),'提交失败',5000001);
+
     }
 }

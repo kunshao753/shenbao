@@ -155,7 +155,7 @@
 						<td class="table-tit table-upload">项目图片</td>
 						<td class="table-img">
                             <!--{if isset($data.project_photo.logo_photo)}-->
-                            <a href="../images/photo.png" target="_blank">
+                            <a href="<!--{$photo_pre_url}--><!--{$data.project_photo.logo_photo}-->" target="_blank">
 								<img src="<!--{$photo_pre_url}--><!--{$data.project_photo.logo_photo}-->">
 							</a>
                             <!--{/if}-->

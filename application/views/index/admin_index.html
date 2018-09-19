@@ -37,14 +37,14 @@
 			<div class="table-bigbtn clearfix">
 				<div class="set-view fl">
 					<span>专家查看本组成员评分 :</span>
-					<input type="radio" id="can" name="expert_view"/>
+					<input type="radio" id="can" value="1" class="settings" name="expert_view" <!--{if $settings eq 1 }-->checked<!--{/if}-->/>
 					<label for="can">可以</label>
-					<input type="radio" id="cannot" name="expert_view"/>
+					<input type="radio" id="cannot" value="0" class="settings" name="expert_view" <!--{if $settings eq 0}-->checked<!--{/if}-->/>
 					<label for="cannot">不可以</label>
-					<a class="table-search" href="#">保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
+					<a class="table-search" href="javascript:void(0)" onclick="save_settings()">保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
 				</div>
 				<div class="btn-right fr">
-					<a class="table-export" href="#">导出项目</a>
+					<a class="table-export" href="/index/expert_admin">导出项目</a>
 					<a class="table-add" href="#">专家评审导出</a>
 				</div>
 			</div>
@@ -96,6 +96,16 @@
             var project_name = $('.project_name').val()
             var review_status = $('.review_status').val()
             window.location.href="/index/getlist?project_name="+project_name+"&review_status="+review_status
+        }
+        function save_settings(){
+            var settings = $(".settings:checked").val()
+            $.post('/index/settings',{'settings':settings},function(data){
+                if(data.code == 0){
+                    alert('设置成功');
+                }else{
+                    alert('设置失败');
+                }
+            })
         }
     </script>
 </body>
