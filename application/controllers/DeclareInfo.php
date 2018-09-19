@@ -162,6 +162,85 @@ class DeclareInfo extends BASE_Controller{
         }
 
         $this->ajax_return(array(),'提交失败',5000001);
+    }
 
+    //评审结果页
+    public function result(){
+        $page = !empty($this->input->get('page')) ? $this->input->get('page') : 1;
+        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 1;
+        $offset = ($page - 1) * $page_size;
+
+        $expert_id = $this->expert_info['id'];
+        $result_info = $this->distributeresult_model->fetch_all(array('expert_id'=>$expert_id,'status'=>3),'','','',$offset,$page_size);
+        if(!empty($result_info)){
+            //var_dump($result_info);
+            foreach($result_info as $key => $value){
+                $result_arr = json_decode($value['result'],true);
+                $result_str = array();
+                foreach($result_arr as $k => $v){
+                    $result_str[] = $k . ':' .$v;
+                }
+                $result_info[$key]['result'] = implode('<br>',$result_str);
+
+                $user_id = $value['user_id'];
+                $all_res = $this->distributeresult_model->fetch_all(array('user_id'=>$user_id));
+                //查询当前项目对应的所有专家是否都是已提交状态
+                //var_dump($all_res);die;
+                $result_other = array();
+                foreach($all_res as $v1){
+                    $result_data = !empty(json_decode($v1['result'],true)) ? array_sum(json_decode($v1['result'],true)) : '' ;
+                    $result_other[] = $v1['expert_name'].':'.$result_data;
+                }
+                $result_info[$key]['result_other'] = implode('<br/>',$result_other);
+            }
+        }
+        $count = $this->distributeresult_model->fetch_count(array('expert_id'=>$expert_id,'status'=>3));
+        $pages_list = $this->dividePage("/declareinfo/result",$page_size,$count);
+
+        $this->assign('offset',$offset);
+        $this->assign('pages_list',$pages_list);
+        $this->assign('result',$result_info);
+        $this->display('declare/result.html');
+
+    }
+
+    //导出评审结果
+    public function exportResult(){
+        $this->load->library('lib_excel');
+
+        $expert_id = $this->expert_info['id'];
+        $result_info = $this->distributeresult_model->fetch_all(array('expert_id'=>$expert_id,'status'=>3),'user_id,project_name,result');
+        if(!empty($result_info)){
+            foreach($result_info as $key => $value){
+                $result_arr = json_decode($value['result'],true);
+                $result_str = array();
+                foreach($result_arr as $k => $v){
+                    $result_str[] = $k . ':' .$v;
+                }
+                $result_info[$key]['result'] = implode('、',$result_str);
+
+                $user_id = $value['user_id'];
+                $all_res = $this->distributeresult_model->fetch_all(array('user_id'=>$user_id));
+                //查询当前项目对应的所有专家是否都是已提交状态
+                //var_dump($all_res);die;
+                $result_other = array();
+                foreach($all_res as $v1){
+                    $result_data = !empty(json_decode($v1['result'],true)) ? array_sum(json_decode($v1['result'],true)) : '' ;
+                    $result_other[] = $v1['expert_name'].': '.$result_data;
+                }
+                $result_info[$key]['result_other'] = implode('、',$result_other);
+            }
+
+            $file_name = 'result_'.date('Y-m-d');
+            $titles = array('项目名称','评分详情','其他专家评分');
+            $this->lib_excel->createRow($titles);
+
+            //var_dump($result_info);die;
+            foreach($result_info as $key => $row) {
+                unset($row['user_id']);
+                $this->lib_excel->createRow($row);
+            }
+            $this->lib_excel->download($file_name);
+        }
     }
 }

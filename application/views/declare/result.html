@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html class="add-bg">
+<head>
+	<meta charset="utf-8">
+	<title>评审结果</title>
+	<link rel="stylesheet" type="text/css" href="/resources/css/style.css">
+	<script type="text/javascript" src="/resources/js/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+	<!-- header start -->
+	<!--{include file='header.html'}-->
+	<!-- header end -->
+	<!-- content start -->
+	<div class="clearfix wrapper">
+		<!--{include file='left.html'}-->
+		<div class="con-right">
+			<h1 class="right-tit">评审结果页</h1>
+			<div class="table-bigbtn clearfix">
+				<a class="table-add fr" href="/declareinfo/exportresult">导&nbsp;&nbsp;&nbsp;&nbsp;出</a>
+			</div>
+			<div class="table-box">
+				<div class="table-con">
+					<table cellpadding="0" cellspacing="0" border="0" class="ex-table">
+						<tr>
+							<th width="10%">序号</th>
+							<th width="20%">姓名名称</th>
+							<th width="30%">评分详情</th>
+							<th width="20%">同组专家评分</th>
+						</tr>
+						<!--{foreach from=$result item=item key=key}-->
+						<tr>
+							<td><!--{math equation="x + y + 1" x=$key y=$offset}--></td>
+							<td><!--{$item.project_name}--></td>
+							<td><!--{$item.result}--></td>
+							<td><!--{$item.result_other}--></td>
+						</tr>
+						<!--{/foreach}-->
+					</table>
+				</div>
+				<!--{$pages_list}-->
+			</div>
+
+		</div>
+	</div>
+	<!-- content end -->
+</body>
+</html>
