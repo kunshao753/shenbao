@@ -260,10 +260,6 @@ class Index extends BASE_Controller{
 
     //解析首页数据
     public function parse_data($data=array()){
-        if(!$this->is_admin){
-            header('location:/Index/getList');
-            exit;
-        }
         $infoConfig = $this->getCorpInfoConfig();
         if(!empty($data)){
             foreach($data as $key => $value){
