@@ -21,7 +21,7 @@ class BASE_Controller extends CI_Controller {
         $path_set = array(
             'login/index',
             'login/verifycode',
-            'login/dologin',
+            'login/doLogin',
         );
         $admin_uid = $this->login_model->get_admin_id();
         $path = $this->router->class . "/" . $this->router->method;
