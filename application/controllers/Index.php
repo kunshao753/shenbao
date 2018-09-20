@@ -7,7 +7,6 @@
 class Index extends BASE_Controller{
     public function __construct(){
         parent::__construct();
-
         $this->load->model('Corp_model','corp_model');
         $this->load->model('Project_model','project_model');
         $this->load->model('Projectphoto_model','projectphoto_model');
@@ -55,10 +54,6 @@ class Index extends BASE_Controller{
 
     //选择专家组页面
     public function choose(){
-        if(!$this->is_admin){
-            header('location:/Index/getList');
-            exit;
-        }
         $user_id = $this->input->get('user_id');
         $where = array('user_id' => $user_id);
         $corp_info = $this->corp_model->fetch_row($where);
@@ -130,10 +125,6 @@ class Index extends BASE_Controller{
 
     //分配专家组
     public function distribute(){
-        if(!$this->is_admin){
-            header('location:/Index/getList');
-            exit;
-        }
         $user_id = $this->input->post('user_id');
         $user_name = $this->input->post('user_name');
         $project_id = $this->input->post('project_id');
@@ -181,10 +172,6 @@ class Index extends BASE_Controller{
 
     //导出管理员维度列表
     public function export_admin(){
-        if(!$this->is_admin){
-            header('location:/Index/getList');
-            exit;
-        }
         $this->load->library('lib_excel');
         $review_status = $this->input->get('review_status');//评审状态
         $project_name = $this->input->get('project_name');
@@ -210,10 +197,6 @@ class Index extends BASE_Controller{
 
     //导出专家维度列表
     public function export_expert(){
-        if(!$this->is_admin){
-            header('location:/Index/getList');
-            exit;
-        }
         $this->load->library('lib_excel');
 
         $file_name = 'project_info_'.date('Y-m-d');
@@ -244,10 +227,6 @@ class Index extends BASE_Controller{
     }
     //设置
     public function settings(){
-        if(!$this->is_admin){
-            header('location:/Index/getList');
-            exit;
-        }
         $settings = $this->input->post('settings');
         if(in_array($settings,array(0,1))){
             $res = $this->settings_model->update(array('value'=>$settings),array('type'=>'permit_show'));
