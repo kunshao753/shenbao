@@ -4,7 +4,8 @@ class ExpertGroup extends BASE_Controller{
     public function __construct(){
         parent::__construct();
         if(!$this->is_admin){
-            return false;
+            header('location:/Index/getList');
+            exit;
         }
         $this->load->model('Expertgroup_model','expertgroup_model');
         $this->load->model('Scorestandard_model','scorestandard_model');

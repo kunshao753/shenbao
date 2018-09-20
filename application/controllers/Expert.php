@@ -4,7 +4,8 @@ class Expert extends BASE_Controller{
     public function __construct(){
         parent::__construct();
         if(!$this->is_admin){
-            return false;
+            header('location:/Index/getList');
+            exit;
         }
         $this->load->helper(array('form', 'url'));
     }
