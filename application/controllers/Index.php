@@ -130,6 +130,9 @@ class Index extends BASE_Controller{
 
     //分配专家组
     public function distribute(){
+        if(!$this->is_admin){
+            $this->ajax_return(array(),'权限错误',300001);
+        }
         $user_id = $this->input->post('user_id');
         $user_name = $this->input->post('user_name');
         $project_id = $this->input->post('project_id');
@@ -177,6 +180,9 @@ class Index extends BASE_Controller{
 
     //导出管理员维度列表
     public function export_admin(){
+        if(!$this->is_admin){
+            return false;
+        }
         $this->load->library('lib_excel');
         $review_status = $this->input->get('review_status');//评审状态
         $project_name = $this->input->get('project_name');
@@ -202,6 +208,9 @@ class Index extends BASE_Controller{
 
     //导出专家维度列表
     public function export_expert(){
+        if(!$this->is_admin){
+            return false;
+        }
         $this->load->library('lib_excel');
 
         $file_name = 'project_info_'.date('Y-m-d');
@@ -232,6 +241,9 @@ class Index extends BASE_Controller{
     }
     //设置
     public function settings(){
+        if(!$this->is_admin){
+            $this->ajax_return(array(),'权限错误',300001);
+        }
         $settings = $this->input->post('settings');
         if(in_array($settings,array(0,1))){
             $res = $this->settings_model->update(array('value'=>$settings),array('type'=>'permit_show'));
@@ -243,7 +255,7 @@ class Index extends BASE_Controller{
     }
 
     //解析首页数据
-    public function parse_data($data=array()){
+    private function parse_data($data=array()){
         $infoConfig = $this->getCorpInfoConfig();
         if(!empty($data)){
             foreach($data as $key => $value){
