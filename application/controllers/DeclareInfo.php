@@ -200,6 +200,7 @@ class DeclareInfo extends BASE_Controller{
         $this->assign('offset',$offset);
         $this->assign('pages_list',$pages_list);
         $this->assign('result',$result_info);
+        $this->assign('p','result');
         $this->display('declare/result.html');
 
     }

@@ -43,6 +43,7 @@ class Index extends BASE_Controller{
         $this->assign('offset',$offset);
         $this->assign('data',$data);
         $this->assign('pages_list',$pages_list);
+        $this->assign('p','index');
 
         if($this->is_admin == 1){
             $this->display('index/admin_index.html');
@@ -116,6 +117,8 @@ class Index extends BASE_Controller{
         //var_dump($data);die;
         $this->assign('data',$data);
         $this->assign('expert_group_data',$expert_group_data);
+        $this->assign('p','score');
+
 
         $this->display('index/choose_group.html');
     }
@@ -236,7 +239,7 @@ class Index extends BASE_Controller{
     }
 
     //导出管理员维度列表
-    public function expert_admin(){
+    public function export_admin(){
         $this->load->library('lib_excel');
         $review_status = $this->input->get('review_status');//评审状态
         $project_name = $this->input->get('project_name');
@@ -260,6 +263,36 @@ class Index extends BASE_Controller{
         $this->lib_excel->download($file_name);
     }
 
+    //导出专家维度列表
+    public function export_expert(){
+        $this->load->library('lib_excel');
+
+        $file_name = 'project_info_'.date('Y-m-d');
+        $titles = array('专家名称','项目名称','评审情况','总分');
+        $this->lib_excel->createRow($titles);
+        $data_res = $this->distribute_result_model->fetch_all('','expert_name,project_name,result','result desc,expert_id');
+
+        if(!empty($data_res)){
+            foreach($data_res as $key => $value){
+                $result = json_decode($value['result'],true);
+                $result_arr = array();
+                $data_res[$key]['score'] = 0;
+                if(!empty($result)){
+                    $data_res[$key]['score'] = array_sum($result);
+                    foreach($result as $k => $v){
+                        $result_arr[] = $k .": ". $v;
+                    }
+                }
+                $data_res[$key]['result'] = implode(' 、',$result_arr);
+            }
+
+            foreach($data_res as $row) {
+                $this->lib_excel->createRow($row);
+            }
+            $this->lib_excel->download($file_name);
+        }
+
+    }
     //设置
     public function settings(){
         $settings = $this->input->post('settings');

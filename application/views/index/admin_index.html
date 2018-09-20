@@ -44,7 +44,7 @@
 					<a class="table-search" href="javascript:void(0)" onclick="save_settings()">保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
 				</div>
 				<div class="btn-right fr">
-					<a class="table-export" href="/index/expert_admin">导出项目</a>
+					<a class="table-export" href="/index/export_admin">导出项目</a>
 					<a class="table-add" href="#">专家评审导出</a>
 				</div>
 			</div>
@@ -52,28 +52,30 @@
 				<div class="table-con">
 					<table cellpadding="0" cellspacing="0" border="0" class="ex-table">
 						<tr>
-							<th>序号</th>
-							<th>项目名称</th>
-							<th>姓名</th>
+							<!--<th>序号</th>-->
+							<th width="15%">项目名称</th>
+							<th>报名来源</th>
+                            <th width="15%">产品类型</th>
+                            <th width="15%">产品形态</th>
 							<th>参赛身份</th>
-							<th>企业名称</th>
-							<th>产品类型</th>
-							<th>产品形态</th>
-							<th>手机号</th>
+                            <!--<th>姓名</th>-->
+                            <!--<th>企业名称</th>-->
+							<!--<th>手机号</th>-->
 							<th>评审状态</th>
 							<th>评审情况</th>
 							<th>操作</th>
 						</tr>
                         <!--{foreach from=$data item=item key=key}-->
                         <tr>
-                            <td><!--{math equation="x + y + 1" x=$key y=$offset}--></td>
+                            <!--<td>&lt;!&ndash;{math equation="x + y + 1" x=$key y=$offset}&ndash;&gt;</td>-->
 							<td><!--{$item.project_name}--></td>
-							<td><!--{$item.name}--></td>
-							<td><!--{$item.contestant_identity}--></td>
-							<td><!--{$item.company_name}--></td>
-							<td><!--{$item.product_type}--></td>
-							<td><!--{$item.product_form_val}--></td>
-							<td><!--{$item.mobile}--></td>
+							<td><!--{$item.signup_resouce}--></td>
+                            <td><!--{$item.product_type}--></td>
+                            <td><!--{$item.product_form_val}--></td>
+                            <td><!--{$item.contestant_identity}--></td>
+                            <!--<td>&lt;!&ndash;{$item.name}&ndash;&gt;</td>-->
+							<!--<td>&lt;!&ndash;{$item.company_name}&ndash;&gt;</td>-->
+							<!--<td>&lt;!&ndash;{$item.mobile}&ndash;&gt;</td>-->
 							<td><!--{$item.review_status}--></td>
                             <td><!--{$item.result}--></td>
 							<td class="table-btn">

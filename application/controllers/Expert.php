@@ -45,6 +45,7 @@ class Expert extends BASE_Controller{
         $this->assign('pages_list',$pages_list);
 
         $this->assign('name',$name);
+        $this->assign('p','expert');
 
         $this->display('expert/list.html');
     }
@@ -58,6 +59,8 @@ class Expert extends BASE_Controller{
             }
         }
         $this->assign('expert_group_data',$expert_group_data);
+        $this->assign('p','expert');
+
         $this->display('expert/add.html');
     }
 
@@ -76,6 +79,8 @@ class Expert extends BASE_Controller{
         }
         $this->assign('expert_group_data',$expert_group_data);
         $this->assign('expert_info',$expert_info);
+        $this->assign('p','expert');
+
         $this->display('expert/edit.html');
     }
 

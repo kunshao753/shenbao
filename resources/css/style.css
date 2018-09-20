@@ -16,6 +16,7 @@ i,em{font-style: normal;}
     background: linear-gradient(#8a95b1,#7d86a0);}
 .header-bg h1{color: #fff;font-size: 30px;letter-spacing: 1px;text-align: center;}
 .header-bg .wrapper h1{margin-left: 208px;font-size: 26px;}
+.head-right{margin-right: 8px;}
 .head-right span{font-size: 18px;color: #fff;margin-right: 25px;}
 .btn-gray{width: 126px;height: 36px;line-height: 36px;color: #fff;font-size: 18px;text-align: center;display: inline-block;
 background: -webkit-linear-gradient(#d2d2d2,#a7a7a7);
@@ -66,6 +67,9 @@ background: -webkit-linear-gradient(#d2d2d2,#a7a7a7);
 .input-box textarea{height:60px;overflow-x:hidden;width:400px;}
 .score-copy{border-top: 1px solid #8a95b1;}
 .score-copy:first-of-type{border: none;}
+.score-copy:first-of-type .remove-score{display: none;}
+.add-remove .add-score{display: none}
+.score-copy:last-of-type .add-score{display: inline-block;}
 .span-error{color: red;font-size: 14px;display:inline-block;vertical-align:top;}
 .autograph img{vertical-align: middle;max-width: 300px;margin-right: 20px;}
 .upload-btn{position: relative;display: inline-block;width: 73px;height: 22px;line-height: 22px;text-align: center;color: #fff; border-radius: 3px;background: #b8c1dc;font-size: 14px;cursor: pointer;}
@@ -91,7 +95,7 @@ background: linear-gradient(#d2d2d2,#a7a7a7);}
 .table-con{min-height: 380px;}
 .ex-table{width: 100%;margin-top: 20px;}
 .ex-table td{color: #74a2c2;line-height: 20px; padding: 5px 10px;height: 50px; border-bottom: 1px solid #f7f7f7;text-align: center;}
-.table-btn{width: 214px;}
+/*.table-btn{width: 214px;}*/
 .table-btn a{display: inline-block;min-width: 73px; line-height: 22px;border-radius: 3px;color: #fff;margin: 0 5px;cursor: pointer;text-align: center;}
 .table-modify{background: #b8c1dc;}
 .table-cancel{background: #d4d4d4;}
@@ -111,7 +115,7 @@ background: linear-gradient(#d2d2d2,#a7a7a7);}
 .search-icon{position: absolute;width: 17px;height: 17px;background: url("../images/search.png") no-repeat;left: 14px;top: 10px;}
 .table-search{background: #69bab3;margin-left: 10px;}
 .table-bigbtn a.table-sub{height: 36px;line-height: 18px;font-size: 14px;}
-.search-list{height: 36px;width: 160px;padding: 0 10px;}
+.search-list{height: 36px;width: 160px;padding: 0; padding-left: 10px; border-radius: 2px;}
 .set-view input{width: 16px;height: 16px;}
 .search-select{margin-right: 20px;}
 .table-export{background: #9ea8c6;}

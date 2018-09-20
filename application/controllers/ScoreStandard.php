@@ -48,11 +48,13 @@ class ScoreStandard extends BASE_Controller{
         $this->assign('offset',$offset);
         $this->assign('data',$standard_info);
         $this->assign('pages_list',$pages_list);
+        $this->assign('p','score');
 
         $this->display('standard/list.html');
     }
 
     public function add(){
+        $this->assign('p','score');
         $this->display('standard/add.html');
     }
 
@@ -67,6 +69,8 @@ class ScoreStandard extends BASE_Controller{
         $score_standard_info['type'] = json_decode($score_standard_info['type'],true);
 
         $this->assign('score_standard_info',$score_standard_info);
+        $this->assign('p','score');
+
         $this->display('standard/edit.html');
     }
 

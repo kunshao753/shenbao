@@ -15,6 +15,8 @@ class ExpertGroup extends BASE_Controller{
             $standard_data[$value['id']] = $value['name'];
         }
         $this->assign('standard_data',$standard_data);
+        $this->assign('p','group');
+
         $this->display('group/add.html');
     }
 
@@ -33,6 +35,8 @@ class ExpertGroup extends BASE_Controller{
         }
         $this->assign('standard_data',$standard_data);
         $this->assign('expert_group_info',$expert_group_info);
+        $this->assign('p','group');
+
         $this->display('group/edit.html');
     }
     //获取专家组列表
@@ -92,6 +96,7 @@ class ExpertGroup extends BASE_Controller{
         $this->assign('data',$expert_group_info);
         $this->assign('pages_list',$pages_list);
         $this->assign('group_name',$group_name);
+        $this->assign('p','group');
 
         $this->display('group/list.html');
     }

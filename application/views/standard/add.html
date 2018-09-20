@@ -39,11 +39,12 @@
 							<input type="text" name="highest[1]" placeholder="请输入最高分值" class="score-highest">
 							<span class="span-error tip-highest"></span>
 						</p>
-					</div>			
-					<p class="add-remove">
-						<input type="button" value="添加一组评分项" name="" class="add-score">
-						<input type="button" value="移除一组评分项" name="" class="remove-score">
-					</p>
+                        <p class="add-remove">
+                            <input type="button" value="添加一组评分项" name="" class="add-score">
+                            <input type="button" value="移除此组评分项" name="" class="remove-score">
+                        </p>
+
+					</div>
 				</div>
 				<div class="score-btn">					
 					<p>
@@ -90,26 +91,29 @@
 				if(validate.errorNo>0){
 					$(this).siblings(".tip-highest").text(validate.message);
 				}else{
-					$(this).siblings(".tip-highest").text('');
+                    if(parseInt(value)>100){
+                        $(this).siblings(".tip-highest").text('最高分不能超过100');
+                    }else {
+                        $(this).siblings(".tip-highest").text('');
+                    }
 				}
 			});
-			$(".add-score").on("click",function(){
+            $(".score").on("click",".add-score",function(){
 				var $newDom=$(".score-copy").eq(0).clone();
 				var length=$(".score-copy").length;
 				var standard='standard['+(length+1)+']';
 				var reason='reason['+(length+1)+']';
-				var highest='highest['+(length+1)+']';				
-				console.log($newDom);
+				var highest='highest['+(length+1)+']';
 				$newDom.find(".score-standard,.score-reason,.score-highest").val('');
 				$newDom.find(".score-standard").attr("name",standard);
 				$newDom.find(".score-reason").attr("name",reason);
 				$newDom.find(".score-highest").attr("name",highest);
 				$newDom.find(".span-error").text('');
-				$(".add-remove").before($newDom);
+				$(".score").append($newDom);
 			});
-			$(".remove-score").on("click",function(){
+            $(".score").on("click",".remove-score",function(){
 				if($(".score-copy").length>1){
-					$(".score-copy:last").remove();
+					$(this).parents(".score-copy").remove();
 				}				
 			});
 			
@@ -163,9 +167,15 @@
 						flag4 = false;
 						$(this).siblings(".tip-highest").text(validate4.message);
 					}else{
-						flag4 = true;
-						$(this).siblings(".tip-highest").text('');
-						score_highest.push(s_highest)
+                        if(parseInt(s_highest)>100){
+                            flag4 = false;
+                            $(this).siblings(".tip-highest").text('最高分不能超过100');
+                        }else {
+                            flag4 = true;
+                            $(this).siblings(".tip-highest").text('');
+                            score_highest.push(s_highest)
+                        }
+
 					}
 				})
 
