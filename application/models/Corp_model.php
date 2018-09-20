@@ -58,7 +58,7 @@ class Corp_model extends BASE_Model{
             }
             $fields .= ',d.review_status';
         }else{
-            $where = "where expert_id={$expert_info['id']}";
+            $where = "where expert_id={$expert_info['id']} and status != 3";
             $table_join = 'distribute_result';
             if(!empty($review_status)){
                 $where .= " and d.status={$review_status}";
