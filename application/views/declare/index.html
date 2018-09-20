@@ -316,7 +316,7 @@
 						<td>
 							<input type="hidden" value="<!--{$item.standard}-->" class="input-id">
 							<!--<input type="text" value="&lt;!&ndash;{if $result_info[$item.standard]}&ndash;&gt;$result_info[$item.standard]&lt;!&ndash;{else}&ndash;&gt;请填写分数&lt;!&ndash;{/if}&ndash;&gt;" class="input-score">-->
-							<input type="text" value="<!--{$result_info[$item.standard]}-->" class="input-score">
+							<input type="text" value="<!--{if $result_info[$item.standard]}--><!--{else}-->请填写分数<!--{/if}-->" class="input-score">
 							<span class="span-error tip-score"></span>
 						</td>
 					</tr>
