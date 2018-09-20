@@ -45,7 +45,7 @@
 				</div>
 				<div class="btn-right fr">
 					<a class="table-export" href="/index/export_admin">导出项目</a>
-					<a class="table-add" href="#">专家评审导出</a>
+					<a class="table-add" href="/index/export_expert">专家评审导出</a>
 				</div>
 			</div>
 			<div class="table-box">
@@ -97,7 +97,7 @@
         function search_crop(){
             var project_name = $('.project_name').val()
             var review_status = $('.review_status').val()
-            window.location.href="/index/getlist?project_name="+project_name+"&review_status="+review_status
+            window.location.href="/Index/getList?project_name="+project_name+"&review_status="+review_status
         }
         function save_settings(){
             var settings = $(".settings:checked").val()

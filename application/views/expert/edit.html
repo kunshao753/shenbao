@@ -174,7 +174,7 @@
 					$.post(url,{'id':ex_id,'name':ex_name,'account':ex_login,'password':ex_pwd,'group_id':ex_group,'sign_pic':ex_pic},function(data){
 						if(data.code == 0){
 							alert('保存成功');
-							window.location.href="/expert/getlist"
+							window.location.href="/expert/getList"
 						}else{
 							alert(data.msg + ",错误码:" + data.code);
 						}
@@ -182,7 +182,7 @@
 				}
 			});
 			$(".btn-cancel").on("click",function(){
-				window.location.href="/expert/getlist"
+				window.location.href="/expert/getList"
 			})
 		})
 	</script>

@@ -72,11 +72,11 @@
 					var eg_score=$(".eg-score").val();
 					resEgname();
 					if(flag1){
-						var url='/ExpertGroup/editExpertGroup';
+						var url='/expertGroup/editExpertGroup';
 						$.post(url,{'id':eg_id,'group_name':eg_name,'score_standard_id':eg_score},function(data){
 							if(data.code == 0){
 								alert('保存成功');
-								window.location.href="/expertgroup/getlist"
+								window.location.href="/expertGroup/getList"
 							}else{
 								alert(data.msg + ",错误码:" + data.code);
 							}
@@ -85,7 +85,7 @@
 				}
 			});
 			$(".btn-cancel").on("click",function(){
-				window.location.href="/expertgroup/getlist"
+				window.location.href="/expertGroup/getList"
 			})
 
 		})

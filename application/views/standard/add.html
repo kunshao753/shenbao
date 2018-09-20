@@ -180,11 +180,11 @@
 				})
 
 				if(flag1 && flag2 && flag3 && flag4){
-					var url = '/scorestandard/addscorestandard';
+					var url = '/ScoreStandard/addScoreStandard';
 					$.post(url,{'name':s_name,'standard':score_standard,'reason':score_score,'max_score':score_highest},function(data){
 						if(data.code == 0){
 							alert("添加成功");
-                            window.location.href="/scorestandard/getlist"
+                            window.location.href="/ScoreStandard/getList"
                         }else{
 							alert(data.msg + ",错误码:" + data.code);
 						}
@@ -193,7 +193,7 @@
 				return false;
 			});
 			$(".btn-cancel").on("click",function(){
-				window.location.href="/scorestandard/getlist"
+				window.location.href="/ScoreStandard/getList"
 			})
 
 		})

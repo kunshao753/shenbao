@@ -44,7 +44,7 @@ class ScoreStandard extends BASE_Controller{
             }
         }
 
-        $pages_list = $this->dividePage('/scorestandard/getlist',$page_size,$count);
+        $pages_list = $this->dividePage('/ScoreStandard/getList',$page_size,$count);
         $this->assign('offset',$offset);
         $this->assign('data',$standard_info);
         $this->assign('pages_list',$pages_list);

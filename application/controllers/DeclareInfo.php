@@ -195,7 +195,7 @@ class DeclareInfo extends BASE_Controller{
             }
         }
         $count = $this->distributeresult_model->fetch_count(array('expert_id'=>$expert_id,'status'=>3));
-        $pages_list = $this->dividePage("/declareinfo/result",$page_size,$count);
+        $pages_list = $this->dividePage("/DeclareInfo/result",$page_size,$count);
 
         $this->assign('offset',$offset);
         $this->assign('pages_list',$pages_list);

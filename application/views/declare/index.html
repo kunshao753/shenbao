@@ -326,7 +326,7 @@
 			<div class="score-btn">
 				<p>
 					<a href="javascript:void(0)" class="btn-save review-save">保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
-					<a href="/index/getlist" class="btn-cancel">返&nbsp;&nbsp;&nbsp;&nbsp;回</a>
+					<a href="/Index/getList" class="btn-cancel">返&nbsp;&nbsp;&nbsp;&nbsp;回</a>
 				</p>
 			</div>
 		</div>
@@ -374,10 +374,10 @@
                    standard.push($(this).siblings(".input-id").val());
                    score.push(checkScore(this));
                 })
-                $.post('/declareinfo/dodeclare',{'user_id':user_id,'standard':standard,'score':score},function(data){
+                $.post('/DeclareInfo/doDeclare',{'user_id':user_id,'standard':standard,'score':score},function(data){
                     if(data.code == 0){
                         alert('保存成功');
-                        window.location.href='/index/getlist'
+                        window.location.href='/Index/getList'
                     }else{
                         alert('保存失败')
                     }

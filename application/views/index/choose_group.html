@@ -166,7 +166,7 @@
 			<div class="score-btn">
 				<p>
 					<a href="javascript:void(0)" class="btn-save ch-save">保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
-					<a href="/index/getlist" class="btn-cancel">返&nbsp;&nbsp;&nbsp;&nbsp;回</a>
+					<a href="/Index/getList" class="btn-cancel">返&nbsp;&nbsp;&nbsp;&nbsp;回</a>
 				</p>
 			</div>
 		</div>
@@ -196,7 +196,7 @@
                     $.post('/index/distribute',{'user_id':user_id,'user_name':user_name,'project_id':project_id,'project_name':project_name,'group_id':choose_val},function(data){
                         if(data.code == 0){
                             alert('保存成功');
-                            window.location.href = '/index/getlist';
+                            window.location.href = '/Index/getList';
                         }else{
                             alert(data.msg)
                         }

@@ -9,7 +9,7 @@ class Login extends BASE_Controller{
 
     public function index(){
         if ($this->expert_info) {
-            header('location:/index/getlist');
+            header('location:/Index/getList');
             exit;
         }
         $this->display('login/login.html');
@@ -23,7 +23,7 @@ class Login extends BASE_Controller{
     //登陆方法
     public function doLogin(){
         if ($this->expert_info) {
-            redirect('/index/getlist');
+            redirect('/Index/getList');
         }
 
         if ($this->input->post()) {

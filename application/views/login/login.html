@@ -105,10 +105,10 @@
 				resExpwd();
 				resExcode();
 				if(flag1 && flag2 && flag3){
-					var loginUrl="/login/dologin"
+					var loginUrl="/login/doLogin"
 					$.post(loginUrl,{'account':ex_login,'password':ex_pwd,'code':ex_code},function(data){
 						if(data.code == 0) {
-							window.location.href = '/index/getlist'
+							window.location.href = '/Index/getList'
 						}else{
 							checkCode()
 							alert(data.msg);

@@ -37,7 +37,7 @@ class Index extends BASE_Controller{
 
         //var_dump($count);
         //var_dump($data);die;
-        $pages_list = $this->dividePage('/index/getlist?project_name='.$project_name.'&review_status='.$review_status,$page_size,$count);
+        $pages_list = $this->dividePage('/Index/getList?project_name='.$project_name.'&review_status='.$review_status,$page_size,$count);
         $this->assign('review_status',$review_status);
         $this->assign('project_name',$project_name);
         $this->assign('offset',$offset);

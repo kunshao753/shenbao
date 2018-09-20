@@ -91,7 +91,7 @@ class ExpertGroup extends BASE_Controller{
         //var_dump($count);
         //var_dump($expert_group_info);
 
-        $pages_list = $this->dividePage('/expertgroup/getlist?group_name='.$group_name,$page_size,$count);
+        $pages_list = $this->dividePage('/expertGroup/getList?group_name='.$group_name,$page_size,$count);
         $this->assign('offset',$offset);
         $this->assign('data',$expert_group_info);
         $this->assign('pages_list',$pages_list);

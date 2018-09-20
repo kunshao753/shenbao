@@ -39,7 +39,7 @@ class Expert extends BASE_Controller{
         }
         //var_dump($expert_info);
         //var_dump($count);
-        $pages_list = $this->dividePage('/expert/getlist?name='.$name,$page_size,$count);
+        $pages_list = $this->dividePage('/expert/getList?name='.$name,$page_size,$count);
         $this->assign('offset',$offset);
         $this->assign('data',$expert_info);
         $this->assign('pages_list',$pages_list);

@@ -34,7 +34,7 @@
 						<i class="search-icon"></i>
 					</div>
 					<a class="table-search" href="javascript:void(0)" onclick="search_crop()">搜&nbsp;&nbsp;&nbsp;&nbsp;索</a>
-					<a class="table-export" href="/declareinfo/result">审核结果页</a>
+					<a class="table-export" href="/DeclareInfo/result">审核结果页</a>
 					<a class="table-sub" href="javascript:void(0)" onclick="submit_declare()">一键提交<br>所有评分</a>
 				</div>
 			</div>
@@ -70,7 +70,7 @@
 							<!--<td>&lt;!&ndash;{$item.mobile}&ndash;&gt;</td>-->
 							<!--{if $settings}--><td><!--{$item.result}--></td><!--{/if}-->
 							<td class="table-btn">
-								<a href="/declareinfo/getinfo?user_id=<!--{$item.user_id}-->" class="table-modify">评审详情</a>
+								<a href="/DeclareInfo/getInfo?user_id=<!--{$item.user_id}-->" class="table-modify">评审详情</a>
 							</td>
 						</tr>
 						<!--{/foreach}-->
@@ -86,10 +86,10 @@
 		function search_crop(){
 			var project_name = $('.project_name').val()
 			var review_status = $('.review_status').val()
-			window.location.href="/index/getlist?project_name="+project_name+"&review_status="+review_status
+			window.location.href="/Index/getList?project_name="+project_name+"&review_status="+review_status
 		}
 		function submit_declare(){
-			$.post('/declareinfo/submitdeclare',{},function(data){
+			$.post('/DeclareInfo/submitDeclare',{},function(data){
 				if(data.code == 0){
 					alert('提交成功');
 					window.location.reload();

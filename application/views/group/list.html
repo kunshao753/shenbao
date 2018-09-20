@@ -24,7 +24,7 @@
 					</div>
 					<a class="table-search" href="javascript:void(0)" onclick="search_group()">搜&nbsp;&nbsp;&nbsp;&nbsp;索</a>
 				</div>
-				<a class="table-add fr" href="/expertgroup/add">新&nbsp;&nbsp;&nbsp;&nbsp;增</a>
+				<a class="table-add fr" href="/expertGroup/add">新&nbsp;&nbsp;&nbsp;&nbsp;增</a>
 			</div>
 			<div class="table-box">
 				<div class="table-con">
@@ -43,7 +43,7 @@
 							<td><!--{$item.expert_info}--></td>
 							<td><!--{$item.standard_info}--></td>
 							<td class="table-btn">
-								<a href="/expertgroup/edit?id=<!--{$item.id}-->" class="table-modify">修改</a>
+								<a href="/expertGroup/edit?id=<!--{$item.id}-->" class="table-modify">修改</a>
 								<a href="javascript:void(0)" data-id="<!--{$item.id}-->" class="table-cancel">删除</a>
 							</td>
 						</tr>
@@ -59,7 +59,7 @@
 	<script>
 		function search_group(){
 			var group_name = $('.group_name').val()
-			window.location.href="/expertgroup/getlist?group_name="+group_name
+			window.location.href="/expertGroup/getList?group_name="+group_name
 		}
 		$(function(){
 			$(".table-cancel").on("click",function(){
@@ -68,7 +68,7 @@
 					$.post('delExpertGroup',{id:id},function(data){
 						if(data.code == 0){
 							alert('删除成功');
-							window.location.href='/expertgroup/getlist'
+							window.location.href='/expertGroup/getList'
 						}else{
 							alert(data.msg);
 						}
