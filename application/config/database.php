@@ -72,13 +72,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $active_group = 'default_r';
 $query_builder = TRUE;
-
 $db['default_r'] = array(
-	'dsn'	=> 'mysql:host=127.0.0.1;dbname=popular_science_competition',
-	'hostname' => '127.0.0.1',
-	'username' => 'root',
-	'password' => '111111',
-	'database' => 'popular_science_competition',
+	'dsn'	=> "mysql:host={$_SERVER['MYSQL_HOST_R']};dbname={$_SERVER['MYSQL_DBNAME_R']};port={$_SERVER['MYSQL_PORT_R']}",
+	'hostname' => "{$_SERVER['MYSQL_HOST_R']}",
+	'username' => "{$_SERVER['MYSQL_USER_R']}",
+	'password' => "{$_SERVER['MYSQL_PASSWORD_R']}",
+	'database' => "{$_SERVER['MYSQL_DBNAME_R']}",
+	'port'     => "{$_SERVER['MYSQL_PORT_R']}",
 	'dbdriver' => 'pdo',
 	'dbprefix' => '',
 	'pconnect' => FALSE,
@@ -96,11 +96,12 @@ $db['default_r'] = array(
 );
 
 $db['default_w'] = array(
-		'dsn'	=> 'mysql:host=127.0.0.1;dbname=popular_science_competition',
-		'hostname' => '127.0.0.1',
-		'username' => 'root',
-		'password' => '111111',
-		'database' => 'popular_science_competition',
+		'dsn'	=> "mysql:host={$_SERVER['MYSQL_HOST']};dbname={$_SERVER['MYSQL_DBNAME']};port={$_SERVER['MYSQL_PORT']}",
+		'hostname' => "{$_SERVER['MYSQL_HOST']}",
+		'username' => "{$_SERVER['MYSQL_USER']}",
+		'password' => "{$_SERVER['MYSQL_PASSWORD']}",
+		'database' => "{$_SERVER['MYSQL_DBNAME']}",
+		'port'     => "{$_SERVER['MYSQL_PORT']}",
 		'dbdriver' => 'pdo',
 		'dbprefix' => '',
 		'pconnect' => FALSE,
