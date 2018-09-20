@@ -190,9 +190,9 @@
 				}else {
                     $('.tip-choose-eg').text('');
                     var user_id = <!--{$data.corp_info.user_id}-->;
-                    var user_name = '<!--{$data.corp_info.name}-->';
+                    var user_name = '<!--{$data.corp_info.name|escape:"quotes"}-->';
                     var project_id = <!--{$data.project_info.id}-->;
-                    var project_name = '<!--{$data.project_info.project_name}-->';
+                    var project_name = '<!--{$data.project_info.project_name|escape:"quotes"}-->';
                     $.post('/index/distribute',{'user_id':user_id,'user_name':user_name,'project_id':project_id,'project_name':project_name,'group_id':choose_val},function(data){
                         if(data.code == 0){
                             alert('保存成功');
