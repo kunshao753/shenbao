@@ -8,7 +8,7 @@ class Index extends BASE_Controller{
     public function __construct(){
         parent::__construct();
 
-        if(!$this->is_admin){
+        if($this->router->method !== 'getList' && !$this->is_admin){
             header('location:/Index/getList');
             exit;
         }
