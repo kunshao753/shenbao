@@ -7,6 +7,7 @@
 class Index extends BASE_Controller{
     public function __construct(){
         parent::__construct();
+
         $this->load->model('Corp_model','corp_model');
         $this->load->model('Project_model','project_model');
         $this->load->model('Projectphoto_model','projectphoto_model');
@@ -54,6 +55,10 @@ class Index extends BASE_Controller{
 
     //选择专家组页面
     public function choose(){
+        if(!$this->is_admin){
+            header('location:/Index/getList');
+            exit;
+        }
         $user_id = $this->input->get('user_id');
         $where = array('user_id' => $user_id);
         $corp_info = $this->corp_model->fetch_row($where);
