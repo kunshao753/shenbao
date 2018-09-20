@@ -17,7 +17,7 @@ class Expert extends BASE_Controller{
             $condition[] = "name like '%{$name}%'";
         }
         $condition[] = "is_delete=0";
-        $condition[] = "permission != 3";
+        $condition[] = "permission != 1";
 
         $where = implode(" and ",$condition);
         $offset = ($page - 1) * $page_size;
