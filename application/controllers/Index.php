@@ -7,6 +7,11 @@
 class Index extends BASE_Controller{
     public function __construct(){
         parent::__construct();
+
+        if($this->router->method !== 'getList' && !$this->is_admin){
+            return false;
+        }
+
         $this->load->model('Corp_model','corp_model');
         $this->load->model('Project_model','project_model');
         $this->load->model('Projectphoto_model','projectphoto_model');
@@ -168,74 +173,6 @@ class Index extends BASE_Controller{
         }else{
             $this->ajax_return($res,'分配失败!',300002);
         }
-    }
-
-    //保存评审信息
-    public function saveResult(){
-        $expert_id = $this->expert_info['id'];
-        $expert_group_id = $this->expert_info['group_id'];
-        $expert_name = $this->expert_info['name'];
-        $user_id = $this->input->post('user_id');
-        $user_name = $this->input->post('user_name');
-        $project_id = $this->input->post('project_id');
-        $project_name = $this->input->post('project_name');
-        $product_type_score = $this->input->post('product_type_score');
-        $product_type_reason = $this->input->post('product_type_reason');
-        $product_form_score = $this->input->post('product_form_score');
-        $product_form_reason = $this->input->post('product_form_reason');
-        $registered_capital_score = $this->input->post('registered_capital_score');
-        $registered_capital_reason = $this->input->post('registered_capital_reason');
-        $product_user_score = $this->input->post('product_user_score');
-        $product_user_reason = $this->input->post('product_user_reason');
-        //查询结果表是否存在信息
-        $where = array('user_id'=>$user_id,'expert_id'=>$expert_id);
-        $res = $this->distribute_result_model->fetch_row($where);
-        if($res){
-            //更新
-            $update_data = array(
-                'product_type_score' => $product_type_score,
-                'product_type_reason' => $product_type_reason,
-                'product_form_score' => $product_form_score,
-                'product_form_reason' => $product_form_reason,
-                'registered_capital_score' => $registered_capital_score,
-                'registered_capital_reason' => $registered_capital_reason,
-                'product_user_score' => $product_user_score,
-                'product_user_reason' => $product_user_reason,
-            );
-            $up_res = $this->distribute_result_model->update($update_data,$where);
-            if($up_res !== false){
-                $this->ajax_return(array(),'保存成功');
-            }
-            $this->ajax_return(array(),'保存失败',400001);
-        }
-        $insert_data = array(
-            'user_id' => $user_id,
-            'user_name' => $user_name,
-            'expert_id' => $expert_id,
-            'expert_name' => $expert_name,
-            'project_id' => $project_id,
-            'project_name' => $project_name,
-            'product_type_score' => $product_type_score,
-            'product_type_reason' => $product_type_reason,
-            'product_form_score' => $product_form_score,
-            'product_form_reason' => $product_form_reason,
-            'registered_capital_score' => $registered_capital_score,
-            'registered_capital_reason' => $registered_capital_reason,
-            'product_user_score' => $product_user_score,
-            'product_user_reason' => $product_user_reason,
-            'create_at' => date('Y-m-d H:i:s')
-        );
-        $insert_res = $this->distribute_result_model->insert($insert_data);
-        if($insert_res){
-            //更新评审状态
-            $up_data = array('review_status' => 2);
-            $up_where = array('user_id' => $user_id, 'group_id' => $expert_group_id);
-            $up_dis_res = $this->distribute_model->update($up_data,$up_where);
-            if($up_dis_res !== false){
-                $this->ajax_return(array(),'保存成功');
-            }
-        }
-        $this->ajax_return(array(),'保存失败',400002);
     }
 
     //导出管理员维度列表

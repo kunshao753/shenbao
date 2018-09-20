@@ -2,6 +2,9 @@
 class ScoreStandard extends BASE_Controller{
     public function __construct(){
         parent::__construct();
+        if(!$this->is_admin){
+            return false;
+        }
         $this->load->model('Scorestandard_model','scorestandard_model');
     }
 
