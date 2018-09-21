@@ -15,7 +15,7 @@ class Expert extends BASE_Controller{
         $condition = array();
         $name = $this->input->get('name');
         $page = !empty($this->input->get('page')) ? $this->input->get('page') : 1;
-        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') :3;
+        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 10;
 
         if(!empty($name)){
             $condition[] = "name like '%{$name}%'";

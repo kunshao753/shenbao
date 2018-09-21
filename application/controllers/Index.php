@@ -22,7 +22,7 @@ class Index extends BASE_Controller{
         $review_status = $this->input->get('review_status');//评审状态
         $project_name = $this->input->get('project_name');
         $page = !empty($this->input->get('page')) ? $this->input->get('page') : 1;
-        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') :5;
+        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 10;
         $offset = ($page - 1) * $page_size;
 
         if($this->is_admin){//管理员
@@ -196,6 +196,7 @@ class Index extends BASE_Controller{
                 unset($data[$key]['id']);
                 unset($data[$key]['user_id']);
                 unset($data[$key]['audit_status']);
+                unset($data[$key]['status']);
             }
         }
         //var_dump($data);die;

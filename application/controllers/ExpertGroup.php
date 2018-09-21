@@ -49,7 +49,7 @@ class ExpertGroup extends BASE_Controller{
         $condition = array();
         $group_name = $this->input->get('group_name');
         $page = !empty($this->input->get('page')) ? $this->input->get('page') : 1;
-        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 20;;
+        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 10;
 
         if(!empty($group_name)){
             $condition[] = "group_name like '%{$group_name}%'";

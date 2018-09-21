@@ -11,7 +11,7 @@ class ScoreStandard extends BASE_Controller{
 
     public function getList(){
         $page = !empty($this->input->get('page')) ? $this->input->get('page') : 1;
-        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 5;
+        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 10;
         $where = 'is_delete=0';
         $offset = ($page - 1) * $page_size;
         $standard_info = $this->scorestandard_model->fetch_all($where,'','id desc','',$offset,$page_size);

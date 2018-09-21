@@ -167,7 +167,7 @@ class DeclareInfo extends BASE_Controller{
     //评审结果页
     public function result(){
         $page = !empty($this->input->get('page')) ? $this->input->get('page') : 1;
-        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 1;
+        $page_size = !empty($this->input->get('page_size')) ? $this->input->get('page_size') : 10;
         $offset = ($page - 1) * $page_size;
 
         $expert_id = $this->expert_info['id'];
