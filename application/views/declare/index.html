@@ -352,9 +352,11 @@
 				var validate=window.validateSetting.regReviewScore(score_value);
 				if(validate.errorNo>0){
 					$(_this).siblings("span").text(validate.message)
+					return false
 				}else {
 					if(this_score>max_score){
 						$(_this).siblings("span").text('您的评分不能大于最高分')
+						return false
 					}else {
 						$(_this).siblings("span").text('');
 						flag=true;
@@ -375,7 +377,12 @@
                 var score=[];
                 $(".input-score").each(function () {
                    standard.push($(this).siblings(".input-id").val());
-                   score.push(checkScore(this));
+					if(checkScore(this)){
+						score.push(checkScore(this));
+					}else{
+						flag = false
+						return false
+					}
                 })
 				if(flag){
 					$.post('/DeclareInfo/doDeclare',{'user_id':user_id,'standard':standard,'score':score},function(data){

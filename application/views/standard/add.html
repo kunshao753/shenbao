@@ -141,6 +141,7 @@
 					if(validate2.errorNo>0){
 						flag2 = false;
 						$(this).siblings(".tip-standard").text(validate2.message);
+						return false;
 					}else{
 						flag2 = true;
 						$(this).siblings(".tip-standard").text('');
@@ -154,6 +155,7 @@
 					if(validate3.errorNo>0){
 						flag3 = false;
 						$(this).siblings(".tip-reason").text(validate3.message);
+						return false;
 					}else{
 						flag3 = true;
 						$(this).siblings(".tip-reason").text('');
@@ -166,11 +168,13 @@
 					if(validate4.errorNo>0){
 						flag4 = false;
 						$(this).siblings(".tip-highest").text(validate4.message);
+						return false;
 					}else{
                         if(parseInt(s_highest)>100){
                             flag4 = false;
                             $(this).siblings(".tip-highest").text('最高分不能超过100');
-                        }else {
+							return false;
+						}else {
                             flag4 = true;
                             $(this).siblings(".tip-highest").text('');
                             score_highest.push(s_highest)
