@@ -44,8 +44,8 @@
 					<a class="table-search" href="javascript:void(0)" onclick="save_settings()">保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
 				</div>
 				<div class="btn-right fr">
-					<a class="table-export" href="/index/export_admin">导出项目</a>
-					<a class="table-add" href="/index/export_expert">专家评审导出</a>
+					<a class="table-export" href="javascript:void(0)" onclick="export_admin()">导出项目</a>
+					<a class="table-add" href="javascript:void(0)" onclick="export_expert()">专家评审导出</a>
 				</div>
 			</div>
 			<div class="table-box">
@@ -109,6 +109,16 @@
                 }
             })
         }
+		function export_admin(){
+			var project_name = $('.project_name').val()
+			var review_status = $('.review_status').val()
+			window.location.href="/Index/export_admin?project_name="+project_name+"&review_status="+review_status
+		}
+		function export_expert(){
+			var project_name = $('.project_name').val()
+			var review_status = $('.review_status').val()
+			window.location.href="/Index/export_expert?project_name="+project_name+"&review_status="+review_status
+		}
     </script>
 </body>
 </html>
