@@ -52,6 +52,7 @@
 			var validate=window.validateSetting.regExportGroupName(eg_name);
 			if(validate.errorNo>0){
 				$(".tip-egname").text(validate.message);
+				flag1=false;
 			}else{
 				$(".tip-egname").text('');
 				flag1=true;

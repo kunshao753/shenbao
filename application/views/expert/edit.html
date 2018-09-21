@@ -78,7 +78,8 @@
 			var ex_name=$(".ex-name").val();
 			var validate=window.validateSetting.regExportName(ex_name);
 			if(validate.errorNo>0){
-				$(".tip-exname").text(validate.message);					
+				$(".tip-exname").text(validate.message);
+				flag1=false;
 			}else{
 				$(".tip-exname").text('');
 				flag1=true;
@@ -88,7 +89,8 @@
 			var ex_login=$(".ex-login").val();
 			var validate=window.validateSetting.regLoginName(ex_login);
 			if(validate.errorNo>0){
-				$(".tip-exlogin").text(validate.message);					
+				$(".tip-exlogin").text(validate.message);
+				flag2=false;
 			}else{
 				$(".tip-exlogin").text('');
 				flag2=true;
@@ -98,13 +100,16 @@
 			var ex_pwd=$(".ex-pwd").val();
 			var validate=window.validateSetting.regLoginPwd(ex_pwd);
 			if(validate.errorNo>0){
-				$(".tip-expwd").text(validate.message);					
+				$(".tip-expwd").text(validate.message);
+				flag3=false;
 			}else{
 				$(".tip-expwd").text('');
 				flag3=true;
 			}
 		};
 		function resExgroup(){
+			flag4 = true
+			return true
 			if($(".ex-group").val() == 0){
 				$(".tip-exgroup").text('请选择专家组');
 				flag4=false
@@ -114,6 +119,8 @@
 			}
 		};
 		function regAutograph(){
+			flag5=true
+			return true
 			if($(".autograph img").length<=0){
 				$(".tip-autograph").text('请上传数字签名');
 			}else{

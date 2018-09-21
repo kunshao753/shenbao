@@ -105,13 +105,13 @@ class ScoreStandard extends BASE_Controller{
         $standard_reason_maxscore = array();
         foreach($standard as $key => $value){
             if(mb_strlen($value) > 10){
-                $this->ajax_return('评分项不能超过10个字',5000130);
+                $this->ajax_return(array(),'评分项不能超过10个字',5000130);
             }
             if(mb_strlen($reason[$key]) > 100){
-                $this->ajax_return('评分依据不能超过100个字',5000131);
+                $this->ajax_return(array(),'评分依据不能超过100个字',5000131);
             }
             if(intval($max_score[$key]) > 100){
-                $this->ajax_return('最高分值不能超过100',5000132);
+                $this->ajax_return(array(),'最高分值不能超过100',5000132);
             }
             $standard_reason_maxscore[$key]['standard'] = $standard[$key];
             $standard_reason_maxscore[$key]['reason'] = $reason[$key];
@@ -166,13 +166,13 @@ class ScoreStandard extends BASE_Controller{
         $standard_reason_maxscore = array();
         foreach($standard as $key => $value){
             if(mb_strlen($value) > 10){
-                $this->ajax_return('评分项不能超过10个字',5000130);
+                $this->ajax_return(array(),'评分项不能超过10个字',5000130);
             }
             if(mb_strlen($reason[$key]) > 100){
-                $this->ajax_return('评分依据不能超过100个字',5000131);
+                $this->ajax_return(array(),'评分依据不能超过100个字',5000131);
             }
             if(intval($max_score[$key]) > 100){
-                $this->ajax_return('最高分值不能超过100',5000132);
+                $this->ajax_return(array(),'最高分值不能超过100',5000132);
             }
             $standard_reason_maxscore[$key]['standard'] = $standard[$key];
             $standard_reason_maxscore[$key]['reason'] = $reason[$key];

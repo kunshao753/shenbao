@@ -112,22 +112,22 @@ class Expert extends BASE_Controller{
         $sign_pic = $this->input->post('sign_pic');
 
         if(empty($name)){
-            $this->ajax_return('姓名不能为空',2000011);
+            $this->ajax_return(array(),'姓名不能为空',2000011);
         }
         if(empty($account)){
-            $this->ajax_return('账号不能为空',2000012);
+            $this->ajax_return(array(),'账号不能为空',2000012);
         }
         if(empty($password)){
-            $this->ajax_return('密码不能为空',2000013);
+            $this->ajax_return(array(),'密码不能为空',2000013);
         }
         if(mb_strlen($name) > 10){
-            $this->ajax_return('姓名长度不能超过10个字符',2000111);
+            $this->ajax_return(array(),'姓名长度不能超过10个字符',2000111);
         }
         if(strlen($account) > 25){
-            $this->ajax_return('账号长度不能超过25个字符',2000112);
+            $this->ajax_return(array(),'账号长度不能超过25个字符',2000112);
         }
         if(strlen($password) > 25){
-            $this->ajax_return('密码长度不能超过25个字符',2000113);
+            $this->ajax_return(array(),'密码长度不能超过25个字符',2000113);
         }
         $insert_data = array(
             'name' => $name,
@@ -140,7 +140,9 @@ class Expert extends BASE_Controller{
         );
         $res = $this->expert_model->insert($insert_data);
         if($res){
-            $this->ajax_return('添加成功');
+            $this->ajax_return(array(),'添加成功');
+        }else{
+            $this->ajax_return(array(),'添加失败',2000114);
         }
     }
 
@@ -166,13 +168,13 @@ class Expert extends BASE_Controller{
             $this->ajax_return(array(),'密码不能为空',200004);
         }
         if(mb_strlen($name) > 10){
-            $this->ajax_return('姓名长度不能超过10个字符',2000111);
+            $this->ajax_return(array(),'姓名长度不能超过10个字符',2000111);
         }
         if(strlen($account) > 25){
-            $this->ajax_return('账号长度不能超过25个字符',2000112);
+            $this->ajax_return(array(),'账号长度不能超过25个字符',2000112);
         }
         if(strlen($password) > 25){
-            $this->ajax_return('密码长度不能超过25个字符',2000113);
+            $this->ajax_return(array(),'密码长度不能超过25个字符',2000113);
         }
 
         //if(empty($group_id)){
