@@ -26,13 +26,13 @@
 						<option value="1" <!--{if $review_status == 1}-->selected='selected'<!--{/if}-->>待评审</option>
 						<option value="2" <!--{if $review_status == 2}-->selected='selected'<!--{/if}-->>已评审</option>
 					</select>
-				</div>
-				<div class="search btn-right fr">
 					<div class="search-box">
 						<input type="text" placeholder="请输入要查找的项目名称" value="<!--{$project_name}-->" class="search-input project_name"/>
 						<i class="search-icon"></i>
 					</div>
 					<a class="table-search" href="javascript:void(0)" onclick="search_crop()">搜&nbsp;&nbsp;&nbsp;&nbsp;索</a>
+				</div>
+				<div class="search btn-right fr">
 					<a class="table-export" href="/DeclareInfo/result">审核结果页</a>
 					<a class="table-sub" href="javascript:void(0)" onclick="submit_declare()">一键提交<br>所有评分</a>
 				</div>
