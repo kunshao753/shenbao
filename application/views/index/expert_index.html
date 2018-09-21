@@ -88,14 +88,17 @@
 			window.location.href="/Index/getList?project_name="+project_name+"&review_status="+review_status
 		}
 		function submit_declare(){
-			$.post('/DeclareInfo/submitDeclare',{},function(data){
-				if(data.code == 0){
-					alert('提交成功');
-					window.location.reload();
-				}else{
-					alert('提交失败');
-				}
-			})
+			if(confirm('确定要提交评分吗?')){
+				$.post('/DeclareInfo/submitDeclare',{},function(data){
+					if(data.code == 0){
+						alert('提交成功');
+						window.location.reload();
+					}else{
+						alert('提交失败');
+					}
+				})
+			}
+
 		}
 	</script>
 </body>

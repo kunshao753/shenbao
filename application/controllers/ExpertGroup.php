@@ -202,7 +202,7 @@ class ExpertGroup extends BASE_Controller{
 
         $res = $this->expertgroup_model->update(array('is_delete'=>1),array('id'=>$id));
         if($res){
-            $this->ajax_return($res, '添加成功');
+            $this->ajax_return($res, '删除成功');
         }else{
             $this->ajax_return(array(), '删除失败', 2000013);
         }

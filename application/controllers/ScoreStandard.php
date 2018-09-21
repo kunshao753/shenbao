@@ -194,21 +194,25 @@ class ScoreStandard extends BASE_Controller{
 
     }
 
-    public function delScoreStandard(){
+    //删除评分项
+    public function delStandard(){
         $id = $this->input->post('id');
-        if(empty($id)){
-            $this->ajax_return(array(),'id不能为空',5000008);
+        if (empty($id)) {
+            $this->ajax_return(array(), '参数错误', 5000008);
+        }
+        $where = array(
+            'score_standard_id' => $id,
+        );
+        $list = $this->expertgroup_model->fetch_all($where);
+        if($list){
+            $this->ajax_return(array(), '已分配专家组,不能删除', 5000010);
         }
 
-        $update_data = array(
-            'is_delete' => 1,
-        );
-
-        $res = $this->scorestandard_model->update(array('id'=>$id),$update_data);
+        $res = $this->scorestandard_model->update(array('is_delete'=>1),array('id'=>$id));
         if($res){
-            $this->ajax_return($res,'删除成功');
+            $this->ajax_return($res, '删除成功');
         }else{
-            $this->ajax_return(array(),'删除失败',5000009);
+            $this->ajax_return(array(), '删除失败', 5000013);
         }
 
     }

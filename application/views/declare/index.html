@@ -17,6 +17,9 @@
         <!--{include file='left.html'}-->
         <div class="con-right">
 			<h1 class="right-tit">评审详情</h1>
+			<div class="table-bigbtn clearfix">
+				<a class="table-add fr" href="#scoreBox">去 评 分</a>
+			</div>
             <input type="hidden" value="<!--{$user_id}-->" id="user_id">
 			<div class="input-box">
 				<table cellpadding="0" cellspacing="0" border="0" class="ex-table review-table">
@@ -300,7 +303,7 @@
 					</tr>
 				</table>
 			</div>
-			<div class="input-box">
+			<div class="input-box" id="scoreBox">
 				<table cellpadding="0" cellspacing="0" border="0" class="ex-table review-table">
 					<tr>
 						<th width="25%">评分项</th>

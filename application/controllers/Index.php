@@ -30,7 +30,6 @@ class Index extends BASE_Controller{
             $data = $this->parse_data($data_res['data']);
             $count = $data_res['count'];
         }else{
-
             $data_res = $this->corp_model->get_list($project_name,$review_status,0,$this->expert_info,$offset,$page_size);
             $data = $this->parse_data($data_res['data']);
             $count = $data_res['count'];
