@@ -121,7 +121,7 @@ class Index extends BASE_Controller{
         //var_dump($data);die;
         $this->assign('data',$data);
         $this->assign('expert_group_data',$expert_group_data);
-        $this->assign('p','score');
+        $this->assign('p','index');
 
 
         $this->display('index/choose_group.html');

@@ -27,7 +27,7 @@ class ScoreStandard extends BASE_Controller{
                         $standard_array[] = $type_info['standard'];
                     }
                 }
-                $standard_info[$key]['standard'] = implode('<br/>',$standard_array);
+                $standard_info[$key]['standard'] = implode('、',$standard_array);
 
                 //查询专家组信息
                 $standard_id = $value['id'];
@@ -43,7 +43,7 @@ class ScoreStandard extends BASE_Controller{
                         $group_names[] = $value1['group_name'];
                     }
                 }
-                $standard_info[$key]['group_name'] = implode('<br/>',$group_names);
+                $standard_info[$key]['group_name'] = implode('、',$group_names);
 
             }
         }
