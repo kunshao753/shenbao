@@ -374,14 +374,16 @@
                    standard.push($(this).siblings(".input-id").val());
                    score.push(checkScore(this));
                 })
-                $.post('/DeclareInfo/doDeclare',{'user_id':user_id,'standard':standard,'score':score},function(data){
-                    if(data.code == 0){
-                        alert('保存成功');
-                        window.location.href='/Index/getList'
-                    }else{
-                        alert('保存失败')
-                    }
-                })
+				if(flag){
+					$.post('/DeclareInfo/doDeclare',{'user_id':user_id,'standard':standard,'score':score},function(data){
+						if(data.code == 0){
+							alert('保存成功');
+							window.location.href='/Index/getList'
+						}else{
+							alert('保存失败')
+						}
+					})
+				}
             })
         })
 	</script>

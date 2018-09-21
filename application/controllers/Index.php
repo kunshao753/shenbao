@@ -213,7 +213,7 @@ class Index extends BASE_Controller{
         }
         $this->load->library('lib_excel');
 
-        $file_name = 'project_info_'.date('Y-m-d');
+        $file_name = 'result_info_'.date('Y-m-d');
         $titles = array('专家名称','项目名称','评审情况','总分');
         $this->lib_excel->createRow($titles);
         $data_res = $this->distribute_result_model->fetch_all('','expert_name,project_name,result','result desc,expert_id');
