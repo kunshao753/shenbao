@@ -129,6 +129,10 @@ class Expert extends BASE_Controller{
         if(strlen($password) > 25){
             $this->ajax_return(array(),'密码长度不能超过25个字符',2000113);
         }
+        $info = $this->expert_model->fetch_row(array('account'=>$account,'is_delete'=>0));
+        if(!empty($info)){
+            $this->ajax_return(array(),'账号重复',2000213);
+        }
         $insert_data = array(
             'name' => $name,
             'account' => $account,
@@ -180,6 +184,10 @@ class Expert extends BASE_Controller{
         //if(empty($group_id)){
         //    $this->ajax_return(array(),'请选择专家组',200006);
         //}
+        $info = $this->expert_model->fetch_row("account='{$account}' and id != {$id} and is_delete=0");
+        if(!empty($info)){
+            $this->ajax_return(array(),'账号重复',2000213);
+        }
 
         $where = array(
             'id' => $id,

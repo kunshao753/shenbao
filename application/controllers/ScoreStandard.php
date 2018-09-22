@@ -202,6 +202,7 @@ class ScoreStandard extends BASE_Controller{
         }
         $where = array(
             'score_standard_id' => $id,
+            'is_delete' => 0
         );
         $list = $this->expertgroup_model->fetch_all($where);
         if($list){

@@ -70,9 +70,14 @@ class Index extends BASE_Controller{
 
         //专家组信息
         $expert_group_data = array();
-        $expert_group_res = $this->expertgroup_model->fetch_all(array('is_delete'=>0));
+        $expert_group_res = $this->expertgroup_model->fetch_all('is_delete=0 and score_standard_id!=0');
         if(!empty($expert_group_res)){
             foreach($expert_group_res as $value){
+                //专家组中有专家
+                $expert_res = $this->expert_model->fetch_row(array('group_id'=>$value['id']));
+                if(empty($expert_res)){
+                    continue;
+                }
                 $expert_group_data[$value['id']] = $value['group_name'];
             }
         }

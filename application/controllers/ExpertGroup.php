@@ -9,6 +9,7 @@ class ExpertGroup extends BASE_Controller{
         }
         $this->load->model('Expertgroup_model','expertgroup_model');
         $this->load->model('Scorestandard_model','scorestandard_model');
+        $this->load->model('Distribute_model','distribute_model');
     }
 
     public function add(){
@@ -132,7 +133,7 @@ class ExpertGroup extends BASE_Controller{
             $this->ajax_return(array(),'专家组名称字符超长',2000018);
         }
 
-        $info = $this->expertgroup_model->fetch_row(array('group_name'=>$group_name));
+        $info = $this->expertgroup_model->fetch_row(array('group_name'=>$group_name,'is_delete'=>0));
         if($info){
             $this->ajax_return(array(),'专家组名称重复',2000009);
         }
@@ -194,10 +195,16 @@ class ExpertGroup extends BASE_Controller{
         }
         $where = array(
             'group_id' => $id,
+            'is_delete' => 0,
         );
-        $list = $this->expert_model->fetch_all($where);
-        if($list){
+        $list = $this->expert_model->fetch_all();
+        if(!empty($list)){
             $this->ajax_return(array(), '专家组下有专家人员,不能删除', 2000010);
+        }
+
+        $dis_res = $this->distribute_model->fetch_row($where);
+        if(!empty($dis_res)){
+            $this->ajax_return(array(), '专家组已被分配到项目,不能删除', 2000010);
         }
 
         $res = $this->expertgroup_model->update(array('is_delete'=>1),array('id'=>$id));
