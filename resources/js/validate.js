@@ -41,6 +41,13 @@ function validateSetting(){
 				message:message,
 			}
 		}
+		if(value.length > 100){
+			message="长度不能大于100";
+			return{
+				errorNo:2,
+				message:message,
+			}
+		}
 		return{errorNo:0}
 	};
 	_this.regScoreHighest=function(value){
