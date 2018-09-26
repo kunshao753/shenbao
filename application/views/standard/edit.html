@@ -78,6 +78,15 @@
 					$(this).siblings(".tip-standard").text('');
 				}
 			});
+			$(".score").on("blur",".score-reason",function(){
+				var value=$(this).val();
+				var validate=window.validateSetting.regScoreReason(value);
+				if(validate.errorNo>0){
+					$(this).siblings(".tip-reason").text(validate.message);
+				}else{
+					$(this).siblings(".tip-reason").text('');
+				}
+			});
 			$(".score").on("blur",".score-highest",function(){
 				var value=$(this).val();
 				var validate=window.validateSetting.regScoreHighest(value);
