@@ -13,7 +13,7 @@ i,em{font-style: normal;}
 .header-bg{height: 80px;line-height: 80px;background: -webkit-linear-gradient(#8a95b1,#7d86a0);
     background: -o-linear-gradient(#8a95b1,#7d86a0);
     background: -moz-linear-gradient(#8a95b1,#7d86a0);
-    background: linear-gradient(#8a95b1,#7d86a0);}
+    background: linear-gradient(#8a95b1,#7d86a0);background: #7d86a0\0;}
 .header-bg h1{color: #fff;font-size: 30px;letter-spacing: 1px;text-align: center;}
 .header-bg .wrapper h1{margin-left: 208px;font-size: 26px;}
 .head-right{margin-right: 8px;}
@@ -22,9 +22,9 @@ i,em{font-style: normal;}
 background: -webkit-linear-gradient(#d2d2d2,#a7a7a7);
     background: -o-linear-gradient(#d2d2d2,#a7a7a7);
     background: -moz-linear-gradient(#d2d2d2,#a7a7a7);
-    background: linear-gradient(#d2d2d2,#a7a7a7);border-radius: 8px;}
+    background: linear-gradient(#d2d2d2,#a7a7a7);background: #a7a7a7\0; border-radius: 8px;}
+html,.add-bg{background: url(../images/add-bg.jpg) repeat-y;}
 .login-bigbg{background: url(../images/login-bigbg.jpg) center 80px no-repeat;}
-.add-bg{background: url(../images/add-bg.jpg) repeat-y;}
 .login-bg{width: 596px;min-height: 596px;padding:16px; margin:5% auto 0;background:url(../images/login-bg.png) no-repeat;}
 .login-box{background: #fff;width: 580px;height: 580px;border-radius: 290px;box-shadow: 3px 3px 10px rgba(0,0,0,0.3);}
 .login-logo{padding-top: 35px;text-align: center;}
@@ -79,17 +79,17 @@ background: -webkit-linear-gradient(#d2d2d2,#a7a7a7);
 .btn-save{background: -webkit-linear-gradient(#70c0b9,#62b4ad);
 	-o-background: linear-gradient(#70c0b9,#62b4ad);
 	-moz-background: linear-gradient(#70c0b9,#62b4ad);
-	background: linear-gradient(#70c0b9,#62b4ad);}
+	background: linear-gradient(#70c0b9,#62b4ad);background: #62b4ad\0;}
 .btn-cancel{background: -webkit-linear-gradient(#d2d2d2,#a7a7a7);
 -o-background: linear-gradient(#d2d2d2,#a7a7a7);
 -moz-background: linear-gradient(#d2d2d2,#a7a7a7);
-background: linear-gradient(#d2d2d2,#a7a7a7);}
+background: linear-gradient(#d2d2d2,#a7a7a7);background: #a7a7a7\0;}
 .add-remove{padding-left:172px;}
 .add-remove input{width:auto;padding:0 20px;margin:0;margin-right:20px;}
 .add-score,.table-add,.table-sub{background: -webkit-linear-gradient(#ef8a6b,#d8775a);
 	-o-background: linear-gradient(#ef8a6b,#d8775a);
 	-moz-background: linear-gradient(#ef8a6b,#d8775a);
-	background: linear-gradient(#ef8a6b,#d8775a);}
+	background: linear-gradient(#ef8a6b,#d8775a);background: #d8775a\0;}
 .remove-score{background:#9fa9c7;}
 .table-box{margin-right: 20px;margin-bottom:30px;background: #fff;border-radius: 10px;}
 .table-con{min-height: 380px;}
