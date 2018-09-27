@@ -182,16 +182,21 @@ class DeclareInfo extends BASE_Controller{
                 }
                 $result_info[$key]['result'] = implode('<br>',$result_str);
 
-                $user_id = $value['user_id'];
-                $all_res = $this->distributeresult_model->fetch_all(array('user_id'=>$user_id));
-                //查询当前项目对应的所有专家是否都是已提交状态
-                //var_dump($all_res);die;
-                $result_other = array();
-                foreach($all_res as $v1){
-                    $result_data = !empty(json_decode($v1['result'],true)) ? array_sum(json_decode($v1['result'],true)) : '' ;
-                    $result_other[] = $v1['expert_name'].':'.$result_data;
+                if($this->settings){
+                    $user_id = $value['user_id'];
+                    $all_res = $this->distributeresult_model->fetch_all(array('user_id'=>$user_id));
+                    //查询当前项目对应的所有专家是否都是已提交状态
+                    //var_dump($all_res);die;
+                    $result_other = array();
+                    foreach($all_res as $v1){
+                        $result_data = !empty(json_decode($v1['result'],true)) ? array_sum(json_decode($v1['result'],true)) : '' ;
+                        $result_other[] = $v1['expert_name'].':'.$result_data;
+                    }
+                    $result_info[$key]['result_other'] = implode('<br/>',$result_other);
+                }else{
+                    $result_info[$key]['result_other'] = array_sum($result_arr);
                 }
-                $result_info[$key]['result_other'] = implode('<br/>',$result_other);
+
             }
         }
         $count = $this->distributeresult_model->fetch_count(array('expert_id'=>$expert_id,'status'=>3));
@@ -220,20 +225,29 @@ class DeclareInfo extends BASE_Controller{
                 }
                 $result_info[$key]['result'] = implode('、',$result_str);
 
-                $user_id = $value['user_id'];
-                $all_res = $this->distributeresult_model->fetch_all(array('user_id'=>$user_id));
-                //查询当前项目对应的所有专家是否都是已提交状态
-                //var_dump($all_res);die;
-                $result_other = array();
-                foreach($all_res as $v1){
-                    $result_data = !empty(json_decode($v1['result'],true)) ? array_sum(json_decode($v1['result'],true)) : '' ;
-                    $result_other[] = $v1['expert_name'].': '.$result_data;
+                if($this->settings) {
+                    $user_id = $value['user_id'];
+                    $all_res = $this->distributeresult_model->fetch_all(array('user_id' => $user_id));
+                    //查询当前项目对应的所有专家是否都是已提交状态
+                    //var_dump($all_res);die;
+                    $result_other = array();
+                    foreach ($all_res as $v1) {
+                        $result_data = !empty(json_decode($v1['result'], true)) ? array_sum(json_decode($v1['result'],
+                            true)) : '';
+                        $result_other[] = $v1['expert_name'] . ': ' . $result_data;
+                    }
+                    $result_info[$key]['result_other'] = implode('、', $result_other);
+                }else{
+                    $result_info[$key]['result_other'] = array_sum($result_arr);
                 }
-                $result_info[$key]['result_other'] = implode('、',$result_other);
             }
 
             $file_name = 'result_'.date('Y-m-d');
-            $titles = array('项目名称','评分详情','其他专家评分');
+            if($this->settings == 1){
+                $titles = array('项目名称','评分详情','其他专家评分');
+            }else{
+                $titles = array('项目名称','评分详情','总分');
+            }
             $this->lib_excel->createRow($titles);
 
             //var_dump($result_info);die;

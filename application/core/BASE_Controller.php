@@ -3,6 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class BASE_Controller extends CI_Controller {
     public $expert_info;
     public $is_admin = 0;
+    public $settings = 0;
     protected $_succ = 'succ';
     protected $_fail = 'fail';
     public function __construct() {
@@ -43,8 +44,8 @@ class BASE_Controller extends CI_Controller {
         }
         //获取后台设置 是否可查看同组专家评分
         $settings_res = $this->settings_model->fetch_row(array('type'=>'permit_show'),'value');
-        $settings = !empty($settings_res['value']) ? 1 : 0 ;
-        $this->assign('settings',$settings);
+        $this->settings = $settings_res['value'] == 1 ? 1 : 0 ;
+        $this->assign('settings',$this->settings);
 
         $this->assign('photo_pre_url', 'http://shenbaoreg.kepuchina.cn/public/');
     }

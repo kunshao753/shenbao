@@ -197,12 +197,12 @@ class ExpertGroup extends BASE_Controller{
             'group_id' => $id,
             'is_delete' => 0,
         );
-        $list = $this->expert_model->fetch_all();
+        $list = $this->expert_model->fetch_all($where);
         if(!empty($list)){
             $this->ajax_return(array(), '专家组下有专家人员,不能删除', 2000010);
         }
 
-        $dis_res = $this->distribute_model->fetch_row($where);
+        $dis_res = $this->distribute_model->fetch_row(array('group_id' => $id));
         if(!empty($dis_res)){
             $this->ajax_return(array(), '专家组已被分配到项目,不能删除', 2000010);
         }

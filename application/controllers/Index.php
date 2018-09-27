@@ -30,7 +30,7 @@ class Index extends BASE_Controller{
             $data = $this->parse_data($data_res['data']);
             $count = $data_res['count'];
         }else{
-            $data_res = $this->corp_model->get_list($project_name,$review_status,0,$this->expert_info,$offset,$page_size);
+            $data_res = $this->corp_model->get_list($project_name,$review_status,0,$this->expert_info,$offset,$page_size,0,$this->settings);
             $data = $this->parse_data($data_res['data']);
             $count = $data_res['count'];
         }
@@ -194,20 +194,20 @@ class Index extends BASE_Controller{
         $file_name = 'project_info_'.date('Y-m-d');
         $titles = array('项目名称','报名人姓名','手机号','报名来源','参赛身份','企业名称','产品类型','产品形态','评审状态','评审情况');
         $this->lib_excel->createRow($titles);
-        $data_res = $this->corp_model->get_list($project_name,$review_status,$this->is_admin,$this->expert_info);
-        $data = $this->parse_data($data_res['data']);
-        if(!empty($data)){
+        $data_res = $this->corp_model->get_list($project_name,$review_status,$this->is_admin,$this->expert_info,0,0,1);
+        if(!empty($data_res['data'])){
+            $data = $this->parse_data($data_res['data']);
             foreach($data as $key => $value){
                 unset($data[$key]['id']);
                 unset($data[$key]['user_id']);
                 unset($data[$key]['audit_status']);
                 unset($data[$key]['status']);
             }
+            foreach($data as $row) {
+                $this->lib_excel->createRow($row);
+            }
         }
-        //var_dump($data);die;
-        foreach($data as $row) {
-            $this->lib_excel->createRow($row);
-        }
+
         $this->lib_excel->download($file_name);
     }
 
@@ -240,8 +240,8 @@ class Index extends BASE_Controller{
             foreach($data_res as $row) {
                 $this->lib_excel->createRow($row);
             }
-            $this->lib_excel->download($file_name);
         }
+        $this->lib_excel->download($file_name);
 
     }
     //设置

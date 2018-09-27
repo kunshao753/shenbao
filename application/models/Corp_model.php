@@ -13,7 +13,7 @@ class Corp_model extends BASE_Model{
         $this->CI->load->model('Distributeresult_model','distribute_result_model');
     }
 
-    public function get_list($project_name='',$review_status='',$is_admin=0,$expert_info=array(),$offset=0,$page_size=0){
+    public function get_list($project_name='',$review_status='',$is_admin=0,$expert_info=array(),$offset=0,$page_size=0,$flag=0,$settings=0){
 
         if($page_size == 0){
             $page_size = 9999;
@@ -118,7 +118,7 @@ class Corp_model extends BASE_Model{
                         foreach($result as $k => $v){
                             if($value['user_id'] == $v['user_id']){
                                 $data[$key] = $value;
-                                $data[$key]['review_status'] = $review_status;
+                                $data[$key]['status'] = $v['status'];
                                 break;
                             }
                         }
@@ -132,7 +132,12 @@ class Corp_model extends BASE_Model{
         if(!empty($data)){
             foreach($data as $key => $value){
                 $user_id = $value['user_id'];
-                $result_res = $this->CI->distribute_result_model->fetch_all(array('user_id'=>$user_id),'expert_name,result');
+                if($settings == 0){
+                    $where_dis = array('user_id'=>$user_id,'expert_id'=>$expert_info['id']);
+                }else{
+                    $where_dis = array('user_id'=>$user_id);
+                }
+                $result_res = $this->CI->distribute_result_model->fetch_all($where_dis,'expert_name,result');
                 $res_arr = $res_arr_str = array();
                 if(!empty($result_res)){
                     foreach($result_res as $k1 => $v1){
@@ -149,7 +154,7 @@ class Corp_model extends BASE_Model{
                         }
                     }
                 }
-                $data[$key]['result'] = implode('<br>',$res_arr_str);
+                $data[$key]['result'] = $flag ? implode('、',$res_arr_str) : implode('<br>',$res_arr_str);
             }
         }
         $return = array(
