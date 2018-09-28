@@ -23,7 +23,7 @@ background: -webkit-linear-gradient(#d2d2d2,#a7a7a7);
     background: -o-linear-gradient(#d2d2d2,#a7a7a7);
     background: -moz-linear-gradient(#d2d2d2,#a7a7a7);
     background: linear-gradient(#d2d2d2,#a7a7a7); border-radius: 8px;}
-html,.add-bg{background: url(../images/add-bg.jpg) repeat-y;}
+html,.add-bg{background: url(../images/long-bg.jpg) repeat-y;}
 .login-bigbg{background: url(../images/login-bigbg.jpg) center 80px no-repeat;}
 .login-bg{width: 596px;min-height: 596px;padding:16px; margin:5% auto 0;background:url(../images/login-bg.png) no-repeat;}
 .login-box{background: #fff;width: 580px;height: 580px;border-radius: 290px;box-shadow: 3px 3px 10px rgba(0,0,0,0.3);}
@@ -55,7 +55,7 @@ html,.add-bg{background: url(../images/add-bg.jpg) repeat-y;}
 .expert-icon{background-position: 0 -88px;}
 .arrow{float: right;font-size: 12px;}
 
-.con-right{margin-left: 210px;}
+.con-right{border-left: 200px solid #a1abc8;padding-left: 10px;}
 .right-tit{font-size: 22px;border-bottom: 1px solid #e8e8e8;line-height: 26px;padding-bottom: 20px;padding-top: 35px;}
 .input-box{margin-top: 20px;margin-right: 20px; background: #fff;box-shadow: 2px 3px 5px rgba(0,0,0,0.1)}
 .input-top,.ex-table th{display: block;height: 46px;background: #f6f7fb;border-bottom: 1px solid #e2e2e2;}
