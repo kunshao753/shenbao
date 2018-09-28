@@ -194,7 +194,7 @@ class Index extends BASE_Controller{
         $file_name = 'project_info_'.date('Y-m-d');
         $titles = array('项目名称','报名人姓名','手机号','报名来源','参赛身份','企业名称','产品类型','产品形态','评审状态','评审情况');
         $this->lib_excel->createRow($titles);
-        $data_res = $this->corp_model->get_list($project_name,$review_status,$this->is_admin,$this->expert_info,0,0,1);
+        $data_res = $this->corp_model->get_list($project_name,$review_status,$this->is_admin,$this->expert_info,0,0,1,1);
         if(!empty($data_res['data'])){
             $data = $this->parse_data($data_res['data']);
             foreach($data as $key => $value){

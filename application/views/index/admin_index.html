@@ -112,12 +112,14 @@
 		function export_admin(){
 			var project_name = $('.project_name').val()
 			var review_status = $('.review_status').val()
-			window.location.href="/Index/export_admin?project_name="+project_name+"&review_status="+review_status
+			location.href="/Index/export_admin?project_name="+project_name+"&review_status="+review_status
+			return false
 		}
 		function export_expert(){
 			var project_name = $('.project_name').val()
 			var review_status = $('.review_status').val()
-			window.location.href="/Index/export_expert?project_name="+project_name+"&review_status="+review_status
+			location.href="/Index/export_expert?project_name="+project_name+"&review_status="+review_status
+			return false
 		}
     </script>
 </body>
