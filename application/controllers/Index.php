@@ -26,7 +26,7 @@ class Index extends BASE_Controller{
         $offset = ($page - 1) * $page_size;
 
         if($this->is_admin){//管理员
-            $data_res = $this->corp_model->get_list($project_name,$review_status,$this->is_admin,$this->expert_info,$offset,$page_size);
+            $data_res = $this->corp_model->get_list($project_name,$review_status,$this->is_admin,$this->expert_info,$offset,$page_size,0,$this->settings);
             $data = $this->parse_data($data_res['data']);
             $count = $data_res['count'];
         }else{
