@@ -172,6 +172,11 @@ class ExpertGroup extends BASE_Controller{
             $this->ajax_return(array(), '专家组名称重复', 2000009);
         }
 
+        $check_res = $this->distribute_model->fetch_row(array('group_id'=>$id));
+        if($check_res){
+            $this->ajax_return(array(), '专家组已关联项目,不能修改', 2000009);
+        }
+
         $where = array(
             'id' => $id,
         );
