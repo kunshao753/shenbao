@@ -34,6 +34,8 @@ class Corp_model extends BASE_Model{
                     }
                     $user_id_str = implode(',',$user_id_arr);
                     $base_condition[] = "c.user_id in ({$user_id_str})";
+                }else{
+                    $base_condition[] = "c.user_id in (0)";
                 }
             }else{
                 $base_condition[] = "c.user_id = {$expert_info['id']}";
@@ -155,10 +157,10 @@ class Corp_model extends BASE_Model{
                 }
                 $data[$key]['result'] = $flag ? implode('、',$res_arr_str) : implode('<br>',$res_arr_str);
             }
-        }
-        if(empty($data)){
+        }else{
             $data = $corp_data;
         }
+
         $return = array(
             'data' => array_slice($data,$offset,$page_size),
             'count' => count($data)
