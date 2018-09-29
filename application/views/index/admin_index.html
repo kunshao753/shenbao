@@ -44,7 +44,7 @@
 					<a class="table-search" href="javascript:void(0)" onclick="save_settings()">保&nbsp;&nbsp;&nbsp;&nbsp;存</a>
 				</div>
 				<div class="btn-right fr">
-					<a class="table-export" href="/Index/export_admin?project_name=<!--{$project_name}-->&review_status=<!--{$review_status}-->">导出项目</a>
+					<a class="table-export" href="javascript:download_file('/Index/export_admin?project_name=<!--{$project_name}-->&review_status=<!--{$review_status}-->')">导出项目</a>
 					<a class="table-add" href="/Index/export_expert">专家评审导出</a>
 				</div>
 			</div>
@@ -109,6 +109,19 @@
                 }
             })
         }
-    </script>
+
+		function download_file(url)
+		{
+			if (typeof (download_file.iframe) == "undefined")
+			{
+				var iframe = document.createElement("iframe");
+				download_file.iframe = iframe;
+				document.body.appendChild(download_file.iframe);
+			}
+			//alert(download_file.iframe);
+			download_file.iframe.src = url;
+			download_file.iframe.style.display = "none";
+		}
+	</script>
 </body>
 </html>
