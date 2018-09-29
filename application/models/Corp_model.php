@@ -46,7 +46,6 @@ class Corp_model extends BASE_Model{
         $base_sql = "select {$base_fields} from corporate_information c,project_information p where {$base_where} order by id desc";
 
         $corp_data = $this->exec_sql($base_sql);
-        $data = array();
         if(!empty($corp_data)){
             if($is_admin) {
                 $table_join = 'distribute';
@@ -156,6 +155,9 @@ class Corp_model extends BASE_Model{
                 }
                 $data[$key]['result'] = $flag ? implode('、',$res_arr_str) : implode('<br>',$res_arr_str);
             }
+        }
+        if(empty($data)){
+            $data = $corp_data;
         }
         $return = array(
             'data' => array_slice($data,$offset,$page_size),
