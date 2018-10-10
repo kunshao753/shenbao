@@ -86,6 +86,9 @@ class Corp_model extends BASE_Model{
                                 }
                             }
                         }
+                        if(empty($data)){
+                            $empty_flag = 1;
+                        }
                     }
                 }else{
                     $res_sql = "select $fields_res from $table_join";
@@ -125,6 +128,9 @@ class Corp_model extends BASE_Model{
                         }
                     }
                 }
+                if(empty($data)){
+                    $empty_flag = 1;
+                }
             }
         }
 
@@ -158,7 +164,11 @@ class Corp_model extends BASE_Model{
                 $data[$key]['result'] = $flag ? implode('、',$res_arr_str) : implode('<br>',$res_arr_str);
             }
         }else{
-            $data = $corp_data;
+            if(empty($empty_flag)){
+                $data = $corp_data;
+            }else{
+                $data = array();
+            }
         }
 
         $return = array(
