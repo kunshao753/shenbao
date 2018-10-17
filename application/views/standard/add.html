@@ -93,7 +93,9 @@
 				}else{
                     if(parseInt(value)>100){
                         $(this).siblings(".tip-highest").text('最高分不能超过100');
-                    }else {
+                    }else if(parseInt(value)<=0){
+						$(this).siblings(".tip-highest").text('最高分必须大于0');
+					}else {
                         $(this).siblings(".tip-highest").text('');
                     }
 				}
@@ -174,6 +176,10 @@
                             flag4 = false;
                             $(this).siblings(".tip-highest").text('最高分不能超过100');
 							return false;
+						}else if(parseInt(s_highest)<=0){
+							$(this).siblings(".tip-highest").text('最高分必须大于0');
+							flag4 = false
+							return false
 						}else {
                             flag4 = true;
                             $(this).siblings(".tip-highest").text('');

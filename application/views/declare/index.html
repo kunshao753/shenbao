@@ -377,7 +377,7 @@
                 var score=[];
                 $(".input-score").each(function () {
                    standard.push($(this).siblings(".input-id").val());
-					if(checkScore(this)){
+					if(checkScore(this) !== false){
 						score.push(checkScore(this));
 					}else{
 						flag = false

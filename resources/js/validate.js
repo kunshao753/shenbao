@@ -1,7 +1,7 @@
 function validateRules(){
 	var _this=this;
 	 _this.isNull = function (str) {
-        return (str == "" || typeof str != "string");
+        return (str === "" || typeof str != "string");
     };
      _this.isPwd = function (str) {
         return /^[a-zA-Z0-9]+$/.test(str);
