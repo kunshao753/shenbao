@@ -86,7 +86,7 @@
 				}
 			});
 			$(".score").on("blur",".score-highest",function(){
-				var value=$(this).val();
+				var value=parseInt($(this).val());
 				var validate=window.validateSetting.regScoreHighest(value);
 				if(validate.errorNo>0){
 					$(this).siblings(".tip-highest").text(validate.message);
@@ -165,7 +165,7 @@
 					}
 				});
 				$(".score-highest").each(function(){
-					var s_highest=$(this).val();
+					var s_highest=parseInt($(this).val());
 					var validate4=window.validateSetting.regScoreHighest(s_highest);
 					if(validate4.errorNo>0){
 						flag4 = false;
