@@ -41,7 +41,7 @@ class Corp_model extends BASE_Model{
                 $base_condition[] = "c.user_id = {$expert_info['id']}";
             }
         }
-        $base_condition[] = "audit_status in (1,3,4)";
+        $base_condition[] = "audit_status in (1,3,4,5)";
         $base_condition[] = "c.user_id=p.user_id";
         $base_where = implode(' and ',$base_condition);
         $base_fields = 'c.id,c.user_id,p.project_name,c.name,c.mobile,c.signup_resouce,c.contestant_identity,c.company_name,p.product_type,p.product_form_val,c.audit_status';
@@ -204,7 +204,7 @@ class Corp_model extends BASE_Model{
                 $base_condition[] = "c.user_id = {$expert_info['id']}";
             }
         }
-        $base_condition[] = "audit_status in (1,3,4)";
+        $base_condition[] = "audit_status in (1,3,4,5)";
         $base_condition[] = "c.user_id=p.user_id";
         $base_where = implode(' and ',$base_condition);
         $base_fields = 'c.id,c.user_id,p.project_name,c.name,c.mobile,c.signup_resouce,c.contestant_identity,c.company_name,p.product_type,p.product_form_val,c.audit_status';

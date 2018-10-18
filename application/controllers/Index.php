@@ -64,7 +64,7 @@ class Index extends BASE_Controller{
         if(empty($corp_info)){
             return false;
         }
-        if(!in_array($corp_info['audit_status'],array(1,3,4))){
+        if(!in_array($corp_info['audit_status'],array(1,3,4,5))){
             return false;
         }
 
