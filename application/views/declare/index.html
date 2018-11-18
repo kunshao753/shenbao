@@ -329,7 +329,16 @@
 							<span class="span-error tip-score"></span>
 						</td>
 					</tr>
+
                     <!--{/foreach}-->
+					<tr>
+						<td>总分</td>
+						<td></td>
+						<td class="max-score"></td>
+						<td align="center">
+							<p class="input-total-score"></p>
+						</td>
+					</tr>
 				</table>
 			</div>
 			<div class="score-btn">
@@ -342,10 +351,21 @@
 	</div>
 	<!-- content end -->
 	<script>
+		function totalScore(){
+			var total = 0;
+			$('.input-score').each(function(){
+				var score = $(this).val()==''?0:$(this).val();
+				var parseScore = !parseInt(score)?0:parseInt(score);
+				total = total + parseScore;
+			})
+			return total;
+		}
 		$(function () {
+			$(".input-total-score").html(totalScore());
 		    $(".input-score").on('focus',function () {
+				$(this).css("color","#333")
 				if($(this).val()=="请填写分数"){
-				    $(this).val('').css("color","#333");
+				    $(this).val('');
 				}
             })
 		    var flag=false;
@@ -373,9 +393,15 @@
 			}
 			$(".input-score").on('blur',function () {
                 checkScore(this);
+
                 if($(this).val()==""){
                     $(this).val('请填写分数').css("color","#c5c5c5");
                 }
+				if(checkScore(this) !== false){
+					totalScore();
+					$(".input-total-score").html(totalScore());
+				}
+
             });
 			$(".review-save").on('click',function () {
                 var user_id = $('#user_id').val()
