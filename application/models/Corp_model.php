@@ -153,15 +153,21 @@ class Corp_model extends BASE_Model{
                         $res_arr[] = array($expert_name => array_sum($result));
                     }
                 }
+                $total_score = 0;
+
                 if(!empty($res_arr)){
+                    $count_num = count($res_arr);
                     foreach($res_arr as $v2){
                         foreach($v2 as $k3 => $v3){
+                            $total_score += $v3;
                             $v3 = $v3 == 0 ? "" : $v3;
                             $res_arr_str[] = $k3 . ':' .$v3;
                         }
                     }
                 }
                 $data[$key]['result'] = $flag ? implode('、',$res_arr_str) : implode('<br>',$res_arr_str);
+                $data[$key]['average'] = $count_num == 0 ? 0 :round($total_score / $count_num,2);
+                //var_dump($data);die;
             }
         }else{
             if(empty($empty_flag)){
@@ -259,7 +265,6 @@ class Corp_model extends BASE_Model{
                 $data[$key]['result'] = implode('<br>',$res_arr_str);
             }
         }
-        var_dump($data);die;
         $return = array(
             'data' => $data,
             'count' => $count[0]['count']
