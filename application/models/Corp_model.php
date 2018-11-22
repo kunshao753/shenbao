@@ -154,7 +154,7 @@ class Corp_model extends BASE_Model{
                     }
                 }
                 $total_score = 0;
-
+                $count_num = 0;
                 if(!empty($res_arr)){
                     $count_num = count($res_arr);
                     foreach($res_arr as $v2){
