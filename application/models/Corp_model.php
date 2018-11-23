@@ -156,18 +156,22 @@ class Corp_model extends BASE_Model{
                 $total_score = 0;
                 $count_num = 0;
                 if(!empty($res_arr)){
-                    $count_num = count($res_arr);
+                    //$count_num = count($res_arr);
+                    //var_dump($res_arr);die;
                     foreach($res_arr as $v2){
                         foreach($v2 as $k3 => $v3){
                             $total_score += $v3;
-                            $v3 = $v3 == 0 ? "" : $v3;
+                            if($v3 == 0){
+                                $v3 = "";
+                            }else{
+                                $count_num ++;
+                            }
                             $res_arr_str[] = $k3 . ':' .$v3;
                         }
                     }
                 }
                 $data[$key]['result'] = $flag ? implode('、',$res_arr_str) : implode('<br>',$res_arr_str);
                 $data[$key]['average'] = $count_num == 0 ? 0 :round($total_score / $count_num,2);
-                //var_dump($data);die;
             }
         }else{
             if(empty($empty_flag)){
